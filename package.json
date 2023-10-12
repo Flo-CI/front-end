@@ -1,7 +1,7 @@
 {
   "name": "floci-frontend",
   "version": "0.1.0",
-  "homepage": "https://CI.github.io/front-end",
+  "homepage": "https://Flo-CI.github.io/front-end",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.1",
