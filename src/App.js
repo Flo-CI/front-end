@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 import {Grid} from "@mui/material";
 
 function App() {
-    const base_url = "http://localhost:8080/demo/claim?policyNumber=";
+    const base_url = "https://ciflo.azurewebsites.net/demo/claim?policyNumber=";
     const [data, setData] = useState({});
 
     // Define a state variable to store the user input
