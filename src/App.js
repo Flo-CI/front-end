@@ -58,7 +58,7 @@ function App() {
             <Grid item>
                 <h2>
                     <Stack style={{justifyContent: 'center'}} spacing={2} direction="row">
-                      <Button variant="contained" color="success" onClick={uploadData} sx={{m: 1}}>Add</Button>
+                      <Button variant="contained" color="success" onClick={uploadData} sx={{m: 1}}>Add Claim Number</Button>
                       <Button variant="contained" color="success" onClick={fetchInfo} sx={{m: 1}}>Check Claim Number</Button>
                     </Stack>
                 </h2>
