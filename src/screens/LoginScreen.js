@@ -89,8 +89,8 @@ function HomeScreen() {
           <Grid item>
             <h2>
               <Stack style={{justifyContent: 'center'}} spacing={2} direction="row" sx={{m: 2}}>
-                <Button variant="contained" color="success" onClick={uploadData}>Add Claim Number</Button>
-                <Button variant="contained" color="success" onClick={() => handlePolicyNumberChange()}>Check Claim Number</Button>
+                <Button variant="contained" color="success" onClick={uploadData}>Sign-Up</Button>
+                <Button variant="contained" color="success" onClick={() => handlePolicyNumberChange()}>Log-In</Button>
               </Stack>
             </h2>
           </Grid>
