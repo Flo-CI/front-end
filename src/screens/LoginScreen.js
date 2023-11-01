@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import {Grid} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import { Grid } from "@mui/material";
 
-function HomeScreen() {
+function LoginScreen() {
   // Base URL for database calls
   const base_url = "https://ciflo.azurewebsites.net/demo/claim?policyNumber=";
   const [data, setData] = useState(null);
@@ -38,12 +38,11 @@ function HomeScreen() {
       } else {
         alert("The password is not correct for the given policy number")
       }
-
     } catch (e) {
       // Catch statement when no user statement is returned
       alert("The inputted policy number does not exist")
     }
-  }
+  };
 
   // Calls GET Database API of user inputted account number
   // Occurs whenever the policyNumber state variable is changed
@@ -107,8 +106,9 @@ function HomeScreen() {
             </h2>
           </Grid>
         </Grid>
-      </div>
+      </Grid>
+    </div>
   );
 }
 
-export default HomeScreen;
+export default LoginScreen;
