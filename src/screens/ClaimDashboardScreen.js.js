@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { Button } from "@mui/base";
 
 import ClaimCard from "../components/ClaimCard";
 import Navbar from "../components/Navbar";
@@ -9,12 +10,25 @@ export default function ClaimDashboard() {
   const [pastClaims, setPastClaims] = useState([]);
 
   return (
-    <div className=" bg-gray-100 h-screen">
+    <div className=" bg-gray-50 h-screen">
       <Navbar />
+
+      {/* Header + new claim button */}
+      <div className="flex justify-between items-start pt-4">
+        <h1 className=" px-2 text-6xl font-bold ">Dashboard</h1>
+        <Button
+          variant="contained"
+          color="success"
+          className="bg-green-300 p-4 rounded-xl font-semibold mx-4 mt-2"
+        >
+          + New Claim
+        </Button>
+      </div>
 
       {/* In progress claims */}
       <div className="pt-4">
-        <h1 className="px-3 text-xl">Current Claims</h1>
+        <h1 className="px-3 text-2xl">Current Claims</h1>
+
         <div className="flex flex-wrap items-center">
           <ClaimCard
             claimName={"Loss of Life Claim"}
@@ -70,7 +84,7 @@ export default function ClaimDashboard() {
 
       {/* Past claims */}
       <div className="">
-        <h1 className="px-3 text-xl">Past Claims</h1>
+        <h1 className="px-3 text-2xl">Past Claims</h1>
 
         <div className="flex flex-wrap items-center">
           <ClaimCard

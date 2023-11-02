@@ -10,9 +10,17 @@ import Navbar from "./components/Navbar";
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
 
+  const handleAuthentication = () => {
+    setAuthenticated(true);
+  };
+
   return (
     <BrowserRouter>
-      {authenticated ? <ClaimDashboardScreen /> : <LoginScreen />}
+      {authenticated ? (
+        <ClaimDashboardScreen />
+      ) : (
+        <LoginScreen handleAuthentication={handleAuthentication} />
+      )}
     </BrowserRouter>
   );
 }
