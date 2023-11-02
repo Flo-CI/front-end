@@ -4,6 +4,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import {Grid} from "@mui/material";
+import NewClaim from './NewClaim';
 
 function App() {
     const base_url = "https://ciflo.azurewebsites.net/demo/claim?policyNumber=";
@@ -30,6 +31,9 @@ function App() {
             // Checks to see if the account found is correct
             if (claimNumber === data['details']['0']['policyNumber']) {
                 alert("The user id is " + data['details']['0']['id']);
+                return (
+                    <NewClaim/>
+                )
             } else {
                 alert("The inputted policy number is not currently registered")
             }
