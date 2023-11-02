@@ -10,114 +10,101 @@ function LoginScreen() {
   const [data, setData] = useState(null);
 
   // State variable that holds the user's inputted text and text when they click the log-in button
-  const [textboxValue, setTextboxValue] = useState("");
-  const [accountNumber, setAccountNumber] = useState("");
+  const [usernameValue, setUsernameValue] = useState('');
+  const [passwordValue, setPasswordValue] = useState('');
+  const [policyNumber, setPolicyNumber] = useState('');
+  const [authenticated, setAuthenticated] = useState(false);
 
-  // Event handler to update the textboxValue state when the user types
-  const handleTextboxValueChange = (event) => {
-    setTextboxValue(event.target.value);
+  // Event handler to update the usernameValue state when the user types
+  const handleUsernameValueChange = (event) => {
+    setUsernameValue(event.target.value);
   };
   // Event handler to update accountValue state when the user clicks the log-in button
-  const handleAccountNumberChange = () => {
-    setAccountNumber(textboxValue);
-  };
+  const handlePolicyNumberChange = () => {
+    setPolicyNumber(usernameValue);
+  }
+  const handlePasswordValueChange = (event) => {
+    setPasswordValue(event.target.value);
+  }
 
   // Gets the returned info from the database and checks if it exists
   const dataCheck = () => {
     try {
       // Checks to see if the account found is correct
-      if (accountNumber === data["details"]["0"]["policyNumber"]) {
-        alert("The user id is " + data["details"]["0"]["id"]);
-        // Returns if account info is not correct
+      if (parseInt(passwordValue) === data['details']['0']['id']) {
+        alert("The policy number and password is valid");
+        setAuthenticated(true);
+      // Returns if account info is not correct
       } else {
-        alert("The inputted account number does not exist");
+        alert("The password is not correct for the given policy number")
       }
     } catch (e) {
       // Catch statement when no user statement is returned
-      alert("The inputted account number does not exist");
+      alert("The inputted policy number does not exist")
     }
   };
 
   // Calls GET Database API of user inputted account number
-  // Occurs whenever the accountNumber state variable is changed
+  // Occurs whenever the policyNumber state variable is changed
   useEffect(() => {
     const fetchData = async () => {
-      const fetchResult = await fetch(base_url + textboxValue, {
-        method: "GET",
-        headers: {
-          accept: "application/json",
+      const fetchResult = await fetch(base_url + usernameValue, {
+        method: "GET", headers: {
+          accept: 'application/json',
         },
-      });
-      const newData = await fetchResult.json();
-      setData(newData);
-    };
-    fetchData();
-  }, [accountNumber]);
+      })
+      const newData = await fetchResult.json()
+      setData(newData)
+      setPolicyNumber('');
+    }
+    if (policyNumber !== ''){
+      fetchData()
+    }
+  }, [policyNumber]);
 
   // Checks account info whenever the data is returned from the database
   useEffect(() => {
-    if (textboxValue !== "") {
+    if (usernameValue !== ''){
       dataCheck();
     }
   }, [data]);
 
   // Calls POST Database API of user inputted account number
   const uploadData = () => {
-    fetch(base_url + accountNumber, {
-      method: "POST",
+    fetch(base_url + policyNumber, {
+      method: 'POST',
       data: {
-        policyNumber: accountNumber,
-      },
-    });
-  };
+        policyNumber: policyNumber
+      }
+    })
+  }
 
   return (
-    <div>
-      <Grid container justify="center" alignItems="center" direction="column">
-        <Grid item>
-          <h2
-            style={{
-              textAlign: "center",
-              marginTop: 50,
-              fontSize: 20,
-              fontWeight: "bold",
-            }}
-          >
-            Flo.CI Claim Submission Demo
-          </h2>
-        </Grid>
-        <Grid item>
-          <h2>
-            <Stack
-              style={{ justifyContent: "center" }}
-              spacing={2}
-              direction="row"
-              sx={{ m: 2 }}
-            >
-              <Button variant="contained" color="success" onClick={uploadData}>
-                Add Claim Number
-              </Button>
-              <Button
-                variant="contained"
-                color="success"
-                onClick={() => handleAccountNumberChange()}
-              >
-                Check Claim Number
-              </Button>
-            </Stack>
-          </h2>
-        </Grid>
-        <Grid item>
-          <h2>
-            <TextField
-              id="filled-basic"
-              label="Please enter claim number"
-              variant="filled"
-              color="success"
-              onChange={handleTextboxValueChange}
-              sx={{ m: 3, width: "42ch" }}
-            />
-          </h2>
+      <div>
+        <Grid container justify="center" alignItems="center" direction="column">
+          <Grid item>
+            <h2 style={{textAlign: "center", marginTop: 50, fontSize: 20, fontWeight: "bold"}}>Flo.CI Claim Submission Demo</h2>
+          </Grid>
+          <Grid item>
+            <h2>
+              <Stack style={{justifyContent: 'center'}} spacing={2} direction="row" sx={{m: 2}}>
+                <Button variant="contained" color="success" onClick={uploadData}>Sign-Up</Button>
+                <Button variant="contained" color="success" onClick={() => handlePolicyNumberChange()}>Log-In</Button>
+              </Stack>
+            </h2>
+          </Grid>
+          <Grid item>
+            <h2>
+              <TextField id="filled-basic" label="Please enter policy number" variant="filled"
+                         color="success" onChange={handleUsernameValueChange} sx={{m: 3, width: '42ch'}}/>
+            </h2>
+          </Grid>
+          <Grid item>
+            <h2>
+              <TextField id="filled-basic" label="Please enter policy password" variant="filled"
+                         color="success" onChange={handlePasswordValueChange} sx={{m: 1, width: '42ch'}}/>
+            </h2>
+          </Grid>
         </Grid>
       </Grid>
     </div>
