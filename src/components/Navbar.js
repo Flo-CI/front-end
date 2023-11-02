@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import logo from "../assets/Flo-CI_Icon.png";
+import logo from "../assets/logo192.png";
 
 import { HomeIcon, Cog6ToothIcon, BellIcon } from "@heroicons/react/24/solid";
 
@@ -9,7 +9,7 @@ function Navbar() {
     <nav className=" flex p-4 bg-green-500 justify-between items-center">
       {/* Placeholder logo */}
       <Link to="/" className="flex items-center justify-center">
-        <img src={logo} alt="logo" className=" h-12 pr-2" />
+        <img src={logo} alt="logo" className=" h-9 pr-2" />
         <h1 className="text-4xl font-bold">Flo.CI</h1>
       </Link>
 
