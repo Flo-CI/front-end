@@ -2,8 +2,8 @@ import React from "react";
 import { useState } from "react";
 import { Button } from "@mui/base";
 
-import ClaimCard from "../components/ClaimCard";
-import Navbar from "../components/Navbar";
+import ClaimCard from "../components/ClaimCard.js";
+import Navbar from "../components/Navbar.js";
 
 export default function ClaimDashboard() {
   const [currentClaims, setCurrentClaims] = useState([]);
@@ -35,49 +35,42 @@ export default function ClaimDashboard() {
             applicationStatus={"Received"}
             claimNumber={"1234567891011314"}
             dateFiled={"2023-10-17"}
-            link={"/claim/1234567891011314"}
           />
           <ClaimCard
             claimName={"Life Insurance Claim"}
             applicationStatus={"Under Review"}
             claimNumber={"1234567899289314"}
             dateFiled={"2023-10-10"}
-            link={"/claim/1234567899289314"}
           />
           <ClaimCard
             claimName={"Illness Claim"}
             applicationStatus={"Under Review"}
             claimNumber={"1234567891011314"}
             dateFiled={"2023-10-10"}
-            link={"/claim/1234567891011314"}
           />
           <ClaimCard
             claimName={"Illness Claim"}
             applicationStatus={"Under Review"}
             claimNumber={"1234567891011314"}
             dateFiled={"2023-10-10"}
-            link={"/claim/1234567891011314"}
           />
           <ClaimCard
             claimName={"Illness Claim"}
             applicationStatus={"Under Review"}
             claimNumber={"1234567891011314"}
             dateFiled={"2023-10-10"}
-            link={"/claim/1234567891011314"}
           />
           <ClaimCard
             claimName={"Illness Claim"}
             applicationStatus={"Under Review"}
             claimNumber={"1234567891011314"}
             dateFiled={"2023-10-10"}
-            link={"/claim/1234567891011314"}
           />
           <ClaimCard
             claimName={"Illness Claim"}
             applicationStatus={"Under Review"}
             claimNumber={"1234567891011314"}
             dateFiled={"2023-10-10"}
-            link={"/claim/1234567891011314"}
           />
         </div>
       </div>
@@ -92,14 +85,12 @@ export default function ClaimDashboard() {
             applicationStatus={"Rejected"}
             claimNumber={"1234567891011314"}
             dateFiled={"2019-10-17"}
-            link={"/claim/1234567891011314"}
           />
           <ClaimCard
             claimName={"Life Insurance Claim"}
             applicationStatus={"Accepted"}
             claimNumber={"1234567899289314"}
             dateFiled={"2019-10-10"}
-            link={"/claim/1234567899289314"}
           />
         </div>
       </div>
