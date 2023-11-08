@@ -5,25 +5,19 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import LoginScreen from "./screens/LoginScreen";
 import ClaimDashboardScreen from "./screens/ClaimDashboardScreen.js";
+import NotFoundScreen from "./screens/NotFoundScreen.js";
 
 function App() {
-  const [authenticated, setAuthenticated] = useState(false);
-
-  const handleAuthentication = () => {
-    setAuthenticated(true);
-  };
-
   return (
     <BrowserRouter>
       <Routes>
-        <Route></Route>
-      </Routes>
+        <Route path="/" element={<ClaimDashboardScreen />} />
+        <Route path="/login" element={<LoginScreen />} />
+        <Route path="*" element={<NotFoundScreen />} />
 
-      {authenticated ? (
-        <ClaimDashboardScreen />
-      ) : (
-        <LoginScreen handleAuthentication={handleAuthentication} />
-      )}
+        {/* To be updated */}
+        {/* <Route path="/claim/:claimNumber" element={<ClaimDashboardScreen />} /> */}
+      </Routes>
     </BrowserRouter>
   );
 }
