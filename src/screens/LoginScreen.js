@@ -3,6 +3,7 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Grid } from "@mui/material";
+import { redirect, useNavigate } from "react-router-dom";
 
 import background from "../assets/background.png";
 import flo from "../assets/Flo-CI_Icon.png";
@@ -37,13 +38,16 @@ function LoginScreen({ handleAuthentication }) {
     setPasswordValue(event.target.value);
   };
 
+  // Used to navigate between pages
+  const navigate = useNavigate();
+
   // Gets the returned info from the database and checks if it exists
   const dataCheck = () => {
     try {
       // Checks to see if the account found is correct
       if (parseInt(passwordValue) === data["details"]["0"]["id"]) {
         // alert("The policy number and password is valid");
-        handleAuthentication();
+        navigate("/");
         // Returns if account info is not correct
       } else {
         alert("The password is not correct for the given policy number");
@@ -98,7 +102,7 @@ function LoginScreen({ handleAuthentication }) {
           alt="background"
           className="h-screen w-full blur-sm hue-rotate-30"
         />
-        <div className="flex justify-center items-center z-10 p-12 absolute">
+        <div className="flex justify-center items-center z-10 p-12 max-w-1/2 absolute">
           <h1 className="text-8xl font-bold text-green-900">Sedurian Canada</h1>
           <img src={flo} alt="FloCI Logo" className="h-40" />
         </div>
