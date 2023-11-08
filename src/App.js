@@ -1,7 +1,7 @@
 import "./App.css";
 
 import { useState } from "react";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import LoginScreen from "./screens/LoginScreen";
 import ClaimDashboardScreen from "./screens/ClaimDashboardScreen.js";
@@ -15,6 +15,10 @@ function App() {
 
   return (
     <BrowserRouter>
+      <Routes>
+        <Route></Route>
+      </Routes>
+
       {authenticated ? (
         <ClaimDashboardScreen />
       ) : (

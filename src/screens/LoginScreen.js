@@ -98,7 +98,7 @@ function LoginScreen({ handleAuthentication }) {
           alt="background"
           className="h-screen w-full blur-sm hue-rotate-30"
         />
-        <div className="flex justify-center items-center z-10 p-12 absolute">
+        <div className="flex justify-center items-center z-10 p-12 w-1/2 absolute">
           <h1 className="text-8xl font-bold text-green-900">Sedurian Canada</h1>
           <img src={flo} alt="FloCI Logo" className="h-40" />
         </div>
