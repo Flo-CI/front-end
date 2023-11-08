@@ -14,21 +14,23 @@ function Navbar() {
       </Link>
 
       {/* Links */}
-      <ul className="flex">
-        <li className="px-2 flex">
+      <ul className="flex font-bold">
+        <li className="px-2 flex p-2 m-2 bg-white rounded-md">
           {/* Dashboard */}
           <Link to="/" className="flex">
-            <HomeIcon className="h-6 w-6" />
+            <p className="mr-2">Home</p> <HomeIcon className="h-6 w-6" />
           </Link>
         </li>
-        <li className="px-2 flex">
+        <li className="px-2 flex p-2 m-2 bg-white rounded-md">
           {/* Settings */}
           <Link to="/" className="flex">
+            <p className="mr-2">Settings</p>{" "}
             <Cog6ToothIcon className="h-6 w-6" />
           </Link>
         </li>
-        <li className="px-2 flex">
+        <li className="px-2 flex p-2 m-2 bg-white rounded-md">
           <Link to="/" className="flex">
+            <p className="mr-2">Notifications</p>{" "}
             <BellIcon className="h-6 w-6" />
           </Link>
         </li>
