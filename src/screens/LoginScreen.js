@@ -4,6 +4,8 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Grid } from "@mui/material";
 import { redirect, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../state/store";
 
 import background from "../assets/background.png";
 import flo from "../assets/Flo-CI_Icon.png";
@@ -41,12 +43,16 @@ function LoginScreen({ handleAuthentication }) {
   // Used to navigate between pages
   const navigate = useNavigate();
 
+  // Update redux store
+  const dispatch = useDispatch();
+
   // Gets the returned info from the database and checks if it exists
   const dataCheck = () => {
     try {
       // Checks to see if the account found is correct
       if (parseInt(passwordValue) === data["details"]["0"]["id"]) {
         // alert("The policy number and password is valid");
+        dispatch(login(usernameValue));
         navigate("/");
         // Returns if account info is not correct
       } else {
