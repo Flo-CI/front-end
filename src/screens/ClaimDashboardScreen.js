@@ -4,6 +4,8 @@ import { Button } from "@mui/base";
 
 import ClaimCard from "../components/ClaimCard.js";
 import Navbar from "../components/Navbar.js";
+import NewClaimScreen from "./NewClaimScreen";
+import NewClaimButton from "../components/NewClaimButton";
 
 export default function ClaimDashboard() {
   const [currentClaims, setCurrentClaims] = useState([]);
@@ -16,13 +18,8 @@ export default function ClaimDashboard() {
       {/* Header + new claim button */}
       <div className="flex justify-between items-start pt-4">
         <h1 className=" px-2 text-6xl font-bold ">Dashboard</h1>
-        <Button
-          variant="contained"
-          color="success"
-          className="bg-green-300 p-4 rounded-xl font-semibold mx-4 mt-2"
-        >
-          + New Claim
-        </Button>
+        <NewClaimButton>
+        </NewClaimButton>
       </div>
 
       {/* In progress claims */}
