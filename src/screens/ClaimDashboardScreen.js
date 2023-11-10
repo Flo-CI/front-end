@@ -6,10 +6,13 @@ import ClaimCard from "../components/ClaimCard.js";
 import Navbar from "../components/Navbar.js";
 import NewClaimScreen from "./NewClaimScreen";
 import NewClaimButton from "../components/NewClaimButton";
+import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 
 export default function ClaimDashboard() {
   const [currentClaims, setCurrentClaims] = useState([]);
   const [pastClaims, setPastClaims] = useState([]);
+
+  useAuthenticationCheck();
 
   return (
     <div className=" bg-gray-50 h-screen">
@@ -18,8 +21,7 @@ export default function ClaimDashboard() {
       {/* Header + new claim button */}
       <div className="flex justify-between items-start pt-4">
         <h1 className=" px-2 text-6xl font-bold ">Dashboard</h1>
-        <NewClaimButton>
-        </NewClaimButton>
+        <NewClaimButton></NewClaimButton>
       </div>
 
       {/* In progress claims */}
