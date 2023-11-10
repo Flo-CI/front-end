@@ -8,11 +8,18 @@ import Avatar from "@mui/material/Avatar";
 import FolderIcon from "@mui/icons-material/Folder";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { Document, Page, pdfjs } from 'react-pdf';
+import "react-pdf/dist/esm/Page/AnnotationLayer.css"
+import file1 from "../test_assets/mochaHazelnutTorteRecipe.pdf";
+import file2 from "../test_assets/Life Claim Initiation - Lender Statement 1.pdf";
 
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
+import {Divider, Grid} from "@mui/material";
 
 export default function ClaimFilesScreen() {
   useAuthenticationCheck();
+
+  pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/legacy/build/pdf.worker.min.js`;
 
   return (
     <div className=" bg-gray-50 h-screen">
@@ -20,6 +27,8 @@ export default function ClaimFilesScreen() {
       <div className="flex justify-between items-start pt-4">
         <h1 className=" px-2 text-6xl font-bold ">ClaimName Claim</h1>
       </div>
+      <Grid sx={{ flexGrow: 1 }} container direction={'row'}>
+        <Grid item xs={12} sm={6}>
       <div className="flex justify-center items-start pt-4">
         <h1 className=" px-2 text-4xl font-bold ">Claim Files</h1>
       </div>
@@ -83,6 +92,13 @@ export default function ClaimFilesScreen() {
           </ListItem>
         </List>
       </div>
+          </Grid>
+      <Grid item xs={12} sm={6}>
+        <Document file={file2}>
+          <Page pageNumber={1} renderTextLayer={false} renderAnnotationLayer={false} scale={1.0}/>
+        </Document>
+      </Grid>
+        </Grid>
     </div>
   );
 }
