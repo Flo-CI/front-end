@@ -54,6 +54,8 @@ function App() {
       <form>
 
         <label><h5>Upload PDF</h5></label>
+      {/* A button to upload file to backend, will be programmed shortly */}
+    <button className="Upload file">Upload File</button>
         <br></br>
 
         <input type='file' className="form-control"
