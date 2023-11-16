@@ -7,7 +7,7 @@ const useAuthenticationCheck = () => {
 
   useEffect(() => {
     if (!authenticator.isAuthenticated) {
-      window.location.href = "/front-end/login";
+      window.location.href = "/login";
     }
 
     // For when we implement cookies
