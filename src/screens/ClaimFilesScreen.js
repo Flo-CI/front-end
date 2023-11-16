@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Navbar from "../components/Navbar.js";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -14,15 +14,27 @@ import file1 from "../test_assets/mochaHazelnutTorteRecipe.pdf";
 import file2 from "../test_assets/Life Claim Initiation - Lender Statement 1.pdf";
 
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
-import {Divider, Grid} from "@mui/material";
+import {Divider, Grid, IconButton} from "@mui/material";
 
 export default function ClaimFilesScreen() {
   useAuthenticationCheck();
 
   pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/legacy/build/pdf.worker.min.js`;
 
-  const [fileOpen, setFileOpen] = useState(true);
+  const [fileOpen, setFileOpen] = useState(false);
   const [fileName, setFileName] = useState(file1);
+  const [spacing, setSpacing] = useState(50);
+  const [pageNum, setPageNum] = useState(1);
+  const [pageMax, setPageMax] = useState(1);
+
+    useEffect(() => {
+        if (fileOpen === true) {
+            setSpacing(7);
+            setPageNum(1);
+        } else {
+            setSpacing(50);
+        }
+    }, [fileOpen]);
 
   const fileOneClick = (e) => {
     if (fileOpen === false) {
@@ -46,6 +58,18 @@ export default function ClaimFilesScreen() {
         }
     };
 
+    const documentLoadSuccess = ({ numPages }) => {
+        setPageMax(numPages)
+    }
+
+    const handlePageNum = (e) => {
+        if (pageNum + 1 > pageMax) {
+            setPageNum(1)
+        } else {
+            setPageNum(pageNum + 1)
+        }
+    }
+
   return (
     <div className=" bg-gray-50 h-screen">
       <Navbar />
@@ -53,7 +77,7 @@ export default function ClaimFilesScreen() {
         <h1 className=" px-2 text-6xl font-bold ">ClaimName Claim</h1>
       </div>
       <Grid sx={{ flexGrow: 1 }} container direction={'row'}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={spacing}>
       <div className="flex justify-center items-start pt-4">
         <h1 className=" px-2 text-4xl font-bold ">Claim Files</h1>
       </div>
@@ -123,10 +147,12 @@ export default function ClaimFilesScreen() {
       </div>
       </Grid>
 
-      <Grid item xs={12} sm={6}>
-        <Document file={fileName}>
-            {fileOpen ? (<Page pageNumber={1} renderTextLayer={false} renderAnnotationLayer={false} scale={0.7}/>) : null}
+      <Grid item>
+          <div className=" bg-gray-50 h-screen" onClick={handlePageNum}>
+        <Document file={fileName} onLoadSuccess={documentLoadSuccess}>
+            {fileOpen ? (<Page pageNumber={pageNum} renderTextLayer={false} renderAnnotationLayer={false} scale={0.7}/>) : null}
         </Document>
+          </div>
       </Grid>
     </Grid>
 
