@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import Navbar from "../components/Navbar.js";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -21,6 +21,31 @@ export default function ClaimFilesScreen() {
 
   pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/legacy/build/pdf.worker.min.js`;
 
+  const [fileOpen, setFileOpen] = useState(true);
+  const [fileName, setFileName] = useState(file1);
+
+  const fileOneClick = (e) => {
+    if (fileOpen === false) {
+        setFileOpen(true);
+        setFileName(file1);
+    } else if (fileName === file1){
+        setFileOpen(false);
+    } else {
+        setFileName(file1);
+    }
+  };
+
+    const fileTwoClick = (e) => {
+        if (fileOpen === false) {
+            setFileOpen(true);
+            setFileName(file2);
+        } else if (fileName === file2){
+            setFileOpen(false);
+        } else {
+            setFileName(file2);
+        }
+    };
+
   return (
     <div className=" bg-gray-50 h-screen">
       <Navbar />
@@ -38,9 +63,11 @@ export default function ClaimFilesScreen() {
         >
           <ListItem>
             <ListItemAvatar>
+                <div onClick={fileOneClick}>
               <Avatar>
                 <FolderIcon />
               </Avatar>
+                </div>
             </ListItemAvatar>
             <ListItemText
               primary="Certification of Death - Physician Statement"
@@ -54,9 +81,11 @@ export default function ClaimFilesScreen() {
           </ListItem>
           <ListItem>
             <ListItemAvatar>
-              <Avatar>
-                <FolderIcon />
-              </Avatar>
+                <div onClick={fileTwoClick}>
+                    <Avatar>
+                        <FolderIcon />
+                    </Avatar>
+                </div>
             </ListItemAvatar>
             <ListItemText
               primary="Life Claim Information Request"
@@ -92,13 +121,15 @@ export default function ClaimFilesScreen() {
           </ListItem>
         </List>
       </div>
-          </Grid>
+      </Grid>
+
       <Grid item xs={12} sm={6}>
-        <Document file={file2}>
-          <Page pageNumber={1} renderTextLayer={false} renderAnnotationLayer={false} scale={1.0}/>
+        <Document file={fileName}>
+            {fileOpen ? (<Page pageNumber={1} renderTextLayer={false} renderAnnotationLayer={false} scale={0.7}/>) : null}
         </Document>
       </Grid>
-        </Grid>
+    </Grid>
+
     </div>
   );
 }
