@@ -44,6 +44,7 @@ export default function ClaimFilesScreen() {
         setFileOpen(false);
     } else {
         setFileName(file1);
+        setPageNum(1);
     }
   };
 
@@ -55,6 +56,7 @@ export default function ClaimFilesScreen() {
             setFileOpen(false);
         } else {
             setFileName(file2);
+            setPageNum(1);
         }
     };
 
