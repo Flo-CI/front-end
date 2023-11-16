@@ -1,7 +1,7 @@
 {
   "name": "floci-frontend",
   "version": "0.1.0",
-  "homepage": "https://Flo-CI.github.io/front-end/",
+  "homepage": "https://Flo-CI.github.io/front-end",
   "private": true,
   "dependencies": {
     "@react-pdf-viewer/core": "^3.12.0",
