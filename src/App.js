@@ -14,7 +14,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<ClaimDashboardScreen />} />
-        <Route path="/login" element={<LoginScreen />} />
+        <Route path="/front-end/login" element={<LoginScreen />} />
         <Route path="*" element={<NotFoundScreen />} />
         <Route path="/new-claim" element={<NewClaimScreen />} />
         <Route path="/claim-files" element={<ClaimFilesScreen />} />
