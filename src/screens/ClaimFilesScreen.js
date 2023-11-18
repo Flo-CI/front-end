@@ -36,29 +36,17 @@ export default function ClaimFilesScreen() {
         }
     }, [fileOpen]);
 
-  const fileOneClick = (e) => {
+  const handleFileClick = (file) => {
     if (fileOpen === false) {
         setFileOpen(true);
-        setFileName(file1);
-    } else if (fileName === file1){
+        setFileName(file);
+    } else if (fileName === file){
         setFileOpen(false);
     } else {
-        setFileName(file1);
+        setFileName(file);
         setPageNum(1);
     }
   };
-
-    const fileTwoClick = (e) => {
-        if (fileOpen === false) {
-            setFileOpen(true);
-            setFileName(file2);
-        } else if (fileName === file2){
-            setFileOpen(false);
-        } else {
-            setFileName(file2);
-            setPageNum(1);
-        }
-    };
 
     const documentLoadSuccess = ({ numPages }) => {
         setPageMax(numPages)
@@ -89,7 +77,7 @@ export default function ClaimFilesScreen() {
         >
           <ListItem>
             <ListItemAvatar>
-                <div onClick={fileOneClick}>
+                <div onClick={() => handleFileClick(file1)}>
               <Avatar>
                 <FolderIcon />
               </Avatar>
@@ -107,7 +95,7 @@ export default function ClaimFilesScreen() {
           </ListItem>
           <ListItem>
             <ListItemAvatar>
-                <div onClick={fileTwoClick}>
+                <div onClick={() => handleFileClick(file2)}>
                     <Avatar>
                         <FolderIcon />
                     </Avatar>
