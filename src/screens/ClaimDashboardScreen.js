@@ -12,7 +12,7 @@ export default function ClaimDashboard() {
   const [currentClaims, setCurrentClaims] = useState([]);
   const [pastClaims, setPastClaims] = useState([]);
 
-  useAuthenticationCheck();
+  // useAuthenticationCheck();
 
   return (
     <div className=" bg-gray-50 h-screen">
