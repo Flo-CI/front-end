@@ -14,7 +14,7 @@ import file1 from "../test_assets/mochaHazelnutTorteRecipe.pdf";
 import file2 from "../test_assets/Life Claim Initiation - Lender Statement 1.pdf";
 
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
-import {Divider, Grid, IconButton} from "@mui/material";
+import {Grid} from "@mui/material";
 
 export default function ClaimFilesScreen() {
   // useAuthenticationCheck();
@@ -63,89 +63,84 @@ export default function ClaimFilesScreen() {
   return (
     <div className=" bg-gray-50 h-screen">
       <Navbar />
-      <div className="flex justify-between items-start pt-4">
-        <h1 className=" px-2 text-6xl font-bold ">ClaimName Claim</h1>
-      </div>
-      <Grid sx={{ flexGrow: 1 }} container direction={'row'}>
+        <div className="flex justify-between items-start pt-4">
+          <h1 className=" px-2 text-6xl font-bold ">ClaimName Claim</h1>
+        </div>
+      <Grid container direction={'row'}>
         <Grid item xs={spacing}>
-      <div className="flex justify-center items-start pt-4">
-        <h1 className=" px-2 text-4xl font-bold ">Claim Files</h1>
-      </div>
-      <div className="flex justify-center items-start pt-4">
-        <List
-          sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-        >
-          <ListItem>
-            <ListItemAvatar>
-                <div onClick={() => handleFileClick(file1)}>
-              <Avatar>
-                <FolderIcon />
-              </Avatar>
-                </div>
-            </ListItemAvatar>
-            <ListItemText
-              primary="Certification of Death - Physician Statement"
-              secondary=" Upload Date: Oct 28, 2023"
-            />
-            <ListItemAvatar>
-              <Avatar>
-                <DeleteIcon />
-              </Avatar>
-            </ListItemAvatar>
-          </ListItem>
-          <ListItem>
-            <ListItemAvatar>
-                <div onClick={() => handleFileClick(file2)}>
-                    <Avatar>
-                        <FolderIcon />
-                    </Avatar>
-                </div>
-            </ListItemAvatar>
-            <ListItemText
-              primary="Life Claim Information Request"
-              secondary="Upload Date: Nov 7, 2023"
-            />
-            <ListItemAvatar>
-              <Avatar>
-                <DeleteIcon />
-              </Avatar>
-            </ListItemAvatar>
-          </ListItem>
-        </List>
-      </div>
-      <div className="flex justify-center items-start pt-4">
-        <h1 className=" px-2 text-4xl font-bold ">Missing Files</h1>
-      </div>
-      <div className="flex justify-center items-start pt-4">
-        <List
-          sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-        >
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar>
-                <FolderIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Employer Statement" />
-            <ListItemAvatar>
-              <Avatar>
-                <CloudUploadIcon />
-              </Avatar>
-            </ListItemAvatar>
-          </ListItem>
-        </List>
-      </div>
-      </Grid>
-
-      <Grid item>
-          <div className=" bg-gray-50 h-screen" onClick={handlePageNum}>
-        <Document file={fileName} onLoadSuccess={documentLoadSuccess}>
-            {fileOpen ? (<Page pageNumber={pageNum} renderTextLayer={false} renderAnnotationLayer={false} scale={0.7}/>) : null}
-        </Document>
+          <div className="flex justify-center items-start pt-4">
+            <h1 className=" px-2 text-4xl font-bold ">Claim Files</h1>
           </div>
+          <div className="flex justify-center items-start pt-4">
+            <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+              <ListItem>
+                <ListItemAvatar>
+                  <div onClick={() => handleFileClick(file1)}>
+                    <Avatar>
+                      <FolderIcon />
+                    </Avatar>
+                  </div>
+                </ListItemAvatar>
+                <ListItemText
+                  primary="Certification of Death - Physician Statement"
+                  secondary=" Upload Date: Oct 28, 2023"
+                />
+                <ListItemAvatar>
+                  <Avatar>
+                    <DeleteIcon />
+                  </Avatar>
+                </ListItemAvatar>
+              </ListItem>
+              <ListItem>
+                <ListItemAvatar>
+                  <div onClick={() => handleFileClick(file2)}>
+                    <Avatar>
+                      <FolderIcon />
+                    </Avatar>
+                  </div>
+                </ListItemAvatar>
+                <ListItemText
+                  primary="Life Claim Information Request"
+                  secondary="Upload Date: Nov 7, 2023"
+                />
+                <ListItemAvatar>
+                  <Avatar>
+                    <DeleteIcon />
+                  </Avatar>
+                </ListItemAvatar>
+              </ListItem>
+            </List>
+          </div>
+          <div className="flex justify-center items-start pt-4">
+            <h1 className=" px-2 text-4xl font-bold ">Missing Files</h1>
+          </div>
+          <div className="flex justify-center items-start pt-4">
+            <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>
+                    <FolderIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary="Employer Statement" />
+                <ListItemAvatar>
+                  <Avatar>
+                    <CloudUploadIcon />
+                  </Avatar>
+                </ListItemAvatar>
+              </ListItem>
+            </List>
+          </div>
+        </Grid>
+        {fileOpen ?
+          (<Grid item>
+            <div className=" bg-gray-50 h-screen" onClick={handlePageNum}>
+              <Document file={fileName}  onLoadSuccess={documentLoadSuccess}>
+                <Page pageNumber={pageNum} renderTextLayer={false} renderAnnotationLayer={false} scale={0.7}/>
+              </Document>
+            </div>
+          </Grid>) : null}
       </Grid>
-    </Grid>
-
     </div>
   );
 }
