@@ -12,7 +12,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 
 export default function ClaimFilesScreen() {
-  // useAuthenticationCheck();
+  useAuthenticationCheck();
 
   return (
     <div className=" bg-gray-50 h-screen">
