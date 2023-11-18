@@ -39,7 +39,7 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 export default function NewClaimScreen() {
-  useAuthenticationCheck();
+  // useAuthenticationCheck();
 
   return (
     <div className=" bg-gray-50 h-screen">

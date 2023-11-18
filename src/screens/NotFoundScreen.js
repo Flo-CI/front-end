@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck";
 
 const NotFoundScreen = () => {
-  useAuthenticationCheck();
+  // useAuthenticationCheck();
 
   return (
     <>
