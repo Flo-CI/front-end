@@ -17,7 +17,7 @@ import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 import {Divider, Grid, IconButton} from "@mui/material";
 
 export default function ClaimFilesScreen() {
-  useAuthenticationCheck();
+  // useAuthenticationCheck();
 
   pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/legacy/build/pdf.worker.min.js`;
 

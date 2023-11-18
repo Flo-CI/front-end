@@ -1,7 +1,7 @@
 {
   "name": "floci-frontend",
   "version": "0.1.0",
-  "homepage": "https://Flo-CI.github.io/",
+  "homepage": "https://Flo-CI.github.io/front-end",
   "private": true,
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
@@ -10,6 +10,8 @@
     "@heroicons/react": "^2.0.18",
     "@mui/icons-material": "^5.14.16",
     "@mui/material": "^5.14.11",
+    "@react-pdf-viewer/core": "^3.12.0",
+    "@react-pdf-viewer/default-layout": "^3.1.0",
     "@reduxjs/toolkit": "^1.9.7",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -18,7 +20,7 @@
     "react-dom": "^18.2.0",
     "react-pdf": "^7.5.1",
     "react-redux": "^8.1.3",
-    "react-router-dom": "^6.18.0",
+    "react-router-dom": "^6.19.0",
     "react-scripts": "5.0.1",
     "redux": "^4.2.1",
     "web-vitals": "^2.1.4"

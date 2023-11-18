@@ -1,7 +1,7 @@
 import "./App.css";
 
 import { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
 
 import LoginScreen from "./screens/LoginScreen";
 import ClaimDashboardScreen from "./screens/ClaimDashboardScreen.js";
@@ -11,10 +11,10 @@ import ClaimFilesScreen from "./screens/ClaimFilesScreen";
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={"/front-end"}>
       <Routes>
         <Route path="/" element={<ClaimDashboardScreen />} />
-        <Route path="/login" element={<LoginScreen />} />
+        <Route exact path="/front-end" element={<LoginScreen />} />
         <Route path="*" element={<NotFoundScreen />} />
         <Route path="/new-claim" element={<NewClaimScreen />} />
         <Route path="/claim-files" element={<ClaimFilesScreen />} />
