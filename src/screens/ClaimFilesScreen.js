@@ -10,8 +10,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { Document, Page, pdfjs } from 'react-pdf';
 import "react-pdf/dist/esm/Page/AnnotationLayer.css"
-import file1 from "../test_assets/mochaHazelnutTorteRecipe.pdf";
-import file2 from "../test_assets/Life Claim Initiation - Lender Statement 1.pdf";
+import file1 from "../assets/test-file-1.pdf";
+import file2 from "../assets/test-file-2.pdf";
 
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 import {Grid} from "@mui/material";
