@@ -1,7 +1,6 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Button } from "@mui/base";
-
+import { DarkModeContext } from "../DarkModeContext.js";
 import ClaimCard from "../components/ClaimCard.js";
 import Navbar from "../components/Navbar.js";
 import NewClaimScreen from "./NewClaimScreen";
@@ -11,11 +10,12 @@ import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 export default function ClaimDashboard() {
   const [currentClaims, setCurrentClaims] = useState([]);
   const [pastClaims, setPastClaims] = useState([]);
+  const { darkMode } = useContext(DarkModeContext);
 
   // useAuthenticationCheck();
 
   return (
-    <div className=" bg-gray-50 h-screen">
+    <div className={`${darkMode ? 'dark' : 'light'} bg-gray-50 h-screen`}>
       <Navbar />
 
       {/* Header + new claim button */}

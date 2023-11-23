@@ -1,4 +1,5 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext } from "react";
+import { DarkModeContext } from "../DarkModeContext.js";
 import Navbar from "../components/Navbar.js";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -12,7 +13,6 @@ import { Document, Page, pdfjs } from 'react-pdf';
 import "react-pdf/dist/esm/Page/AnnotationLayer.css"
 import file1 from "../assets/test-file-1.pdf";
 import file2 from "../assets/test-file-2.pdf";
-
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 import {Grid} from "@mui/material";
 
@@ -26,6 +26,7 @@ export default function ClaimFilesScreen() {
   const [spacing, setSpacing] = useState(50);
   const [pageNum, setPageNum] = useState(1);
   const [pageMax, setPageMax] = useState(1);
+  const { darkMode } = useContext(DarkModeContext);
 
     useEffect(() => {
         if (fileOpen === true) {
@@ -61,7 +62,7 @@ export default function ClaimFilesScreen() {
     }
 
   return (
-    <div className=" bg-gray-50 h-screen">
+    <div className={`${darkMode ? 'dark' : 'light'} bg-gray-50 h-screen`}>
       <Navbar />
         <div className="flex justify-between items-start pt-4">
           <h1 className=" px-2 text-6xl font-bold ">ClaimName Claim</h1>

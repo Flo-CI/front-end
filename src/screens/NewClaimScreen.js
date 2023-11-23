@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useContext} from "react";
+import { DarkModeContext } from "../DarkModeContext.js";
 import Navbar from "../components/Navbar.js";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
@@ -40,9 +41,10 @@ const VisuallyHiddenInput = styled("input")({
 
 export default function NewClaimScreen() {
   // useAuthenticationCheck();
+  const { darkMode } = useContext(DarkModeContext);
 
   return (
-    <div className=" bg-gray-50 h-screen">
+    <div className={`${darkMode ? 'dark' : 'light'} bg-gray-50 h-screen`}>
       <Navbar />
       <div className="flex justify-between items-start pt-4">
         <h1 className=" px-2 text-6xl font-bold ">File A New Claim</h1>

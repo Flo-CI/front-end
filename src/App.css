@@ -32,6 +32,18 @@
   color: #61dafb;
 }
 
+.dark {
+  background-color: #333;
+  color: #fff;
+  transition: 0.2s;
+}
+
+.light {
+background-color: #fff;
+color: #333;
+transition: 0.2s;
+}
+
 /* Toggle Switch Styles */
 .switch {
   position: relative;

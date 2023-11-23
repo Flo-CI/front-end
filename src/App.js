@@ -1,8 +1,6 @@
 import "./App.css";
-
-import { useState } from "react";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
-
+import { DarkModeProvider } from "./DarkModeContext.js";
 import LoginScreen from "./screens/LoginScreen";
 import ClaimDashboardScreen from "./screens/ClaimDashboardScreen.js";
 import NotFoundScreen from "./screens/NotFoundScreen.js";
@@ -11,18 +9,20 @@ import ClaimFilesScreen from "./screens/ClaimFilesScreen";
 
 function App() {
   return (
-    <BrowserRouter basename={"/front-end"}>
-      <Routes>
-        <Route path="/" element={<ClaimDashboardScreen />} />
-        <Route exact path="/front-end" element={<LoginScreen />} />
-        <Route path="*" element={<NotFoundScreen />} />
-        <Route path="/new-claim" element={<NewClaimScreen />} />
-        <Route path="/claim-files" element={<ClaimFilesScreen />} />
+    <DarkModeProvider>
+      <BrowserRouter basename={"/front-end"}>
+        <Routes>
+          <Route path="/" element={<ClaimDashboardScreen />} />
+          <Route exact path="/front-end" element={<LoginScreen />} />
+          <Route path="*" element={<NotFoundScreen />} />
+          <Route path="/new-claim" element={<NewClaimScreen />} />
+          <Route path="/claim-files" element={<ClaimFilesScreen />} />
 
-        {/* To be updated */}
-        {/* <Route path="/claim/:claimNumber" element={<ClaimDashboardScreen />} /> */}
-      </Routes>
-    </BrowserRouter>
+          {/* To be updated */}
+          {/* <Route path="/claim/:claimNumber" element={<ClaimDashboardScreen />} /> */}
+        </Routes>
+      </BrowserRouter>
+    </DarkModeProvider>
   );
 }
 

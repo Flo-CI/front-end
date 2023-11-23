@@ -1,10 +1,12 @@
-
+import React, { useContext } from 'react';
 import { Link } from "react-router-dom";
+import { DarkModeContext } from '../DarkModeContext'; // Import the context
 import logo from "../assets/Flo-CI_Icon.png";
-
 import { HomeIcon, Cog6ToothIcon, BellIcon } from "@heroicons/react/24/solid";
 
 function Navbar() {
+  const { darkMode, toggleDarkMode } = useContext(DarkModeContext); // Use the context
+
   return (
     <nav className="flex p-4 bg-green-500 justify-between items-center">
       <div className="flex items-center justify-start"> 
@@ -18,6 +20,8 @@ function Navbar() {
         <label className="switch">
           <input 
             type="checkbox" 
+            onChange={toggleDarkMode}
+            checked={darkMode}
           />
           <span className="slider round"></span>
         </label>
