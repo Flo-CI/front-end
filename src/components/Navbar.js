@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Link } from "react-router-dom";
 import logo from "../assets/Flo-CI_Icon.png";
 
@@ -6,12 +6,22 @@ import { HomeIcon, Cog6ToothIcon, BellIcon } from "@heroicons/react/24/solid";
 
 function Navbar() {
   return (
-    <nav className=" flex p-4 bg-green-500 justify-between items-center">
-      {/* Placeholder logo */}
-      <Link to="/" className="flex items-center justify-center">
-        <img src={logo} alt="logo" className=" h-12 pr-2" />
-        <h1 className="text-4xl font-bold">Flo.CI</h1>
-      </Link>
+    <nav className="flex p-4 bg-green-500 justify-between items-center">
+      <div className="flex items-center justify-start"> 
+        {/* Placeholder logo */}
+        <Link to="/" className="flex items-center justify-center mr-5">
+          <img src={logo} alt="logo" className=" h-12 pr-2" />
+          <h1 className="text-4xl font-bold">Flo.CI</h1>
+        </Link>
+
+        {/* Dark Mode Toggle */}
+        <label className="switch">
+          <input 
+            type="checkbox" 
+          />
+          <span className="slider round"></span>
+        </label>
+      </div>
 
       {/* Links */}
       <ul className="flex font-bold">
