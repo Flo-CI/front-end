@@ -53,7 +53,7 @@ function LoginScreen({ handleAuthentication }) {
       if (parseInt(passwordValue) === data["details"]["0"]["id"]) {
         // alert("The policy number and password is valid");
         dispatch(login(usernameValue));
-        navigate("/");
+        navigate("/dashboard");
         // Returns if account info is not correct
       } else {
         alert("The password is not correct for the given policy number");

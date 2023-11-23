@@ -8,7 +8,7 @@ function Navbar() {
   return (
     <nav className=" flex p-4 bg-green-500 justify-between items-center">
       {/* Placeholder logo */}
-      <Link to="/" className="flex items-center justify-center">
+      <Link to="/dashboard" className="flex items-center justify-center">
         <img src={logo} alt="logo" className=" h-12 pr-2" />
         <h1 className="text-4xl font-bold">Flo.CI</h1>
       </Link>
