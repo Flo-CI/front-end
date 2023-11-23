@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/Flo-CI_Icon.png";
 
-import { HomeIcon, Cog6ToothIcon, BellIcon } from "@heroicons/react/24/solid";
+import { HomeIcon, Cog6ToothIcon, BellIcon, ArrowRightOnRectangleIcon} from "@heroicons/react/24/solid";
 
 function Navbar() {
   return (
@@ -17,23 +17,23 @@ function Navbar() {
       <ul className="flex font-bold">
         <li className="px-2 flex p-2 m-2 bg-white rounded-md">
           {/* Dashboard */}
-          <Link to="/" className="flex">
+          <Link to="/dashboard" className="flex">
             <p className="mr-2">Home</p> <HomeIcon className="h-6 w-6" />
           </Link>
         </li>
         <li className="px-2 flex p-2 m-2 bg-white rounded-md">
-          {/* Settings */}
+          {/* Log Out */}
           <Link to="/" className="flex">
-            <p className="mr-2">Settings</p>{" "}
-            <Cog6ToothIcon className="h-6 w-6" />
+            <p className="mr-2">Log Out</p>{" "}
+            <ArrowRightOnRectangleIcon className="h-6 w-6" />
           </Link>
         </li>
-        <li className="px-2 flex p-2 m-2 bg-white rounded-md">
-          <Link to="/" className="flex">
-            <p className="mr-2">Notifications</p>{" "}
-            <BellIcon className="h-6 w-6" />
-          </Link>
-        </li>
+        {/*<li className="px-2 flex p-2 m-2 bg-white rounded-md">*/}
+        {/*  <Link to="/" className="flex">*/}
+        {/*    <p className="mr-2">Notifications</p>{" "}*/}
+        {/*    <BellIcon className="h-6 w-6" />*/}
+        {/*  </Link>*/}
+        {/*</li>*/}
       </ul>
     </nav>
   );
