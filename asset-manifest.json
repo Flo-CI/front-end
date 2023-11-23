@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/front-end/static/css/main.a059318a.css",
-    "main.js": "/front-end/static/js/main.b15f8114.js",
+    "main.js": "/front-end/static/js/main.ce4018a8.js",
     "static/js/787.46c27676.chunk.js": "/front-end/static/js/787.46c27676.chunk.js",
     "static/media/Flo-CI_Icon.png": "/front-end/static/media/Flo-CI_Icon.c02a1483409db6a898cf.png",
     "static/media/test-file-1.pdf": "/front-end/static/media/test-file-1.2aadcf7ed9f2adc9c77d.pdf",
@@ -9,11 +9,11 @@
     "static/media/background.png": "/front-end/static/media/background.b418bbfa63a4205d5596.png",
     "index.html": "/front-end/index.html",
     "main.a059318a.css.map": "/front-end/static/css/main.a059318a.css.map",
-    "main.b15f8114.js.map": "/front-end/static/js/main.b15f8114.js.map",
+    "main.ce4018a8.js.map": "/front-end/static/js/main.ce4018a8.js.map",
     "787.46c27676.chunk.js.map": "/front-end/static/js/787.46c27676.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a059318a.css",
-    "static/js/main.b15f8114.js"
+    "static/js/main.ce4018a8.js"
   ]
 }
