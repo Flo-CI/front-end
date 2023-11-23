@@ -61,11 +61,15 @@ export default function ClaimFilesScreen() {
         }
     }
 
+    const color = darkMode 
+        ? '#333'
+        : 'white';
+
   return (
     <div className={`${darkMode ? 'dark' : 'light'} bg-gray-50 h-screen`}>
       <Navbar />
         <div className="flex justify-between items-start pt-4">
-          <h1 className=" px-2 text-6xl font-bold ">ClaimName Claim</h1>
+          <h1 className=" px-2 text-6xl font-bold ">Claim Name</h1>
         </div>
       <Grid container direction={'row'}>
         <Grid item xs={spacing}>
@@ -73,7 +77,7 @@ export default function ClaimFilesScreen() {
             <h1 className=" px-2 text-4xl font-bold ">Claim Files</h1>
           </div>
           <div className="flex justify-center items-start pt-4">
-            <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+            <List sx={{ width: "100%", maxWidth: 360, bgcolor: color }}>
               <ListItem>
                 <ListItemAvatar>
                   <div onClick={() => handleFileClick(file1)}>
@@ -85,6 +89,11 @@ export default function ClaimFilesScreen() {
                 <ListItemText
                   primary="Certification of Death - Physician Statement"
                   secondary=" Upload Date: Oct 28, 2023"
+                  sx={{
+                    '& .MuiListItemText-secondary': {
+                      color: darkMode ? 'white' : 'black', // Change as needed
+                    },
+                  }}
                 />
                 <ListItemAvatar>
                   <Avatar>
@@ -103,6 +112,11 @@ export default function ClaimFilesScreen() {
                 <ListItemText
                   primary="Life Claim Information Request"
                   secondary="Upload Date: Nov 7, 2023"
+                  sx={{
+                    '& .MuiListItemText-secondary': {
+                      color: darkMode ? 'white' : 'black', // Change as needed
+                    },
+                  }}
                 />
                 <ListItemAvatar>
                   <Avatar>
@@ -116,7 +130,7 @@ export default function ClaimFilesScreen() {
             <h1 className=" px-2 text-4xl font-bold ">Missing Files</h1>
           </div>
           <div className="flex justify-center items-start pt-4">
-            <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+            <List sx={{ width: "100%", maxWidth: 360, bgcolor: color }}>
               <ListItem>
                 <ListItemAvatar>
                   <Avatar>

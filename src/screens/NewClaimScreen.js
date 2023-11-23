@@ -43,6 +43,8 @@ export default function NewClaimScreen() {
   // useAuthenticationCheck();
   const { darkMode } = useContext(DarkModeContext);
 
+  const colour = darkMode ? "white" : "black"
+
   return (
     <div className={`${darkMode ? 'dark' : 'light'} bg-gray-50 h-screen`}>
       <Navbar />
@@ -55,6 +57,31 @@ export default function NewClaimScreen() {
           select
           label="Select"
           helperText="Please select your claim type"
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: colour,
+              },
+              "&:hover fieldset": {
+                borderColor: colour,
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: colour,
+              },
+            },
+            "& .MuiInputLabel-root": { // Target the label
+              color: colour,
+            },
+            "& .MuiFormHelperText-root": { // Target the helper text
+              color: colour,
+            },
+            "& .MuiSelect-icon": { // Target the dropdown arrow
+              color: colour,
+            },
+            "& .MuiSelect-select": { // Target the selected value
+              color: colour,
+            },
+          }}
         >
           {claimTypes.map((option) => (
             <MenuItem key={option.value} value={option.value}>

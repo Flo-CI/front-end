@@ -9,13 +9,16 @@ export default function ClaimCard({
   applicationStatus,
 }) {
   const { darkMode } = useContext(DarkModeContext);
+  const color = darkMode 
+        ? 'bg-green-500 text-white rounded-t-xl rou'
+        : 'bg-green-300 rounded-t-xl rou';
   return (
       <Link
         to={`/claim/${claimNumber}`}
         className="border-2 rounded-xl w-80 h-32 m-4 bg-white"
       >
         {/* Claim name */}
-        <div className=" bg-green-300 rounded-t-xl rou">
+        <div className={color}>
           <h1 className="px-4 py-4 font-bold text-xl">{claimName}</h1>
         </div>
 
