@@ -16,7 +16,6 @@ import file2 from "../assets/test-file-2.pdf";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 import {Grid} from "@mui/material";
 import { Modal, Button } from "react-bootstrap";
-import 'bootstrap/dist/css/bootstrap.min.css';
 export default function ClaimFilesScreen() {
   // useAuthenticationCheck();
 
@@ -113,7 +112,7 @@ export default function ClaimFilesScreen() {
                   }}
                 />
                 <ListItemAvatar>
-                  <Avatar>
+                <Avatar onClick={handleClick}>
                     <DeleteIcon />
                   </Avatar>
                 </ListItemAvatar>
