@@ -64,12 +64,6 @@ export default function NewClaimScreen() {
       <div className="flex justify-center items-start pt-4">
         <h1 className=" px-2 text-2xl font-bold ">Upload any initial files</h1>
       </div>
-      <div className="flex justify-center items-start pt-4">
-        <Button component="label" variant="contained" color="success">
-          Upload files
-          <VisuallyHiddenInput type="file" />
-        </Button>
-      </div>
       <ClaimFilesButton></ClaimFilesButton>
     </div>
   );
