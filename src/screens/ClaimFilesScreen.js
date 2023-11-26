@@ -149,7 +149,7 @@ export default function ClaimFilesScreen() {
         </Grid>
         {fileOpen ?
           (<Grid item>
-            <div className=" bg-gray-50 h-screen" onClick={handlePageNum}>
+            <div className={`${darkMode ? 'dark' : 'light'} bg-gray-50 h-screen`} onClick={handlePageNum}>
               <Document file={fileName}  onLoadSuccess={documentLoadSuccess}>
                 <Page pageNumber={pageNum} renderTextLayer={false} renderAnnotationLayer={false} scale={0.7}/>
               </Document>
