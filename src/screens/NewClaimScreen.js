@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useContext} from "react";
+import { DarkModeContext } from "../DarkModeContext.js";
 import Navbar from "../components/Navbar.js";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
@@ -40,9 +41,12 @@ const VisuallyHiddenInput = styled("input")({
 
 export default function NewClaimScreen() {
   // useAuthenticationCheck();
+  const { darkMode } = useContext(DarkModeContext);
+
+  const colour = darkMode ? "white" : "black"
 
   return (
-    <div className=" bg-gray-50 h-screen">
+    <div className={`${darkMode ? 'dark' : 'light'} bg-gray-50 h-screen`}>
       <Navbar />
       <div className="flex justify-between items-start pt-4">
         <h1 className=" px-2 text-6xl font-bold ">File A New Claim</h1>
@@ -53,6 +57,31 @@ export default function NewClaimScreen() {
           select
           label="Select"
           helperText="Please select your claim type"
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: colour,
+              },
+              "&:hover fieldset": {
+                borderColor: colour,
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: colour,
+              },
+            },
+            "& .MuiInputLabel-root": { // Target the label
+              color: colour,
+            },
+            "& .MuiFormHelperText-root": { // Target the helper text
+              color: colour,
+            },
+            "& .MuiSelect-icon": { // Target the dropdown arrow
+              color: colour,
+            },
+            "& .MuiSelect-select": { // Target the selected value
+              color: colour,
+            },
+          }}
         >
           {claimTypes.map((option) => (
             <MenuItem key={option.value} value={option.value}>
