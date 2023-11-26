@@ -63,8 +63,6 @@ export default function NewClaimScreen() {
       </div>
       <div className="flex justify-center items-start pt-4">
       </div>
-      <div className="flex justify-center items-start pt-4">
-      </div>
       <ClaimFilesButton></ClaimFilesButton>
     </div>
   );
