@@ -90,13 +90,6 @@ export default function NewClaimScreen() {
           ))}
         </TextField>
       </div>
-      <div className="flex justify-center items-start pt-4">
-      <div className="flex justify-center items-start pt-4">
-        <Button component="label" variant="contained" color="success">
-          Upload files
-          <VisuallyHiddenInput type="file" />
-        </Button>
-      </div>
       <ClaimFilesButton></ClaimFilesButton>
     </div>
   );
