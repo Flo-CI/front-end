@@ -7,6 +7,17 @@ import NewClaimScreen from "./NewClaimScreen";
 import NewClaimButton from "../components/NewClaimButton";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 
+// Import Worker
+import { Worker } from '@react-pdf-viewer/core';
+// Import the main Viewer component
+import { Viewer } from '@react-pdf-viewer/core';
+// Import the styles
+import '@react-pdf-viewer/core/lib/styles/index.css';
+// default layout plugin
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
+// Import styles of default layout plugin
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+
 export default function ClaimDashboard() {
   const [currentClaims, setCurrentClaims] = useState([]);
   const [pastClaims, setPastClaims] = useState([]);
