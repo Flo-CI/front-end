@@ -16,6 +16,16 @@ import file2 from "../assets/test-file-2.pdf";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 import {Grid} from "@mui/material";
 
+// Import Worker
+import { Worker } from '@react-pdf-viewer/core';
+// Import the main Viewer component
+import { Viewer } from '@react-pdf-viewer/core';
+// Import the styles
+import '@react-pdf-viewer/core/lib/styles/index.css';
+// default layout plugin
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
+// Import styles of default layout plugin
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 export default function ClaimFilesScreen() {
   // useAuthenticationCheck();
 
@@ -27,7 +37,14 @@ export default function ClaimFilesScreen() {
   const [pageNum, setPageNum] = useState(1);
   const [pageMax, setPageMax] = useState(1);
   const { darkMode } = useContext(DarkModeContext);
+ // creating new plugin instance
+ const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
+ // pdf file onChange state
+ const [pdfFile, setPdfFile]=useState(null);
+
+ // pdf file error state
+ const [pdfError, setPdfError]=useState('');
     useEffect(() => {
         if (fileOpen === true) {
             setSpacing(7);
