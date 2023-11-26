@@ -15,7 +15,7 @@ const NotFoundScreen = () => {
         <p className="font-semibold pb-2">
           Sorry, we couldn't find what you were looking for...
         </p>
-        <Link to={"/"} className="p-2 font-semibold bg-green-400 rounded-md">
+        <Link to={"/dashboard"} className="p-2 font-semibold bg-green-400 rounded-md">
           Back to dashboard
         </Link>
       </div>

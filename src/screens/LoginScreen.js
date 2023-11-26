@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../state/store";
 
 import background from "../assets/background.png";
-import flo from "../assets/Flo-CI_Icon.png";
+import logo from "../assets/securian_name.png";
 
 function LoginScreen({ handleAuthentication }) {
   /* 
@@ -53,7 +53,7 @@ function LoginScreen({ handleAuthentication }) {
       if (parseInt(passwordValue) === data["details"]["0"]["id"]) {
         // alert("The policy number and password is valid");
         dispatch(login(usernameValue));
-        navigate("/");
+        navigate("/dashboard");
         // Returns if account info is not correct
       } else {
         alert("The password is not correct for the given policy number");
@@ -109,8 +109,8 @@ function LoginScreen({ handleAuthentication }) {
           className="h-screen w-full blur-sm hue-rotate-30"
         />
         <div className="flex justify-center items-center z-10 p-12 max-w-1/2 absolute">
-          <h1 className="text-8xl font-bold text-green-900">Sedurian Canada</h1>
-          <img src={flo} alt="FloCI Logo" className="h-40" />
+          {/*<h1 className="text-8xl font-bold text-green-900">Sedurian Canada</h1>*/}
+          <img src={logo} alt="FloCI Logo" className="h-80" />
         </div>
       </div>
 
