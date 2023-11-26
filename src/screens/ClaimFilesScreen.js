@@ -15,17 +15,8 @@ import file1 from "../assets/test-file-1.pdf";
 import file2 from "../assets/test-file-2.pdf";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 import {Grid} from "@mui/material";
-
-// Import Worker
-import { Worker } from '@react-pdf-viewer/core';
-// Import the main Viewer component
-import { Viewer } from '@react-pdf-viewer/core';
-// Import the styles
-import '@react-pdf-viewer/core/lib/styles/index.css';
-// default layout plugin
-import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
-// Import styles of default layout plugin
-import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+import { Modal, Button } from "react-bootstrap";
+import 'bootstrap/dist/css/bootstrap.min.css';
 export default function ClaimFilesScreen() {
   // useAuthenticationCheck();
 
@@ -37,14 +28,23 @@ export default function ClaimFilesScreen() {
   const [pageNum, setPageNum] = useState(1);
   const [pageMax, setPageMax] = useState(1);
   const { darkMode } = useContext(DarkModeContext);
- // creating new plugin instance
- const defaultLayoutPluginInstance = defaultLayoutPlugin();
+  const [show, setShow] = useState(false);
+  
+  const [showModal, setShowModal] = useState(false);
 
- // pdf file onChange state
- const [pdfFile, setPdfFile]=useState(null);
+ const deleteFile = () => {
+    // your code to delete the file
+    alert('File deleted successfully!');
+ };
 
- // pdf file error state
- const [pdfError, setPdfError]=useState('');
+ const handleClick = () => {
+    setShowModal(true);
+ };
+
+ const handleClose = () => {
+    setShowModal(false);
+ };
+
     useEffect(() => {
         if (fileOpen === true) {
             setSpacing(7);
@@ -136,7 +136,8 @@ export default function ClaimFilesScreen() {
                   }}
                 />
                 <ListItemAvatar>
-                  <Avatar>
+                  
+                  <Avatar onClick={handleClick}>
                     <DeleteIcon />
                   </Avatar>
                 </ListItemAvatar>
@@ -173,6 +174,24 @@ export default function ClaimFilesScreen() {
             </div>
           </Grid>) : null}
       </Grid>
+      {/* Modal for file deletion confirmation */}
+      <Modal show={showModal} onHide={handleClose} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm File Deletion</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete this file?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={deleteFile}> {/* Change variant to "danger" for red color */}
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
     </div>
   );
 }

@@ -90,6 +90,7 @@ export default function NewClaimScreen() {
           ))}
         </TextField>
       </div>
+      
       <ClaimFilesButton></ClaimFilesButton>
     </div>
   );
