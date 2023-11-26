@@ -12,7 +12,7 @@ export default function ClaimDashboard() {
   const [pastClaims, setPastClaims] = useState([]);
   const { darkMode } = useContext(DarkModeContext);
 
-  // useAuthenticationCheck();
+  useAuthenticationCheck();
 
   return (
     <div className={`${darkMode ? 'dark' : 'light'} bg-gray-50 h-screen`}>

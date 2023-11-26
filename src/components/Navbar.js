@@ -11,6 +11,7 @@ function Navbar() {
   : 'px-2 flex p-2 m-2 bg-white rounded-md';
 
   return (
+
     <nav className="flex p-4 bg-green-500 justify-between items-center">
       <div className="flex items-center justify-start"> 
         {/* Placeholder logo */}
@@ -33,11 +34,13 @@ function Navbar() {
       {/* Links */}
       <ul className="flex font-bold">
         <li className={liClass}>
+
           {/* Dashboard */}
-          <Link to="/" className="flex">
+          <Link to="/dashboard" className="flex">
             <p className="mr-2">Home</p> <HomeIcon className="h-6 w-6" />
           </Link>
         </li>
+
         <li className={liClass}>
           {/* Settings */}
           <Link to="/" className="flex">
@@ -46,11 +49,18 @@ function Navbar() {
           </Link>
         </li>
         <li className={liClass}>
+
           <Link to="/" className="flex">
-            <p className="mr-2">Notifications</p>{" "}
-            <BellIcon className="h-6 w-6" />
+            <p className="mr-2">Log Out</p>{" "}
+            <ArrowRightOnRectangleIcon className="h-6 w-6" />
           </Link>
         </li>
+        {/*<li className="px-2 flex p-2 m-2 bg-white rounded-md">*/}
+        {/*  <Link to="/" className="flex">*/}
+        {/*    <p className="mr-2">Notifications</p>{" "}*/}
+        {/*    <BellIcon className="h-6 w-6" />*/}
+        {/*  </Link>*/}
+        {/*</li>*/}
       </ul>
     </nav>
   );
