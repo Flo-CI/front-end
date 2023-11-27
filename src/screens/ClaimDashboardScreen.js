@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, {useState, useContext, useEffect} from "react";
 import { Button } from "@mui/base";
 import { DarkModeContext } from "../DarkModeContext.js";
 import ClaimCard from "../components/ClaimCard.js";
@@ -13,6 +13,20 @@ export default function ClaimDashboard() {
   const { darkMode } = useContext(DarkModeContext);
 
   useAuthenticationCheck();
+
+  const [allClaims, setAllClaims] = useState([]);
+
+  useEffect(() => {
+    const fetchClaims = async () => {
+      const res = await fetch("http://localhost:8080/api/claims");
+      const data = await res.json();
+      setAllClaims(data);
+    };
+    fetchClaims();
+  }, []);
+
+  let currentClaimsList = data.filter(claim => claim.status === "Under Review" || claim.status === "Received");
+  let pastClaimsList = data.filter(claim => claim.status === "Accepted" || claim.status === "Rejected");
 
   return (
     <div className={`${darkMode ? 'dark' : 'light'} bg-gray-50 h-screen`}>
@@ -29,48 +43,14 @@ export default function ClaimDashboard() {
         <h1 className="px-3 text-2xl">Current Claims</h1>
 
         <div className="flex flex-wrap items-center">
-          <ClaimCard
-            claimName={"Loss of Life Claim"}
-            applicationStatus={"Received"}
-            claimNumber={"1234567891011314"}
-            dateFiled={"2023-10-17"}
-          />
-          <ClaimCard
-            claimName={"Life Insurance Claim"}
-            applicationStatus={"Under Review"}
-            claimNumber={"1234567899289314"}
-            dateFiled={"2023-10-10"}
-          />
-          <ClaimCard
-            claimName={"Illness Claim"}
-            applicationStatus={"Under Review"}
-            claimNumber={"1234567891011314"}
-            dateFiled={"2023-10-10"}
-          />
-          <ClaimCard
-            claimName={"Illness Claim"}
-            applicationStatus={"Under Review"}
-            claimNumber={"1234567891011314"}
-            dateFiled={"2023-10-10"}
-          />
-          <ClaimCard
-            claimName={"Illness Claim"}
-            applicationStatus={"Under Review"}
-            claimNumber={"1234567891011314"}
-            dateFiled={"2023-10-10"}
-          />
-          <ClaimCard
-            claimName={"Illness Claim"}
-            applicationStatus={"Under Review"}
-            claimNumber={"1234567891011314"}
-            dateFiled={"2023-10-10"}
-          />
-          <ClaimCard
-            claimName={"Illness Claim"}
-            applicationStatus={"Under Review"}
-            claimNumber={"1234567891011314"}
-            dateFiled={"2023-10-10"}
-          />
+          {currentClaimsList.map((claim) => (
+            <ClaimCard>
+              claimNumber={claim.claimNumber}
+              claimName={claim.type}
+              applicationStatus={claim.status}
+              dateFiled={claim.dateCreated}
+            </ClaimCard>
+          ))}
         </div>
       </div>
 
@@ -79,18 +59,14 @@ export default function ClaimDashboard() {
         <h1 className="px-3 text-2xl">Past Claims</h1>
 
         <div className="flex flex-wrap items-center">
-          <ClaimCard
-            claimName={"Loss of Life Claim"}
-            applicationStatus={"Rejected"}
-            claimNumber={"1234567891011314"}
-            dateFiled={"2019-10-17"}
-          />
-          <ClaimCard
-            claimName={"Life Insurance Claim"}
-            applicationStatus={"Accepted"}
-            claimNumber={"1234567899289314"}
-            dateFiled={"2019-10-10"}
-          />
+          {pastClaimsList.map((claim) => (
+              <ClaimCard>
+                claimNumber={claim.claimNumber}
+                claimName={claim.type}
+                applicationStatus={claim.status}
+                dateFiled={claim.dateCreated}
+              </ClaimCard>
+          ))}
         </div>
       </div>
     </div>
