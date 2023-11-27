@@ -8,8 +8,6 @@ import NewClaimButton from "../components/NewClaimButton";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 
 export default function ClaimDashboard() {
-  const [currentClaims, setCurrentClaims] = useState([]);
-  const [pastClaims, setPastClaims] = useState([]);
   const { darkMode } = useContext(DarkModeContext);
 
   useAuthenticationCheck();
