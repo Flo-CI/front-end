@@ -16,19 +16,23 @@ export default function ClaimDashboard() {
 
   useEffect(() => {
     const fetchClaims = async () => {
-      const res = await fetch("https://jsonplaceholder.typicode.com/posts");
-      const data = await res.json();
-      setAllClaims(data);
+        try {
+            const res = await fetch("https://ciflo.azurewebsites.net/claims?policyNumber=1234567890");
+            const data = await res.json();
+            setAllClaims(data);
+        } catch (error) {
+            console.error("Error fetching claims", error);
+        }
     };
-    fetchClaims();
+
+    fetchClaims().then(r => console.log("Claims fetched"));
   }, []);
 
-  let currentClaimsList = data.filter(claim => claim.userId === 1)
-  let pastClaimsList = data.filter(claim => claim.userId === 2)
-  // let currentClaimsList = data.filter(claim => claim.status === "Under Review" || claim.status === "Received");
-  // let pastClaimsList = data.filter(claim => claim.status === "Accepted" || claim.status === "Rejected");
+  const currentClaimsList = allClaims.filter(claim => claim.status === "Under Review" || claim.status === "Received");
+  console.log(currentClaimsList)
+  const pastClaimsList = allClaims.filter(claim => claim.status === "Accepted" || claim.status === "Rejected");
 
-  return (
+    return (
     <div className={`${darkMode ? 'dark' : 'light'} bg-gray-50 h-screen`}>
       <Navbar />
 
@@ -44,51 +48,29 @@ export default function ClaimDashboard() {
 
         <div className="flex flex-wrap items-center">
           {currentClaimsList.map((claim) => (
-              <ClaimCard>
-                claimNumber={claim.userId}
-                claimName={claim.id}
-                applicationStatus={claim.title}
-                dateFiled={claim.body}
+              <ClaimCard
+                claimNumber={claim.claimNumber}
+                claimName={claim.type}
+                applicationStatus={claim.status}
+                dateFiled={claim.dateCreated}>
               </ClaimCard>
           ))}
         </div>
-
-        {/*<div className="flex flex-wrap items-center">*/}
-        {/*  {currentClaimsList.map((claim) => (*/}
-        {/*    <ClaimCard>*/}
-        {/*      claimNumber={claim.claimNumber}*/}
-        {/*      claimName={claim.type}*/}
-        {/*      applicationStatus={claim.status}*/}
-        {/*      dateFiled={claim.dateCreated}*/}
-        {/*    </ClaimCard>*/}
-        {/*  ))}*/}
-        {/*</div>*/}
       </div>
 
       {/* Past claims */}
       <div className="">
         <h1 className="px-3 text-2xl">Past Claims</h1>
-
-        <div className="flex flex-wrap items-center">
-          {pastClaimsList.map((claim) => (
-              <ClaimCard>
-                claimNumber={claim.userId}
-                claimName={claim.id}
-                applicationStatus={claim.title}
-                dateFiled={claim.body}
-              </ClaimCard>
-          ))}
-        </div>
-        {/*<div className="flex flex-wrap items-center">*/}
-        {/*  {pastClaimsList.map((claim) => (*/}
-        {/*      <ClaimCard>*/}
-        {/*        claimNumber={claim.claimNumber}*/}
-        {/*        claimName={claim.type}*/}
-        {/*        applicationStatus={claim.status}*/}
-        {/*        dateFiled={claim.dateCreated}*/}
-        {/*      </ClaimCard>*/}
-        {/*  ))}*/}
-        {/*</div>*/}
+          <div className="flex flex-wrap items-center">
+              {pastClaimsList.map((claim) => (
+                  <ClaimCard
+                      claimNumber={claim.claimNumber}
+                      claimName={claim.type}
+                      applicationStatus={claim.status}
+                      dateFiled={claim.dateCreated}>
+                  </ClaimCard>
+              ))}
+          </div> className="flex flex-wrap items-center">*/}
       </div>
     </div>
   );
