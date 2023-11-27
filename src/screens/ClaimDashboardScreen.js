@@ -16,15 +16,17 @@ export default function ClaimDashboard() {
 
   useEffect(() => {
     const fetchClaims = async () => {
-      const res = await fetch("http://localhost:8080/api/claims");
+      const res = await fetch("https://jsonplaceholder.typicode.com/posts");
       const data = await res.json();
       setAllClaims(data);
     };
     fetchClaims();
   }, []);
 
-  let currentClaimsList = data.filter(claim => claim.status === "Under Review" || claim.status === "Received");
-  let pastClaimsList = data.filter(claim => claim.status === "Accepted" || claim.status === "Rejected");
+  let currentClaimsList = data.filter(claim => claim.userId === 1)
+  let pastClaimsList = data.filter(claim => claim.userId === 2)
+  // let currentClaimsList = data.filter(claim => claim.status === "Under Review" || claim.status === "Received");
+  // let pastClaimsList = data.filter(claim => claim.status === "Accepted" || claim.status === "Rejected");
 
   return (
     <div className={`${darkMode ? 'dark' : 'light'} bg-gray-50 h-screen`}>
@@ -42,14 +44,25 @@ export default function ClaimDashboard() {
 
         <div className="flex flex-wrap items-center">
           {currentClaimsList.map((claim) => (
-            <ClaimCard>
-              claimNumber={claim.claimNumber}
-              claimName={claim.type}
-              applicationStatus={claim.status}
-              dateFiled={claim.dateCreated}
-            </ClaimCard>
+              <ClaimCard>
+                claimNumber={claim.userId}
+                claimName={claim.id}
+                applicationStatus={claim.title}
+                dateFiled={claim.body}
+              </ClaimCard>
           ))}
         </div>
+
+        {/*<div className="flex flex-wrap items-center">*/}
+        {/*  {currentClaimsList.map((claim) => (*/}
+        {/*    <ClaimCard>*/}
+        {/*      claimNumber={claim.claimNumber}*/}
+        {/*      claimName={claim.type}*/}
+        {/*      applicationStatus={claim.status}*/}
+        {/*      dateFiled={claim.dateCreated}*/}
+        {/*    </ClaimCard>*/}
+        {/*  ))}*/}
+        {/*</div>*/}
       </div>
 
       {/* Past claims */}
@@ -59,13 +72,23 @@ export default function ClaimDashboard() {
         <div className="flex flex-wrap items-center">
           {pastClaimsList.map((claim) => (
               <ClaimCard>
-                claimNumber={claim.claimNumber}
-                claimName={claim.type}
-                applicationStatus={claim.status}
-                dateFiled={claim.dateCreated}
+                claimNumber={claim.userId}
+                claimName={claim.id}
+                applicationStatus={claim.title}
+                dateFiled={claim.body}
               </ClaimCard>
           ))}
         </div>
+        {/*<div className="flex flex-wrap items-center">*/}
+        {/*  {pastClaimsList.map((claim) => (*/}
+        {/*      <ClaimCard>*/}
+        {/*        claimNumber={claim.claimNumber}*/}
+        {/*        claimName={claim.type}*/}
+        {/*        applicationStatus={claim.status}*/}
+        {/*        dateFiled={claim.dateCreated}*/}
+        {/*      </ClaimCard>*/}
+        {/*  ))}*/}
+        {/*</div>*/}
       </div>
     </div>
   );
