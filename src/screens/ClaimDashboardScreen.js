@@ -19,7 +19,7 @@ export default function ClaimDashboard() {
         try {
             const res = await fetch("https://ciflo.azurewebsites.net/claims?policyNumber=1234567890");
             const data = await res.json();
-            setAllClaims(data);
+            setAllClaims(data.details);
         } catch (error) {
             console.error("Error fetching claims", error);
         }
@@ -27,7 +27,7 @@ export default function ClaimDashboard() {
 
     fetchClaims().then(r => console.log("Claims fetched"));
   }, []);
-
+  console.log(allClaims)
   const currentClaimsList = allClaims.filter(claim => claim.status === "Under Review" || claim.status === "Received");
   console.log(currentClaimsList)
   const pastClaimsList = allClaims.filter(claim => claim.status === "Accepted" || claim.status === "Rejected");
@@ -70,7 +70,7 @@ export default function ClaimDashboard() {
                       dateFiled={claim.dateCreated}>
                   </ClaimCard>
               ))}
-          </div> className="flex flex-wrap items-center">*/}
+          </div>
       </div>
     </div>
   );
