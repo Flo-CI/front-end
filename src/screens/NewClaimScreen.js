@@ -10,18 +10,6 @@ import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 
 const claimTypes = [
   {
-    value: "illness",
-    label: "Critical Illness",
-  },
-  {
-    value: "disability",
-    label: "Disability",
-  },
-  {
-    value: "job-loss",
-    label: "Involutary Job Loss",
-  },
-  {
     value: "death",
     label: "Loss of Life",
   },
@@ -89,15 +77,6 @@ export default function NewClaimScreen() {
             </MenuItem>
           ))}
         </TextField>
-      </div>
-      <div className="flex justify-center items-start pt-4">
-        <h1 className=" px-2 text-2xl font-bold ">Upload any initial files</h1>
-      </div>
-      <div className="flex justify-center items-start pt-4">
-        <Button component="label" variant="contained" color="success">
-          Upload files
-          <VisuallyHiddenInput type="file" />
-        </Button>
       </div>
       <ClaimFilesButton></ClaimFilesButton>
     </div>
