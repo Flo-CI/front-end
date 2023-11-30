@@ -49,6 +49,50 @@ const LifeClaimInformationRequestForm = () => {
   const [signature, setSignature] = useState("");
   const [date, setDate] = useState("");
 
+  // Submit Form
+  const handleSubmit = () => {
+    // Aggregate all the data into one object
+    const formData = {
+      claimNumber: claimNumber,
+      deathCertificateCompleted: deathCertificateCompleted,
+      deathCertificateAttached: deathCertificateAttached,
+      statementOfLendingInstitutionCompleted:
+        statementOfLendingInstitutionCompleted,
+      deceasedName: deceasedName,
+      dob: dob,
+      dod: dod,
+      causeOfDeath: causeOfDeath,
+      hospitalized: hospitalized,
+      hospitalizationDate: hospitalizationDate,
+      hospitalName: hospitalName,
+      hospitalAddress: hospitalAddress,
+      physicianName: physicianName,
+      physicianAddress: physicianAddress,
+      physicianPhone: physicianPhone,
+      familyDoctorName: familyDoctorName,
+      familyDoctorAddress: familyDoctorAddress,
+      familyDoctorPhone: familyDoctorPhone,
+      otherPhysicians: otherPhysicians,
+      occupation: occupation,
+      dateLastWorked: dateLastWorked,
+      employer: employer,
+      employerAddress: employerAddress,
+      employerPhone: employerPhone,
+      kinName: kinName,
+      kinAddress: kinAddress,
+      kinPhone: kinPhone,
+      kinRelationship: kinRelationship,
+      signature: signature,
+      signatureDate: date,
+    };
+
+    // Send the data to the server
+
+    // Refetch the data from the server
+
+    return;
+  };
+
   return (
     <div>
       {/* Header */}
