@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import { DarkModeContext } from "../DarkModeContext.js";
 import Navbar from "../components/Navbar.js";
 import TextField from "@mui/material/TextField";
@@ -10,7 +10,7 @@ import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 
 const claimTypes = [
   {
-    value: "death",
+    value: "Loss of Life Claim",
     label: "Loss of Life",
   },
 ];
@@ -33,6 +33,29 @@ export default function NewClaimScreen() {
 
   const colour = darkMode ? "white" : "black"
 
+  const [selectedClaimType, setSelectedClaimType] = useState(""); // State to manage selected claim type
+
+  const handleClaimTypeChange = (event) => {
+    setSelectedClaimType(event.target.value); // Update the selected claim type
+  };
+
+  const submitClaim = async () => {
+      console.log("submitting claim");
+      const claimType = document.getElementById("outlined-select-claim-type").value;
+      console.log(claimType);
+      let initialLink = "https://ciflo.azurewebsites.net/claim/create?policyNumber=1234567890";
+
+      const result = await fetch(, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ claimType }),
+      })
+      const data = await result.json();
+        console.log(data);
+  }
+
   return (
     <div className={`${darkMode ? 'dark' : 'light'} bg-gray-50 h-screen`}>
       <Navbar />
@@ -44,6 +67,8 @@ export default function NewClaimScreen() {
           id="outlined-select-claim-type"
           select
           label="Select"
+          value={selectedClaimType}
+          onChange={handleClaimTypeChange}
           helperText="Please select your claim type"
           sx={{
             "& .MuiOutlinedInput-root": {
@@ -78,7 +103,7 @@ export default function NewClaimScreen() {
           ))}
         </TextField>
       </div>
-      <ClaimFilesButton></ClaimFilesButton>
+      <ClaimFilesButton onClick={submitClaim}></ClaimFilesButton>
     </div>
   );
 }

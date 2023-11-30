@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { DarkModeContext } from '../DarkModeContext'; // Import the context
 
-export default function ClaimFilesButton() {
+export default function ClaimFilesButton(props) {
     const { darkMode } = useContext(DarkModeContext); // Use the context
 
     const buttonClass = darkMode 
@@ -16,6 +16,7 @@ export default function ClaimFilesButton() {
                     variant="contained"
                     color="success"
                     className={buttonClass}
+                    onClick={props.onClick}
                 >
                     Create Claim
                 </button>
