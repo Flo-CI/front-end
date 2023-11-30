@@ -34,6 +34,7 @@ export default function ClaimFilesScreen() {
  const deleteFile = () => {
     // your code to delete the file
     alert('File deleted successfully!');
+    setShowModal(false);
  };
 
  const handleClick = () => {
