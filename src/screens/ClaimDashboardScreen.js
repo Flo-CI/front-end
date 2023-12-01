@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, {useState, useContext, useEffect} from "react";
 import { Button } from "@mui/base";
 import { DarkModeContext } from "../DarkModeContext.js";
 import ClaimCard from "../components/ClaimCard.js";
@@ -8,13 +8,31 @@ import NewClaimButton from "../components/NewClaimButton";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 
 export default function ClaimDashboard() {
-  const [currentClaims, setCurrentClaims] = useState([]);
-  const [pastClaims, setPastClaims] = useState([]);
   const { darkMode } = useContext(DarkModeContext);
 
   useAuthenticationCheck();
 
-  return (
+  const [allClaims, setAllClaims] = useState([]);
+
+  useEffect(() => {
+    const fetchClaims = async () => {
+        try {
+            const res = await fetch("https://ciflo.azurewebsites.net/claims?policyNumber=1234567890");
+            const data = await res.json();
+            setAllClaims(data.details);
+        } catch (error) {
+            console.error("Error fetching claims", error);
+        }
+    };
+
+    fetchClaims().then(r => console.log("Claims fetched"));
+  }, []);
+  console.log(allClaims)
+  const currentClaimsList = allClaims.filter(claim => claim.status === "Under Review" || claim.status === "Received" || claim.status === "In Progress");
+  console.log(currentClaimsList)
+  const pastClaimsList = allClaims.filter(claim => claim.status === "Accepted" || claim.status === "Rejected");
+
+    return (
     <div className={`${darkMode ? 'dark' : 'light'} bg-gray-50 h-screen`}>
       <Navbar />
 
@@ -29,69 +47,30 @@ export default function ClaimDashboard() {
         <h1 className="px-3 text-2xl">Current Claims</h1>
 
         <div className="flex flex-wrap items-center">
-          <ClaimCard
-            claimName={"Loss of Life Claim"}
-            applicationStatus={"Received"}
-            claimNumber={"1234567891011314"}
-            dateFiled={"2023-10-17"}
-          />
-          <ClaimCard
-            claimName={"Life Insurance Claim"}
-            applicationStatus={"Under Review"}
-            claimNumber={"1234567899289314"}
-            dateFiled={"2023-10-10"}
-          />
-          <ClaimCard
-            claimName={"Illness Claim"}
-            applicationStatus={"Under Review"}
-            claimNumber={"1234567891011314"}
-            dateFiled={"2023-10-10"}
-          />
-          <ClaimCard
-            claimName={"Illness Claim"}
-            applicationStatus={"Under Review"}
-            claimNumber={"1234567891011314"}
-            dateFiled={"2023-10-10"}
-          />
-          <ClaimCard
-            claimName={"Illness Claim"}
-            applicationStatus={"Under Review"}
-            claimNumber={"1234567891011314"}
-            dateFiled={"2023-10-10"}
-          />
-          <ClaimCard
-            claimName={"Illness Claim"}
-            applicationStatus={"Under Review"}
-            claimNumber={"1234567891011314"}
-            dateFiled={"2023-10-10"}
-          />
-          <ClaimCard
-            claimName={"Illness Claim"}
-            applicationStatus={"Under Review"}
-            claimNumber={"1234567891011314"}
-            dateFiled={"2023-10-10"}
-          />
+          {currentClaimsList.map((claim) => (
+              <ClaimCard
+                claimNumber={claim.claimNumber}
+                claimName={claim.type}
+                applicationStatus={claim.status}
+                dateFiled={claim.dateCreated}>
+              </ClaimCard>
+          ))}
         </div>
       </div>
 
       {/* Past claims */}
       <div className="">
         <h1 className="px-3 text-2xl">Past Claims</h1>
-
-        <div className="flex flex-wrap items-center">
-          <ClaimCard
-            claimName={"Loss of Life Claim"}
-            applicationStatus={"Rejected"}
-            claimNumber={"1234567891011314"}
-            dateFiled={"2019-10-17"}
-          />
-          <ClaimCard
-            claimName={"Life Insurance Claim"}
-            applicationStatus={"Accepted"}
-            claimNumber={"1234567899289314"}
-            dateFiled={"2019-10-10"}
-          />
-        </div>
+          <div className="flex flex-wrap items-center">
+              {pastClaimsList.map((claim) => (
+                  <ClaimCard
+                      claimNumber={claim.claimNumber}
+                      claimName={claim.type}
+                      applicationStatus={claim.status}
+                      dateFiled={claim.dateCreated}>
+                  </ClaimCard>
+              ))}
+          </div>
       </div>
     </div>
   );
