@@ -41,19 +41,19 @@ export default function NewClaimScreen() {
 
   const submitClaim = async () => {
       console.log("submitting claim");
-      const claimType = document.getElementById("outlined-select-claim-type").value;
-      console.log(claimType);
-      let initialLink = "https://ciflo.azurewebsites.net/claim/create?policyNumber=1234567890";
+      console.log(selectedClaimType);
+      // const claimType = document.getElementById("outlined-select-claim-type").value;
+      // console.log(claimType);[
+      let initialLink = `https://ciflo.azurewebsites.net/claim/create?policyNumber=1234567890&type=${selectedClaimType}`;
 
-      const result = await fetch(, {
+      const result = await fetch(initialLink, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ claimType }),
       })
       const data = await result.json();
-        console.log(data);
+      console.log(data);
   }
 
   return (
