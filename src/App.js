@@ -1,11 +1,12 @@
 import "./App.css";
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { DarkModeProvider } from "./DarkModeContext.js";
 import LoginScreen from "./screens/LoginScreen";
 import ClaimDashboardScreen from "./screens/ClaimDashboardScreen.js";
 import NotFoundScreen from "./screens/NotFoundScreen.js";
 import NewClaimScreen from "./screens/NewClaimScreen";
 import ClaimFilesScreen from "./screens/ClaimFilesScreen";
+import NewFormScreen from "./screens/NewFormScreen.js";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="*" element={<NotFoundScreen />} />
           <Route path="/new-claim" element={<NewClaimScreen />} />
           <Route path="/claim-files" element={<ClaimFilesScreen />} />
+          <Route path="/new-form" element={<NewFormScreen />} />
 
           {/* To be updated */}
           {/* <Route path="/claim/:claimNumber" element={<ClaimDashboardScreen />} /> */}

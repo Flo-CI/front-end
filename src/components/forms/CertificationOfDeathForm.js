@@ -1,5 +1,12 @@
-import { TextField } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import { useState } from "react";
+import FormQuestion from "../FormQuestion";
 
 const CertificationOfDeathForm = () => {
   const [claimNumber, setClaimNumber] = useState("");
@@ -13,8 +20,8 @@ const CertificationOfDeathForm = () => {
   const [syptomsFirstAppeared, setSyptomsFirstAppeared] = useState("");
   const [causeOfDeath, setCauseOfDeath] = useState(""); // natural, accident, suicide, homicide, undetermined
   const [placeOfDeath, setPlaceOfDeath] = useState("");
-  const [inquest, setInquest] = useState(false);
-  const [autopsyPerformed, setAutopsyPerformed] = useState(false);
+  const [inquest, setInquest] = useState("");
+  const [autopsyPerformed, setAutopsyPerformed] = useState("");
 
   // Signature of Person Providing Certification
   const [signeeName, setSigneeName] = useState("");
@@ -24,6 +31,7 @@ const CertificationOfDeathForm = () => {
   const [signeeSignature, setSigneeSignature] = useState("");
   const [signatureDate, setSignatureDate] = useState("");
 
+  // TODO: Connect to backend and rest of app in next pr
   const handleSubmit = () => {
     const formData = {
       claimNumber: claimNumber,
@@ -44,6 +52,9 @@ const CertificationOfDeathForm = () => {
       signeeSignature: signeeSignature,
       signatureDate: signatureDate,
     };
+
+    // For now to show that the change works
+    console.log(formData);
   };
 
   return (
@@ -56,169 +67,164 @@ const CertificationOfDeathForm = () => {
           To be completed by attending physician, coroner or family doctor
           certifying the death of the insured.{" "}
         </h3>
-        <p>Claim number: </p>
-        <TextField
-          id="claim-number"
-          label="Claim number"
-          variant="outlined"
-          onChange={(event) => {
-            setClaimNumber(event.target.value);
-          }}
+
+        <FormQuestion
+          text="Claim number: "
+          placeholderText="Claim number"
+          setState={setClaimNumber}
         />
+
         <h3>
           I, the undersigned, hereby certify the Deceased was officially
           pronounced dead:
         </h3>
-        <p>Full name of deceased</p>
-        <TextField
-          id="claim-number"
-          label="Claim number"
-          variant="outlined"
-          onChange={(event) => {
-            setClaimNumber(event.target.value);
-          }}
+
+        <FormQuestion
+          text="Full name of deceased: "
+          placeholderText="Enter full name of deceased"
+          setState={setDeceasedName}
         />
-        <p>Date of death (mo/day/yr)</p>
-        <TextField
-          id="claim-number"
-          label="Claim number"
-          variant="outlined"
-          onChange={(event) => {
-            setClaimNumber(event.target.value);
-          }}
+
+        <FormQuestion
+          text="Date of death (mo/day/yr): "
+          placeholderText="mo/day/yr"
+          setState={setDod}
         />
-        <p>Time of death</p>
-        <TextField
-          id="claim-number"
-          label="Claim number"
-          variant="outlined"
-          onChange={(event) => {
-            setClaimNumber(event.target.value);
-          }}
+
+        <p>Time of death: </p>
+        <FormControl fullWidth>
+          <InputLabel>AM/PM</InputLabel>
+          <Select
+            value={timeOfDeath}
+            label="timeOfDeath"
+            onChange={(event) => {
+              setTimeOfDeath(event.target.value);
+            }}
+          >
+            <MenuItem value={10}>AM</MenuItem>
+            <MenuItem value={20}>PM</MenuItem>
+          </Select>
+        </FormControl>
+
+        <FormQuestion
+          text="Immediate Cause of Death: "
+          placeholderText="Cause of death"
+          setState={setImmediateCauseOfDeath}
         />
-        <p>Immediate Cause of Death</p>
-        <TextField
-          id="claim-number"
-          label="Claim number"
-          variant="outlined"
-          onChange={(event) => {
-            setClaimNumber(event.target.value);
-          }}
+
+        <FormQuestion
+          text="Due to a consequence of: "
+          placeholderText="How did the death happen?"
+          setState={setConsequenceOfDeath}
         />
-        <p>Due to a consequence of</p>
-        <TextField
-          id="claim-number"
-          label="Claim number"
-          variant="outlined"
-          onChange={(event) => {
-            setClaimNumber(event.target.value);
-          }}
+
+        <FormQuestion
+          text="When did symptoms first appear or accident happen (mo/day/yr): "
+          placeholderText="When did symptoms first appear?"
+          setState={setSyptomsFirstAppeared}
         />
-        <p>When did symptoms first appear or accident happen (mo/day/yr)</p>
-        <TextField
-          id="claim-number"
-          label="Claim number"
-          variant="outlined"
-          onChange={(event) => {
-            setClaimNumber(event.target.value);
-          }}
-        />
+
         <p>Cause of death</p>
-        <TextField
-          id="claim-number"
-          label="Claim number"
-          variant="outlined"
-          onChange={(event) => {
-            setClaimNumber(event.target.value);
-          }}
+        <FormControl fullWidth>
+          <InputLabel>Cause of death</InputLabel>
+          <Select
+            value={causeOfDeath}
+            label="causeOfDeath"
+            onChange={(event) => {
+              setCauseOfDeath(event.target.value);
+            }}
+          >
+            <MenuItem value={10}>Natural</MenuItem>
+            <MenuItem value={20}>Accident</MenuItem>
+            <MenuItem value={30}>Suicide</MenuItem>
+            <MenuItem value={40}>Homicide</MenuItem>
+            <MenuItem value={50}>Undetermined</MenuItem>
+          </Select>
+        </FormControl>
+
+        <FormQuestion
+          text="Place of death (if institution or hospital, give name): "
+          placeholderText="Place of death"
+          setState={setPlaceOfDeath}
         />
-        <p>Place of death (if institution or hospital, give name)</p>
-        <TextField
-          id="claim-number"
-          label="Claim number"
-          variant="outlined"
-          onChange={(event) => {
-            setClaimNumber(event.target.value);
-          }}
-        />
+
         <p>Was an inquest held?</p>
-        <TextField
-          id="claim-number"
-          label="Claim number"
-          variant="outlined"
-          onChange={(event) => {
-            setClaimNumber(event.target.value);
-          }}
-        />
+        <FormControl fullWidth>
+          <InputLabel>Yes/No</InputLabel>
+          <Select
+            value={inquest}
+            label="inquest"
+            onChange={(event) => {
+              setInquest(event.target.value);
+            }}
+          >
+            <MenuItem value={10}>Yes</MenuItem>
+            <MenuItem value={20}>No</MenuItem>
+          </Select>
+        </FormControl>
+
         <p>Was an autopsy performed?</p>
-        <TextField
-          id="claim-number"
-          label="Claim number"
-          variant="outlined"
-          onChange={(event) => {
-            setClaimNumber(event.target.value);
-          }}
-        />
+        <FormControl fullWidth>
+          <InputLabel>Yes/No</InputLabel>
+          <Select
+            value={autopsyPerformed}
+            label="autopsy"
+            onChange={(event) => {
+              setAutopsyPerformed(event.target.value);
+            }}
+          >
+            <MenuItem value={10}>Yes</MenuItem>
+            <MenuItem value={20}>No</MenuItem>
+          </Select>
+        </FormControl>
       </div>
 
       {/* Signature of Person Providing Certification */}
       <div>
         <h3>Signature of Person Providing Certification</h3>
-        <p>Name</p>
-        <TextField
-          id="claim-number"
-          label="Claim number"
-          variant="outlined"
-          onChange={(event) => {
-            setClaimNumber(event.target.value);
-          }}
+
+        <FormQuestion
+          text="Name: "
+          placeholderText="Your name"
+          setState={setSigneeName}
         />
-        <p>Title</p>
-        <TextField
-          id="claim-number"
-          label="Claim number"
-          variant="outlined"
-          onChange={(event) => {
-            setClaimNumber(event.target.value);
-          }}
+
+        <FormQuestion
+          text="Title: "
+          placeholderText="Your title"
+          setState={setSigneeTitle}
         />
-        <p>Address</p>
-        <TextField
-          id="claim-number"
-          label="Claim number"
-          variant="outlined"
-          onChange={(event) => {
-            setClaimNumber(event.target.value);
-          }}
+
+        <FormQuestion
+          text="Address: "
+          placeholderText="Your address"
+          setState={setSigneeAddress}
         />
-        <p>Phone number</p>
-        <TextField
-          id="claim-number"
-          label="Claim number"
-          variant="outlined"
-          onChange={(event) => {
-            setClaimNumber(event.target.value);
-          }}
+
+        <FormQuestion
+          text="Phone number: "
+          placeholderText="Your phone number"
+          setState={setSigneePhoneNumber}
         />
-        <p>Signature</p>
-        <TextField
-          id="claim-number"
-          label="Claim number"
-          variant="outlined"
-          onChange={(event) => {
-            setClaimNumber(event.target.value);
-          }}
+
+        {/* For now, the signature will be typed. In future versions, we can implement digital wet signature */}
+        <FormQuestion
+          text="Signature: "
+          placeholderText="Your signature"
+          setState={setSigneeSignature}
         />
-        <p>Date (mo/day/yr)</p>
-        <TextField
-          id="claim-number"
-          label="Claim number"
-          variant="outlined"
-          onChange={(event) => {
-            setClaimNumber(event.target.value);
-          }}
+
+        <FormQuestion
+          text="Date Signed: "
+          placeholderText="Today's date"
+          setState={setSignatureDate}
         />
       </div>
+
+      {/* Submit Button */}
+      <Button variant="contained" onClick={handleSubmit}>
+        Submit
+      </Button>
     </div>
   );
 };

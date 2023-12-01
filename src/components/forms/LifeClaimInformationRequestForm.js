@@ -1,3 +1,8 @@
+/*
+This form is meant to be filled out by the claimant and sent to the insurance company.
+Will be completed after the MVP is completed.
+*/
+
 import { useState } from "react";
 
 const LifeClaimInformationRequestForm = () => {

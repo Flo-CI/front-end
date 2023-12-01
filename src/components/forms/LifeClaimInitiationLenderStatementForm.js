@@ -1,3 +1,8 @@
+/*
+This form is used to initiate a life claim. It is filled out by the lender and sent to the insurance company.
+Will be completed after the MVP is completed.
+*/
+
 import { useState } from "react";
 
 const LifeClaimInitiationLenderStatementForm = () => {
