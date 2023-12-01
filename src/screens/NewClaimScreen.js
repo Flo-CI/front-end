@@ -42,8 +42,6 @@ export default function NewClaimScreen() {
   const submitClaim = async () => {
       console.log("submitting claim");
       console.log(selectedClaimType);
-      // const claimType = document.getElementById("outlined-select-claim-type").value;
-      // console.log(claimType);[
       let initialLink = `https://ciflo.azurewebsites.net/claim/create?policyNumber=1234567890&type=${selectedClaimType}`;
 
       const result = await fetch(initialLink, {
