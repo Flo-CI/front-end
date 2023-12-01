@@ -28,7 +28,7 @@ export default function ClaimDashboard() {
     fetchClaims().then(r => console.log("Claims fetched"));
   }, []);
   console.log(allClaims)
-  const currentClaimsList = allClaims.filter(claim => claim.status === "Under Review" || claim.status === "Received");
+  const currentClaimsList = allClaims.filter(claim => claim.status === "Under Review" || claim.status === "Received" || claim.status === "In Progress");
   console.log(currentClaimsList)
   const pastClaimsList = allClaims.filter(claim => claim.status === "Accepted" || claim.status === "Rejected");
 
