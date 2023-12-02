@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import LoginScreen from './LoginScreen';
 import { MemoryRouter, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from '../state/store'; // Import your Redux store
+import store from '../../state/store'; // Import your Redux store
 
 // Mock fetch calls
 jest.mock('node-fetch', () => jest.fn());
