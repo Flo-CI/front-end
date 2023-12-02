@@ -17,7 +17,6 @@ function App() {
           <Route path="*" element={<NotFoundScreen />} />
           <Route path="/new-claim" element={<NewClaimScreen />} />
           <Route path="/claim-files" element={<ClaimFilesScreen />} />
-
           {/* To be updated */}
           {/* <Route path="/claim/:claimNumber" element={<ClaimDashboardScreen />} /> */}
         </Routes>
