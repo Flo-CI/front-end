@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { DarkModeContext } from '../DarkModeContext'; // Import the context
 
-export default function ClaimFilesButton(props) {
+export default function ClaimFilesButton(props) {  // props refers to the submitClaim function on line 50 of NewClaimScreen.js
     const { darkMode } = useContext(DarkModeContext); // Use the context
 
     const buttonClass = darkMode 
