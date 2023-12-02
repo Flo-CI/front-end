@@ -40,3 +40,20 @@ test("Current Claims Items Show", () => {
 
   
 });
+test("Past Claims Items Show", () => {
+  const { getByText } = render(
+    <BrowserRouter>
+      <ReduxProvider store={store}>
+        <DarkModeProvider>
+          <ClaimDashboard />
+        </DarkModeProvider>
+      </ReduxProvider>
+    </BrowserRouter>
+  );
+
+  const linkElement = getByText(/Past Claims/i);
+  expect(linkElement).toBeInTheDocument();
+
+  
+});
+
