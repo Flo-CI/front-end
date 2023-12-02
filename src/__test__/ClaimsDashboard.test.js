@@ -1,9 +1,9 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
 import { Provider as ReduxProvider } from "react-redux";
-import store from "./state/store";
-import { DarkModeProvider } from "./DarkModeContext.js";
-import ClaimDashboard from "./screens/ClaimDashboardScreen";
+import store from "../state/store.js";
+import { DarkModeProvider } from "../DarkModeContext.js";
+import ClaimDashboard from "../screens/ClaimDashboardScreen.js";
 import { BrowserRouter, MemoryRouter } from 'react-router-dom';
 import { createMemoryHistory } from "history";
 
