@@ -23,3 +23,20 @@ test("Login Screen Items Show", () => {
 
   
 });
+
+test("Current Claims Items Show", () => {
+  const { getByText } = render(
+    <BrowserRouter>
+      <ReduxProvider store={store}>
+        <DarkModeProvider>
+          <ClaimDashboard />
+        </DarkModeProvider>
+      </ReduxProvider>
+    </BrowserRouter>
+  );
+
+  const linkElement = getByText(/Current Claims/i);
+  expect(linkElement).toBeInTheDocument();
+
+  
+});
