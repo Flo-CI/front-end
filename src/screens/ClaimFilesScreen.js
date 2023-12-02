@@ -15,9 +15,7 @@ import file1 from "../assets/test-file-1.pdf";
 import file2 from "../assets/test-file-2.pdf";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 import {Grid} from "@mui/material";
-import Modal from '@mui/material/Modal';
-import Backdrop from '@mui/material/Backdrop';
-import Fade from '@mui/material/Fade';
+
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 // Import Worker
 import { Worker } from '@react-pdf-viewer/core';
@@ -42,8 +40,6 @@ export default function ClaimFilesScreen() {
   const [pageNum, setPageNum] = useState(1);
   const [pageMax, setPageMax] = useState(1);
   const { darkMode } = useContext(DarkModeContext);
-  
-  const [open, setOpen] = useState(false);
 
   const handleDialogOpen = () => {
     setDialogOpen(true);
@@ -53,13 +49,7 @@ export default function ClaimFilesScreen() {
     setDialogOpen(false);
    };
 
-  const handleOpen = () => {
-    setOpen(true);
-   };
 
-   const handleClose = () => {
-    setOpen(false);
-   };
 
   useEffect(() => {
     if (fileOpen === true) {
