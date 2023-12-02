@@ -1,11 +1,11 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import { Provider as ReduxProvider } from "react-redux";
 import store from "./state/store";
 import { DarkModeProvider } from "./DarkModeContext.js";
 import ClaimDashboard from "./screens/ClaimDashboardScreen";
-import { BrowserRouter } from 'react-router-dom'
-import { Router } from 'react-router-dom';
+import { BrowserRouter, MemoryRouter } from 'react-router-dom';
+import { createMemoryHistory } from "history";
 
 test("Login Screen Items Show", () => {
   const { getByText } = render(
@@ -57,3 +57,20 @@ test("Past Claims Items Show", () => {
   
 });
 
+test("Navigates to New Claim Screen on Button Click", () => {
+  const history = createMemoryHistory();
+  const { getByText } = render(
+    <ReduxProvider store={store}>
+      <DarkModeProvider>
+        <MemoryRouter initialEntries={['/']}>
+          <ClaimDashboard />
+        </MemoryRouter>
+      </DarkModeProvider>
+    </ReduxProvider>
+  );
+
+  const button = getByText('+ New Claim');
+  fireEvent.click(button);
+
+  expect(history.location.pathname).toBe('/');
+});
