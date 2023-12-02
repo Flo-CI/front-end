@@ -136,6 +136,7 @@ function LoginScreen({ handleAuthentication }) {
               <TextField
                 id="filled-basic"
                 label="Please enter policy password"
+                
                 variant="filled"
                 color="success"
                 onChange={handlePasswordValueChange}

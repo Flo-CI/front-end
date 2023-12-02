@@ -115,3 +115,11 @@ input:checked + .slider:before {
     transform: rotate(360deg);
   }
 }
+
+/* Create a viewer with 800px width */
+.viewer {
+  width: 800px;
+ 
+  /* Set viewer height to 600px */
+  height: 600px;
+ }

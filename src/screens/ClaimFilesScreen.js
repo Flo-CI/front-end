@@ -15,68 +15,118 @@ import file1 from "../assets/test-file-1.pdf";
 import file2 from "../assets/test-file-2.pdf";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 import {Grid} from "@mui/material";
-import { Modal, Button } from "react-bootstrap";
+import Modal from '@mui/material/Modal';
+import Backdrop from '@mui/material/Backdrop';
+import Fade from '@mui/material/Fade';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+// Import Worker
+import { Worker } from '@react-pdf-viewer/core';
+// Import the main Viewer component
+import { Viewer } from '@react-pdf-viewer/core';
+// Import the styles
+import '@react-pdf-viewer/core/lib/styles/index.css';
+// default layout plugin
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
+// Import styles of default layout plugin
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 export default function ClaimFilesScreen() {
   // useAuthenticationCheck();
 
+
   pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/legacy/build/pdf.worker.min.js`;
 
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [fileOpen, setFileOpen] = useState(false);
   const [fileName, setFileName] = useState(file1);
   const [spacing, setSpacing] = useState(50);
   const [pageNum, setPageNum] = useState(1);
   const [pageMax, setPageMax] = useState(1);
   const { darkMode } = useContext(DarkModeContext);
-  const [show, setShow] = useState(false);
   
-  const [showModal, setShowModal] = useState(false);
+  const [open, setOpen] = useState(false);
 
- const deleteFile = () => {
-    // your code to delete the file
-    alert('File deleted successfully!');
-    setShowModal(false);
- };
+  const handleDialogOpen = () => {
+    setDialogOpen(true);
+   };
+   
+   const handleDialogClose = () => {
+    setDialogOpen(false);
+   };
 
- const handleClick = () => {
-    setShowModal(true);
- };
+  const handleOpen = () => {
+    setOpen(true);
+   };
 
- const handleClose = () => {
-    setShowModal(false);
- };
+   const handleClose = () => {
+    setOpen(false);
+   };
 
-    useEffect(() => {
-        if (fileOpen === true) {
-            setSpacing(7);
-            setPageNum(1);
-        } else {
-            setSpacing(50);
-        }
-    }, [fileOpen]);
+  useEffect(() => {
+    if (fileOpen === true) {
+      setSpacing(7);
+      setPageNum(1);
+    } else {
+      setSpacing(50);
+    }
+  }, [fileOpen]);
 
   const handleFileClick = (file) => {
     if (fileOpen === false) {
-        setFileOpen(true);
-        setFileName(file);
-    } else if (fileName === file){
-        setFileOpen(false);
+      setFileOpen(true);
+      setFileName(file);
+    } else if (fileName === file) {
+      setFileOpen(false);
     } else {
-        setFileName(file);
-        setPageNum(1);
+      setFileName(file);
+      setPageNum(1);
     }
   };
 
-    const documentLoadSuccess = ({ numPages }) => {
-        setPageMax(numPages)
-    }
+  const documentLoadSuccess = ({ numPages }) => {
+    setPageMax(numPages)
+  }
 
-    const handlePageNum = (e) => {
-        if (pageNum + 1 > pageMax) {
-            setPageNum(1)
-        } else {
-            setPageNum(pageNum + 1)
-        }
+  const handlePageNum = (e) => {
+    if (pageNum + 1 > pageMax) {
+      setPageNum(1)
+    } else {
+      setPageNum(pageNum + 1)
     }
+  }
+
+  // creating new plugin instance
+  const defaultLayoutPluginInstance = defaultLayoutPlugin();
+
+  // pdf file onChange state
+  const [pdfFile, setPdfFile]=useState(null);
+
+  // pdf file error state
+  const [pdfError, setPdfError]=useState('');
+
+
+  // handle file onChange event
+  const allowedFiles = ['application/pdf'];
+  const handleFile = (e) =>{
+    let selectedFile = e.target.files[0];
+    // console.log(selectedFile.type);
+    if(selectedFile){
+      if(selectedFile&&allowedFiles.includes(selectedFile.type)){
+        let reader = new FileReader();
+        reader.readAsDataURL(selectedFile);
+        reader.onloadend=(e)=>{
+          setPdfError('');
+          setPdfFile(e.target.result);
+        }
+      }
+      else{
+        setPdfError('Not a valid pdf: Please select only PDF');
+        setPdfFile('');
+      }
+    }
+    else{
+      console.log('please select a PDF');
+    }
+  }
 
     const color = darkMode 
         ? '#333'
@@ -113,7 +163,7 @@ export default function ClaimFilesScreen() {
                   }}
                 />
                 <ListItemAvatar>
-                <Avatar onClick={handleClick}>
+                <Avatar>
                     <DeleteIcon />
                   </Avatar>
                 </ListItemAvatar>
@@ -137,7 +187,7 @@ export default function ClaimFilesScreen() {
                 />
                 <ListItemAvatar>
                   
-                  <Avatar onClick={handleClick}>
+                <Avatar>
                     <DeleteIcon />
                   </Avatar>
                 </ListItemAvatar>
@@ -157,9 +207,9 @@ export default function ClaimFilesScreen() {
                 </ListItemAvatar>
                 <ListItemText primary="Employer Statement" />
                 <ListItemAvatar>
-                  <Avatar>
-                    <CloudUploadIcon />
-                  </Avatar>
+                <Avatar>
+ <CloudUploadIcon onClick={handleDialogOpen} />
+</Avatar>
                 </ListItemAvatar>
               </ListItem>
             </List>
@@ -174,24 +224,52 @@ export default function ClaimFilesScreen() {
             </div>
           </Grid>) : null}
       </Grid>
-      {/* Modal for file deletion confirmation */}
-      <Modal show={showModal} onHide={handleClose} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirm File Deletion</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          Are you sure you want to delete this file?
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Cancel
-          </Button>
-          <Button variant="danger" onClick={deleteFile}> {/* Change variant to "danger" for red color */}
-            Delete
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <Dialog open={dialogOpen} onClose={handleDialogClose} Width="lg">
+ <DialogTitle>Upload File</DialogTitle>
+ <DialogContent>
+ <div className="container">
 
+{/* Upload PDF */}
+<form>
+
+
+  <input type='file' className="form-control"
+  onChange={handleFile}></input>
+
+  {/* we will display error message in case user select some file
+  other than pdf */}
+  {pdfError&&<span className='text-danger'>{pdfError}</span>}
+
+</form>
+
+{/* View PDF */}
+
+<div className="viewer">
+
+  {/* render this if we have a pdf file */}
+  {pdfFile&&(
+    <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
+      <Viewer fileUrl={pdfFile}
+      plugins={[defaultLayoutPluginInstance]}></Viewer>
+    </Worker>
+  )}
+
+  {/* render this if we have pdfFile state null   */}
+  {!pdfFile&&<>No file is selected yet</>}
+
+</div>
+
+</div>
+ </DialogContent>
+ <DialogActions>
+    <Button onClick={handleDialogClose} color="primary">
+      Cancel
+    </Button>
+    <Button onClick={handleDialogClose} color="primary">
+      Upload
+    </Button>
+ </DialogActions>
+</Dialog>
     </div>
   );
 }
