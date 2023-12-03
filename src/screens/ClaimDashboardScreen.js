@@ -6,6 +6,7 @@ import Navbar from "../components/Navbar.js";
 import NewClaimScreen from "./NewClaimScreen";
 import NewClaimButton from "../components/NewClaimButton";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
+import {backend_url} from "./LoginScreen";
 
 export default function ClaimDashboard() {
   const { darkMode } = useContext(DarkModeContext);
@@ -17,7 +18,7 @@ export default function ClaimDashboard() {
   useEffect(() => {
     const fetchClaims = async () => {
         try {
-            const res = await fetch("https://ciflo.azurewebsites.net/claims?policyNumber=1234567890");
+            const res = await fetch(backend_url);
             const data = await res.json();
             setAllClaims(data.details);
         } catch (error) {

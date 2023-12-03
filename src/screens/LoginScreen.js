@@ -10,32 +10,22 @@ import { login } from "../state/store";
 import background from "../assets/background.png";
 import logo from "../assets/securian_name.png";
 
+let backend_url = '';
+
 function LoginScreen({ handleAuthentication }) {
-  /* 
-  Valid logins:
-  Username, Password
-  123456, 52
-  123, 606
-  619, 305
-  **/
 
   // Base URL for database calls
-  const base_url = "https://ciflo.azurewebsites.net/demo/claim?policyNumber=";
+  const base_policy = "https://ciflo.azurewebsites.net/user/login?policyNumber=";
+  const base_password = "&password=";
   const [data, setData] = useState(null);
-  let backend_url = '';
 
   // State variable that holds the user's inputted text and text when they click the log-in button
-  const [usernameValue, setUsernameValue] = useState("");
-  const [passwordValue, setPasswordValue] = useState("");
   const [policyNumber, setPolicyNumber] = useState("");
+  const [passwordValue, setPasswordValue] = useState("");
 
-  // Event handler to update the usernameValue state when the user types
-  const handleUsernameValueChange = (event) => {
-    setUsernameValue(event.target.value);
-  };
   // Event handler to update accountValue state when the user clicks the log-in button
   const handlePolicyNumberChange = () => {
-    setPolicyNumber(usernameValue);
+    setPolicyNumber(policyNumber);
   };
   const handlePasswordValueChange = (event) => {
     setPasswordValue(event.target.value);
@@ -54,7 +44,7 @@ function LoginScreen({ handleAuthentication }) {
       if (parseInt(passwordValue) === data["details"]["0"]["id"]) {
         // alert("The policy number and password is valid");
         dispatch(login(usernameValue));
-        backend_url = base_url + policyNumber;
+        backend_url = base_policy + policyNumber + base_password + passwordValue;
         navigate("/dashboard");
         // Returns if account info is not correct
       } else {
@@ -68,9 +58,10 @@ function LoginScreen({ handleAuthentication }) {
 
   // Calls GET Database API of user inputted account number
   // Occurs whenever the policyNumber state variable is changed
+
   useEffect(() => {
     const fetchData = async () => {
-      const fetchResult = await fetch(base_url + usernameValue, {
+      const fetchResult = await fetch(base_policy + usernameValue + base_password + passwordValue, {
         method: "GET",
         headers: {
           accept: "application/json",
@@ -94,7 +85,7 @@ function LoginScreen({ handleAuthentication }) {
 
   // Calls POST Database API of user inputted account number
   const uploadData = () => {
-    fetch(base_url + policyNumber, {
+    fetch(base_policy + policyNumber, {
       method: "POST",
       data: {
         policyNumber: policyNumber,
@@ -128,7 +119,7 @@ function LoginScreen({ handleAuthentication }) {
                 label="Please enter policy number"
                 variant="filled"
                 color="success"
-                onChange={handleUsernameValueChange}
+                onChange={handlePolicyNumberChange}
                 sx={{ m: 3, width: "42ch" }}
               />
             </h2>
@@ -160,13 +151,6 @@ function LoginScreen({ handleAuthentication }) {
                 >
                   Log-In
                 </Button>
-                <Button
-                  variant="contained"
-                  color="success"
-                  onClick={uploadData}
-                >
-                  Sign-Up
-                </Button>
               </Stack>
             </h2>
           </Grid>
@@ -176,4 +160,5 @@ function LoginScreen({ handleAuthentication }) {
   );
 }
 
+export { backend_url };
 export default LoginScreen;
