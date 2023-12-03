@@ -1,11 +1,10 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
-import { createMemoryHistory } from 'history';
 import { Provider as ReduxProvider } from 'react-redux';
 import store from '../state/store';
 import { DarkModeProvider } from '../DarkModeContext';
 import ClaimFilesScreen from '../screens/ClaimFilesScreen';
-import { MemoryRouter, BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 
 test("Files Screen Items Show", () => {

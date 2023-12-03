@@ -17,3 +17,24 @@ test('Renders NewClaimScreen with initial state', () => {
   expect(getByText('File A New Claim')).toBeInTheDocument();
   expect(getByLabelText('Select')).toBeInTheDocument();
 });
+
+test('Selects a claim type from dropdown', async () => {
+    const { getByLabelText, getByText } = render(
+      <MemoryRouter>
+        <DarkModeContext.Provider value={{ darkMode: true }}>
+          <NewClaimScreen />
+        </DarkModeContext.Provider>
+      </MemoryRouter>
+    );
+  
+    const selectDropdown = getByLabelText('Select');
+  
+    fireEvent.mouseDown(selectDropdown); // Simulate opening the dropdown
+  
+    const optionToSelect = getByText('Loss of Life'); // Get the option to select
+    fireEvent.click(optionToSelect); // Click the desired option
+  
+    await waitFor(() => {
+        expect(getByLabelText('Loss of Life')).toBeInTheDocument();; // Update as per the expected value after selection
+    });
+  });
