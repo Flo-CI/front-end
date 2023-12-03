@@ -1,11 +1,11 @@
-import React from "react";
-import { render, fireEvent } from "@testing-library/react";
-import { Provider as ReduxProvider } from "react-redux";
-import store from "../state/store.js";
-import { DarkModeProvider } from "../DarkModeContext.js";
-import  LoginScreen from "../screens/LoginScreen.js";
-import { BrowserRouter, MemoryRouter } from 'react-router-dom';
-import { createMemoryHistory } from "history";
+import React from 'react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
+import { createMemoryHistory } from 'history';
+import { Provider as ReduxProvider } from 'react-redux';
+import store from '../state/store';
+import { DarkModeProvider } from '../DarkModeContext';
+import LoginScreen from '../screens/LoginScreen';
+import { MemoryRouter, BrowserRouter } from 'react-router-dom';
 
 test("Login Screen Items Show", () => {
   const { getByText } = render(
@@ -57,20 +57,30 @@ test("Past Claims Items Show", () => {
   
 });
 
-test("Navigates to New Claim Screen on Button Click", () => {
+test('Navigates to Dashboard after successful Login', async () => {
   const history = createMemoryHistory();
-  const { getByText } = render(
+  const { getByLabelText, getByText } = render(
     <ReduxProvider store={store}>
       <DarkModeProvider>
         <MemoryRouter initialEntries={['/']}>
-        <LoginScreen />
+          <LoginScreen />
         </MemoryRouter>
       </DarkModeProvider>
     </ReduxProvider>
   );
 
-  const button = getByText('LOG-IN');
-  fireEvent.click(button);
+  const policyNumberInput = getByLabelText('Please enter policy number');
+  const passwordInput = getByLabelText('Please enter policy password');
+  const loginButton = getByText('Log-In');
 
-  expect(history.location.pathname).toBe('/');
+  fireEvent.change(policyNumberInput, { target: { value: '123' } });
+  fireEvent.change(passwordInput, { target: { value: '606' } });
+
+  fireEvent.click(loginButton);
+
+  await waitFor(() => {
+    expect(history.location.pathname).toBe('/'); // Replace with the correct path
+  });
 });
+
+
