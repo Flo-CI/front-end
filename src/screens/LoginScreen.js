@@ -22,6 +22,7 @@ function LoginScreen({ handleAuthentication }) {
   // Base URL for database calls
   const base_url = "https://ciflo.azurewebsites.net/demo/claim?policyNumber=";
   const [data, setData] = useState(null);
+  let backend_url = '';
 
   // State variable that holds the user's inputted text and text when they click the log-in button
   const [usernameValue, setUsernameValue] = useState("");
@@ -53,6 +54,7 @@ function LoginScreen({ handleAuthentication }) {
       if (parseInt(passwordValue) === data["details"]["0"]["id"]) {
         // alert("The policy number and password is valid");
         dispatch(login(usernameValue));
+        backend_url = base_url + policyNumber;
         navigate("/dashboard");
         // Returns if account info is not correct
       } else {
