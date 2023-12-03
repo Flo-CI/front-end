@@ -7,12 +7,9 @@ import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import ClaimFilesButton from "../components/ClaimFilesButton";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
-import { getPolicyNumber, getPasswordValue } from '../hooks/LoginUtils';
+import { getPolicyNumber } from '../hooks/LoginUtils';
 
 const policyNumber = getPolicyNumber();
-const passwordValue = getPasswordValue();
-const backend_url = `https://ciflo.azurewebsites.net/claims?policyNumber=${policyNumber}&password=${passwordValue}`;
-
 
 const claimTypes = [
   {
@@ -48,7 +45,8 @@ export default function NewClaimScreen() {
   const submitClaim = async () => {
       console.log("submitting claim");
       console.log(selectedClaimType);
-      let initialLink = `https://ciflo.azurewebsites.net/claim/create?policyNumber=1234567890&type=${selectedClaimType}`;
+      console.log(policyNumber);
+      let initialLink = `https://ciflo.azurewebsites.net/claim/create?policyNumber=${policyNumber}&type=${selectedClaimType}`;
 
       const result = await fetch(initialLink, {
         method: "POST",
