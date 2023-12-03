@@ -79,7 +79,7 @@ test('Navigates to Dashboard after successful Login', async () => {
   fireEvent.click(loginButton);
 
   await waitFor(() => {
-    expect(history.location.pathname).toBe('/'); // Replace with the correct path
+    expect(history.location.pathname).toBe('/');
   });
 });
 
