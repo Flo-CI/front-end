@@ -9,6 +9,7 @@ import file2 from "../assets/test-file-2.pdf";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 import { Grid } from "@mui/material";
 import FileCard from "../components/FileCard.js";
+import useFetch from "../hooks/useFetch.js";
 
 export default function ClaimFilesScreen() {
   // useAuthenticationCheck();
@@ -21,6 +22,9 @@ export default function ClaimFilesScreen() {
   const [pageNum, setPageNum] = useState(1);
   const [pageMax, setPageMax] = useState(1);
   const { darkMode } = useContext(DarkModeContext);
+
+  // Fetch data
+  const { data, isLoading, error } = useFetch();
 
   useEffect(() => {
     if (fileOpen === true) {
