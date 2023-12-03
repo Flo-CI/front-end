@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import { DarkModeContext } from "../DarkModeContext.js";
 import Navbar from "../components/Navbar.js";
 import TextField from "@mui/material/TextField";
@@ -10,19 +10,7 @@ import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 
 const claimTypes = [
   {
-    value: "illness",
-    label: "Critical Illness",
-  },
-  {
-    value: "disability",
-    label: "Disability",
-  },
-  {
-    value: "job-loss",
-    label: "Involutary Job Loss",
-  },
-  {
-    value: "death",
+    value: "Loss of Life Claim",
     label: "Loss of Life",
   },
 ];
@@ -45,6 +33,27 @@ export default function NewClaimScreen() {
 
   const colour = darkMode ? "white" : "black"
 
+  const [selectedClaimType, setSelectedClaimType] = useState(""); // State to manage selected claim type
+
+  const handleClaimTypeChange = (event) => {
+    setSelectedClaimType(event.target.value); // Update the selected claim type
+  };
+
+  const submitClaim = async () => {
+      console.log("submitting claim");
+      console.log(selectedClaimType);
+      let initialLink = `https://ciflo.azurewebsites.net/claim/create?policyNumber=1234567890&type=${selectedClaimType}`;
+
+      const result = await fetch(initialLink, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+      })
+      const data = await result.json();
+      console.log(data);
+  }
+
   return (
     <div className={`${darkMode ? 'dark' : 'light'} bg-gray-50 h-screen`}>
       <Navbar />
@@ -56,6 +65,8 @@ export default function NewClaimScreen() {
           id="outlined-select-claim-type"
           select
           label="Select"
+          value={selectedClaimType}
+          onChange={handleClaimTypeChange}
           helperText="Please select your claim type"
           sx={{
             "& .MuiOutlinedInput-root": {
@@ -90,16 +101,7 @@ export default function NewClaimScreen() {
           ))}
         </TextField>
       </div>
-      <div className="flex justify-center items-start pt-4">
-        <h1 className=" px-2 text-2xl font-bold ">Upload any initial files</h1>
-      </div>
-      <div className="flex justify-center items-start pt-4">
-        <Button component="label" variant="contained" color="success">
-          Upload files
-          <VisuallyHiddenInput type="file" />
-        </Button>
-      </div>
-      <ClaimFilesButton></ClaimFilesButton>
+      <ClaimFilesButton onClick={submitClaim}></ClaimFilesButton>
     </div>
   );
 }
