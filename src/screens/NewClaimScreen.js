@@ -7,6 +7,12 @@ import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import ClaimFilesButton from "../components/ClaimFilesButton";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
+import { getPolicyNumber, getPasswordValue } from '../hooks/LoginUtils';
+
+const policyNumber = getPolicyNumber();
+const passwordValue = getPasswordValue();
+const backend_url = `https://ciflo.azurewebsites.net/claims?policyNumber=${policyNumber}&password=${passwordValue}`;
+
 
 const claimTypes = [
   {
