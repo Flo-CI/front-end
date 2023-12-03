@@ -7,7 +7,7 @@ import ClaimDashboard from "../screens/ClaimDashboardScreen.js";
 import { BrowserRouter, MemoryRouter } from 'react-router-dom';
 import { createMemoryHistory } from "history";
 
-test("Login Screen Items Show", () => {
+test("Dashboard Items Show", () => {
   const { getByText } = render(
     <BrowserRouter>
       <ReduxProvider store={store}>
