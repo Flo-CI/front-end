@@ -15,6 +15,7 @@ import file1 from "../assets/test-file-1.pdf";
 import file2 from "../assets/test-file-2.pdf";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 import { Grid } from "@mui/material";
+import {getClaimNumber, getClaimName} from "../hooks/ClaimUtils";
 
 export default function ClaimFilesScreen() {
   useAuthenticationCheck();
@@ -63,11 +64,13 @@ export default function ClaimFilesScreen() {
 
   const color = darkMode ? "#333" : "white";
 
+  const claimName = getClaimName();
+
   return (
     <div className={`${darkMode ? "dark" : "light"} bg-gray-50 h-screen`}>
       <Navbar />
       <div className="flex justify-between items-start pt-4">
-        <h1 className=" px-2 text-6xl font-bold ">Claim Name</h1>
+        <h1 className=" px-2 text-6xl font-bold ">{claimName}</h1>
       </div>
       <Grid container direction={"row"}>
         <Grid item xs={spacing}>
