@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { DarkModeContext } from "../DarkModeContext";
+import { setClaimNumber} from "../hooks/ClaimUtils";
 
 export default function ClaimCard({
   claimName,
@@ -9,14 +10,21 @@ export default function ClaimCard({
   applicationStatus,
 }) {
   const { darkMode } = useContext(DarkModeContext);
+  const navigate = useNavigate();
+
   const color = darkMode 
         ? 'bg-green-500 text-white rounded-t-xl rou'
         : 'bg-green-300 rounded-t-xl rou';
+
+  const handleClick = () => {
+    setClaimNumber(claimNumber);
+    navigate(`/claim-files`);
+  };
   return (
-      <Link
-        to={`/claim/${claimNumber}`}
-        className="border-2 rounded-xl w-80 h-32 m-4 bg-white"
-      >
+    <div
+      onClick={handleClick}
+      className="border-2 rounded-xl w-80 h-32 m-4 bg-white cursor-pointer"
+    >
         {/* Claim name */}
         <div className={color}>
           <h1 className="px-4 py-4 font-bold text-xl">{claimName}</h1>
@@ -34,6 +42,6 @@ export default function ClaimCard({
             <p>No: {claimNumber}</p>
           </div>
         </div>
-      </Link>
+    </div>
   );
 }
