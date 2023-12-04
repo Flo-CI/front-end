@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { DarkModeContext } from "../DarkModeContext";
-import { setClaimNumber} from "../hooks/ClaimUtils";
+import {setClaimName, setClaimNumber} from "../hooks/ClaimUtils";
 
 export default function ClaimCard({
   claimName,
@@ -18,6 +18,7 @@ export default function ClaimCard({
 
   const handleClick = () => {
     setClaimNumber(claimNumber);
+    setClaimName(claimName);
     navigate(`/claim-files`);
   };
   return (
