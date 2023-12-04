@@ -12,3 +12,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.viewer {
+  width: 40vw;
+  /* Set viewer height to 80vh */
+  height: 80vh;
+}
