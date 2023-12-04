@@ -26,7 +26,7 @@ export default function FileCard({
         ? 'bg-green-500 text-white rounded-t-xl rou'
         : 'bg-green-300 rounded-t-xl rou';
     return (
-    <div>
+    <div className="border-2 rounded-xl w-80 h-50 m-4 bg-white cursor-pointer">
     <div className={color}>
         <h1 className="px-4 py-4 font-bold text-xl">{fileName}</h1>
     </div>
@@ -41,15 +41,12 @@ export default function FileCard({
             Last Updated:{" "}
             <p className="px-1 font-semibold">{fileDate}</p>
         </h2>
-        <h2>
-            <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+        <h2 className="px-4 py-2 flex justify-center">
+            <Button color="success" size="small" component="label" variant="contained" startIcon={<CloudUploadIcon />}>
                 Upload file
                 <VisuallyHiddenInput type="file" />
             </Button>
-            <Button variant="contained">View File</Button>
         </h2>
-
-
     </div>
     </div>
     );

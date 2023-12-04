@@ -16,6 +16,7 @@ import file2 from "../assets/test-file-2.pdf";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 import { Grid } from "@mui/material";
 import {getClaimNumber, getClaimName} from "../hooks/ClaimUtils";
+import FileCard from "../components/FileCard";
 
 export default function ClaimFilesScreen() {
   useAuthenticationCheck();
@@ -131,21 +132,8 @@ export default function ClaimFilesScreen() {
             <h1 className=" px-2 text-4xl font-bold ">Missing Files</h1>
           </div>
           <div className="flex justify-center items-start pt-4">
-            <List sx={{ width: "100%", maxWidth: 360, bgcolor: color }}>
-              <ListItem>
-                <ListItemAvatar>
-                  <Avatar>
-                    <FolderIcon />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary="Employer Statement" />
-                <ListItemAvatar>
-                  <Avatar>
-                    <CloudUploadIcon />
-                  </Avatar>
-                </ListItemAvatar>
-              </ListItem>
-            </List>
+            <FileCard>
+            </FileCard>
           </div>
         </Grid>
         {fileOpen ? (
