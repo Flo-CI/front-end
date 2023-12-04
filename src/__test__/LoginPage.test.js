@@ -73,8 +73,8 @@ test('Navigates to Dashboard after successful Login', async () => {
   const passwordInput = getByLabelText('Please enter policy password');
   const loginButton = getByText('Log-In');
 
-  fireEvent.change(policyNumberInput, { target: { value: '123' } });
-  fireEvent.change(passwordInput, { target: { value: '606' } });
+  fireEvent.change(policyNumberInput, { target: { value: '1234567890' } });
+  fireEvent.change(passwordInput, { target: { value: 'HelloWorld@123' } });
 
   fireEvent.click(loginButton);
 
