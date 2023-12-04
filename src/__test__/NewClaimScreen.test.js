@@ -2,16 +2,18 @@ import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import NewClaimScreen from '../screens/NewClaimScreen';
 import { DarkModeContext } from '../DarkModeContext'; // Adjust the import path as needed
-import { MemoryRouter } from 'react-router-dom'; // Use MemoryRouter
-import { act } from 'react-dom/test-utils';
-
+import { MemoryRouter} from 'react-router-dom'; // Use MemoryRouter
+import store from '../state/store';
+import { Provider as ReduxProvider } from 'react-redux';
 test('Renders NewClaimScreen with initial state', () => {
   const { getByLabelText, getByText } = render(
+    <ReduxProvider store={store}>
     <MemoryRouter> {/* Use MemoryRouter */}
       <DarkModeContext.Provider value={{ darkMode: false }}>
         <NewClaimScreen />
       </DarkModeContext.Provider>
     </MemoryRouter>
+    </ReduxProvider>
   );
 
   expect(getByText('File A New Claim')).toBeInTheDocument();
@@ -20,11 +22,13 @@ test('Renders NewClaimScreen with initial state', () => {
 
 test('Selects a claim type from dropdown', async () => {
     const { getByLabelText, getByText } = render(
+      <ReduxProvider store={store}>
       <MemoryRouter>
         <DarkModeContext.Provider value={{ darkMode: true }}>
           <NewClaimScreen />
         </DarkModeContext.Provider>
       </MemoryRouter>
+      </ReduxProvider>
     );
   
     const selectDropdown = getByLabelText('Select');
