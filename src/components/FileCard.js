@@ -20,13 +20,14 @@ export default function FileCard({
     fileName,
     fileDate,
     fileStatus,
+    onClick,
 }) {
     const { darkMode } = useContext(DarkModeContext);
     const color = darkMode
         ? 'bg-green-500 text-white rounded-t-xl rou'
         : 'bg-green-300 rounded-t-xl rou';
     return (
-    <div className="border-2 rounded-xl w-80 h-50 m-4 bg-white cursor-pointer">
+    <div className="border-2 rounded-xl w-90 h-42 m-4 bg-white cursor-pointer" onClick={onClick}>
     <div className={color}>
         <h1 className="px-4 py-4 font-bold text-xl">{fileName}</h1>
     </div>
