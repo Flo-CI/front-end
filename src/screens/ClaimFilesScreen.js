@@ -119,7 +119,7 @@ export default function ClaimFilesScreen() {
           <div className="max-w-screen-lg mx-auto">
             <div className="grid grid-cols-2 gap-1">
             {missingFilesList.map((file) => (
-                <FileCard onClick={() => handleFileClick(file1)}
+                <FileCard onClick={() => handleFileClick(file.fileName)}
                     fileName={file.fileType}
                     fileDate="N/A"
                     fileStatus="N/A">
