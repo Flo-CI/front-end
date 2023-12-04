@@ -5,23 +5,31 @@ import ClaimCard from '../components/ClaimCard';
 import { DarkModeContext } from '../DarkModeContext'; // Adjust the import path as needed
 
 test('Renders ClaimCard with light mode', () => {
-  const { getByText } = render(
-    <DarkModeContext.Provider value={{ darkMode: false }}>
-      <MemoryRouter>
-        <ClaimCard
-          claimName="Test Claim"
-          claimNumber="123"
-          dateFiled="2023-12-01"
-          applicationStatus="Pending"
-        />
-      </MemoryRouter>
-    </DarkModeContext.Provider>
-  );
+ // Render claim card component
+ const { getByText } = render(
+  <DarkModeContext.Provider value={{ darkMode: false }}>
+    <MemoryRouter>
+      <ClaimCard
+        claimName="Test Claim"
+        claimNumber="123"
+        dateFiled="2023-12-01"
+        applicationStatus="Pending"
+      />
+    </MemoryRouter>
+  </DarkModeContext.Provider>
+);
 
-  expect(getByText('Test Claim')).toBeInTheDocument();
-  expect(getByText('Pending')).toBeInTheDocument();
-  expect(getByText('Date Filed: 2023-12-01')).toBeInTheDocument();
-  expect(getByText('No: 123')).toBeInTheDocument();
+// Test claim name displayed
+expect(getByText('Test Claim')).toBeInTheDocument();
+
+// Test application status displayed
+expect(getByText('Pending')).toBeInTheDocument();
+
+// Test date filed displayed
+expect(getByText('Date Filed: 2023-12-01')).toBeInTheDocument();
+
+// Test claim number displayed
+expect(getByText('No: 123')).toBeInTheDocument();
 });
 
 test('Renders ClaimCard with dark mode', () => {
