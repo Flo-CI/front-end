@@ -23,7 +23,7 @@ test("Files Screen Items Show", () => {
 
   
 });
-test("Past Claims Items Show", () => {
+test("Missing Files Items Show", () => {
   const { getByText } = render(
     <BrowserRouter>
       <ReduxProvider store={store}>
@@ -37,5 +37,40 @@ test("Past Claims Items Show", () => {
   const linkElement = getByText(/Missing Files/i);
   expect(linkElement).toBeInTheDocument();
 
+});
+
+test('Renders ClaimFilesScreen with initial setup', () => {
+  const { getByText } = render(
+    <BrowserRouter>
+      <ReduxProvider store={store}>
+        <DarkModeProvider>
+        <ClaimFilesScreen />
+        </DarkModeProvider>
+      </ReduxProvider>
+    </BrowserRouter>
+  );
   
+  // Assert that the component renders with specific text content
+  expect(getByText('Claim Name')).toBeInTheDocument();
+});
+
+test('PDF opens on file click', () => {
+  const { getByText, queryByText } = render(
+    <BrowserRouter>
+    <ReduxProvider store={store}>
+      <DarkModeProvider>
+      <ClaimFilesScreen />
+      </DarkModeProvider>
+    </ReduxProvider>
+  </BrowserRouter>
+  );
+
+  // Click on the first file to open it
+  const firstFile = getByText('Certification of Death - Physician Statement');
+  fireEvent.click(firstFile);
+
+  // After clicking, the PDF viewer should be visible
+  const openedPdfViewer = queryByText('Certification of Death - Physician Statement');
+  expect(openedPdfViewer).toBeInTheDocument();
+
 });
