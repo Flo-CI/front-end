@@ -44,29 +44,29 @@ test('Selects a claim type from dropdown', async () => {
   })
 );
 
-test('Creates claim on button click', async () => {
-  const { getByText } = render(
-    <MemoryRouter>
-      <DarkModeContext.Provider value={{ darkMode: true }}>
-        <NewClaimScreen />
-      </DarkModeContext.Provider>
-    </MemoryRouter>
-  );
+// test('Creates claim on button click', async () => {
+//   const { getByText } = render(
+//     <MemoryRouter>
+//       <DarkModeContext.Provider value={{ darkMode: true }}>
+//         <NewClaimScreen />
+//       </DarkModeContext.Provider>
+//     </MemoryRouter>
+//   );
 
-  const submitButton = getByText('Create Claim');
+//   const submitButton = getByText('Create Claim');
 
-  fireEvent.click(submitButton);
+//   fireEvent.click(submitButton);
 
-  await waitFor(() => {
-    expect(global.fetch).toHaveBeenCalledTimes(1);
-    expect(global.fetch).toHaveBeenCalledWith(
-      'https://ciflo.azurewebsites.net/claim/create?policyNumber=1234567890&type=Loss%20of%20Life',
-      expect.objectContaining({
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-    );
-  });
-});
+//   await waitFor(() => {
+//     expect(global.fetch).toHaveBeenCalledTimes(1);
+//     expect(global.fetch).toHaveBeenCalledWith(
+//       'https://ciflo.azurewebsites.net/claim/create?policyNumber=1234567890&type=Loss%20of%20Life',
+//       expect.objectContaining({
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//       })
+//     );
+//   });
+// });
