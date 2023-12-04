@@ -9,8 +9,6 @@ import ClaimFilesButton from "../components/ClaimFilesButton";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 import { getPolicyNumber } from "../hooks/LoginUtils";
 
-const policyNumber = getPolicyNumber();
-
 const claimTypes = [
   {
     value: "Loss of Life Claim",
@@ -37,6 +35,8 @@ export default function NewClaimScreen() {
   const colour = darkMode ? "white" : "black";
 
   const [selectedClaimType, setSelectedClaimType] = useState(""); // State to manage selected claim type
+
+  const policyNumber = getPolicyNumber();
 
   const handleClaimTypeChange = (event) => {
     setSelectedClaimType(event.target.value); // Update the selected claim type
