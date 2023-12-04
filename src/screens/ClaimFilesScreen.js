@@ -15,9 +15,20 @@ import file1 from "../assets/test-file-1.pdf";
 import file2 from "../assets/test-file-2.pdf";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 import { Grid } from "@mui/material";
+import DocumentViewer from "./DocumentViewer";
 
 export default function ClaimFilesScreen() {
   useAuthenticationCheck();
+
+  const [documentViewerOpen, setDocumentViewerOpen] = useState(false);
+
+  const handleDocumentViewerOpen = () => {
+    setDocumentViewerOpen(true);
+  };
+
+  const handleDocumentViewerClose = () => {
+    setDocumentViewerOpen(false);
+  };
 
   pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/legacy/build/pdf.worker.min.js`;
 
@@ -138,11 +149,16 @@ export default function ClaimFilesScreen() {
                 <ListItemText primary="Employer Statement" />
                 <ListItemAvatar>
                   <Avatar>
-                    <CloudUploadIcon />
+                  <CloudUploadIcon onClick={handleDocumentViewerOpen} />
                   </Avatar>
                 </ListItemAvatar>
               </ListItem>
             </List>
+            {/* Dialog for document viewer */}
+      <DocumentViewer
+        open={documentViewerOpen}
+        handleClose={handleDocumentViewerClose}
+      />
           </div>
         </Grid>
         {fileOpen ? (
