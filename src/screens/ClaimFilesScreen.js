@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { DarkModeContext } from "../DarkModeContext.js";
 import Navbar from "../components/Navbar.js";
 import List from "@mui/material/List";
@@ -9,15 +9,15 @@ import Avatar from "@mui/material/Avatar";
 import FolderIcon from "@mui/icons-material/Folder";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { Document, Page, pdfjs } from 'react-pdf';
-import "react-pdf/dist/esm/Page/AnnotationLayer.css"
+import { Document, Page, pdfjs } from "react-pdf";
+import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import file1 from "../assets/test-file-1.pdf";
 import file2 from "../assets/test-file-2.pdf";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
-import {Grid} from "@mui/material";
+import { Grid } from "@mui/material";
 
 export default function ClaimFilesScreen() {
-  // useAuthenticationCheck();
+  useAuthenticationCheck();
 
   pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/legacy/build/pdf.worker.min.js`;
 
@@ -28,50 +28,48 @@ export default function ClaimFilesScreen() {
   const [pageMax, setPageMax] = useState(1);
   const { darkMode } = useContext(DarkModeContext);
 
-    useEffect(() => {
-        if (fileOpen === true) {
-            setSpacing(7);
-            setPageNum(1);
-        } else {
-            setSpacing(50);
-        }
-    }, [fileOpen]);
+  useEffect(() => {
+    if (fileOpen === true) {
+      setSpacing(7);
+      setPageNum(1);
+    } else {
+      setSpacing(50);
+    }
+  }, [fileOpen]);
 
   const handleFileClick = (file) => {
     if (fileOpen === false) {
-        setFileOpen(true);
-        setFileName(file);
-    } else if (fileName === file){
-        setFileOpen(false);
+      setFileOpen(true);
+      setFileName(file);
+    } else if (fileName === file) {
+      setFileOpen(false);
     } else {
-        setFileName(file);
-        setPageNum(1);
+      setFileName(file);
+      setPageNum(1);
     }
   };
 
-    const documentLoadSuccess = ({ numPages }) => {
-        setPageMax(numPages)
-    }
+  const documentLoadSuccess = ({ numPages }) => {
+    setPageMax(numPages);
+  };
 
-    const handlePageNum = (e) => {
-        if (pageNum + 1 > pageMax) {
-            setPageNum(1)
-        } else {
-            setPageNum(pageNum + 1)
-        }
+  const handlePageNum = (e) => {
+    if (pageNum + 1 > pageMax) {
+      setPageNum(1);
+    } else {
+      setPageNum(pageNum + 1);
     }
+  };
 
-    const color = darkMode 
-        ? '#333'
-        : 'white';
+  const color = darkMode ? "#333" : "white";
 
   return (
-    <div className={`${darkMode ? 'dark' : 'light'} bg-gray-50 h-screen`}>
+    <div className={`${darkMode ? "dark" : "light"} bg-gray-50 h-screen`}>
       <Navbar />
-        <div className="flex justify-between items-start pt-4">
-          <h1 className=" px-2 text-6xl font-bold ">Claim Name</h1>
-        </div>
-      <Grid container direction={'row'}>
+      <div className="flex justify-between items-start pt-4">
+        <h1 className=" px-2 text-6xl font-bold ">Claim Name</h1>
+      </div>
+      <Grid container direction={"row"}>
         <Grid item xs={spacing}>
           <div className="flex justify-center items-start pt-4">
             <h1 className=" px-2 text-4xl font-bold ">Claim Files</h1>
@@ -90,8 +88,8 @@ export default function ClaimFilesScreen() {
                   primary="Certification of Death - Physician Statement"
                   secondary=" Upload Date: Oct 28, 2023"
                   sx={{
-                    '& .MuiListItemText-secondary': {
-                      color: darkMode ? 'white' : 'black', // Change as needed
+                    "& .MuiListItemText-secondary": {
+                      color: darkMode ? "white" : "black", // Change as needed
                     },
                   }}
                 />
@@ -113,8 +111,8 @@ export default function ClaimFilesScreen() {
                   primary="Life Claim Information Request"
                   secondary="Upload Date: Nov 7, 2023"
                   sx={{
-                    '& .MuiListItemText-secondary': {
-                      color: darkMode ? 'white' : 'black', // Change as needed
+                    "& .MuiListItemText-secondary": {
+                      color: darkMode ? "white" : "black", // Change as needed
                     },
                   }}
                 />
@@ -147,14 +145,23 @@ export default function ClaimFilesScreen() {
             </List>
           </div>
         </Grid>
-        {fileOpen ?
-          (<Grid item>
-            <div className={`${darkMode ? 'dark' : 'light'} bg-gray-50 h-screen`} onClick={handlePageNum}>
-              <Document file={fileName}  onLoadSuccess={documentLoadSuccess}>
-                <Page pageNumber={pageNum} renderTextLayer={false} renderAnnotationLayer={false} scale={0.7}/>
+        {fileOpen ? (
+          <Grid item>
+            <div
+              className={`${darkMode ? "dark" : "light"} bg-gray-50 h-screen`}
+              onClick={handlePageNum}
+            >
+              <Document file={fileName} onLoadSuccess={documentLoadSuccess}>
+                <Page
+                  pageNumber={pageNum}
+                  renderTextLayer={false}
+                  renderAnnotationLayer={false}
+                  scale={0.7}
+                />
               </Document>
             </div>
-          </Grid>) : null}
+          </Grid>
+        ) : null}
       </Grid>
     </div>
   );
