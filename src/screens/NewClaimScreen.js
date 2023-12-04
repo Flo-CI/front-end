@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, { useContext, useState } from "react";
 import { DarkModeContext } from "../DarkModeContext.js";
 import Navbar from "../components/Navbar.js";
 import TextField from "@mui/material/TextField";
@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import ClaimFilesButton from "../components/ClaimFilesButton";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
+import { getPolicyNumber } from "../hooks/LoginUtils";
 
 const claimTypes = [
   {
@@ -28,34 +29,37 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 export default function NewClaimScreen() {
-  // useAuthenticationCheck();
+  useAuthenticationCheck();
   const { darkMode } = useContext(DarkModeContext);
 
-  const colour = darkMode ? "white" : "black"
+  const colour = darkMode ? "white" : "black";
 
   const [selectedClaimType, setSelectedClaimType] = useState(""); // State to manage selected claim type
+
+  const policyNumber = getPolicyNumber();
 
   const handleClaimTypeChange = (event) => {
     setSelectedClaimType(event.target.value); // Update the selected claim type
   };
 
   const submitClaim = async () => {
-      console.log("submitting claim");
-      console.log(selectedClaimType);
-      let initialLink = `https://ciflo.azurewebsites.net/claim/create?policyNumber=1234567890&type=${selectedClaimType}`;
+    console.log("submitting claim");
+    console.log(selectedClaimType);
+    console.log(policyNumber);
+    let initialLink = `https://ciflo.azurewebsites.net/claim/create?policyNumber=${policyNumber}&type=${selectedClaimType}`;
 
-      const result = await fetch(initialLink, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-      })
-      const data = await result.json();
-      console.log(data);
-  }
+    const result = await fetch(initialLink, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await result.json();
+    console.log(data);
+  };
 
   return (
-    <div className={`${darkMode ? 'dark' : 'light'} bg-gray-50 h-screen`}>
+    <div className={`${darkMode ? "dark" : "light"} bg-gray-50 h-screen`}>
       <Navbar />
       <div className="flex justify-between items-start pt-4">
         <h1 className=" px-2 text-6xl font-bold ">File A New Claim</h1>
@@ -80,16 +84,20 @@ export default function NewClaimScreen() {
                 borderColor: colour,
               },
             },
-            "& .MuiInputLabel-root": { // Target the label
+            "& .MuiInputLabel-root": {
+              // Target the label
               color: colour,
             },
-            "& .MuiFormHelperText-root": { // Target the helper text
+            "& .MuiFormHelperText-root": {
+              // Target the helper text
               color: colour,
             },
-            "& .MuiSelect-icon": { // Target the dropdown arrow
+            "& .MuiSelect-icon": {
+              // Target the dropdown arrow
               color: colour,
             },
-            "& .MuiSelect-select": { // Target the selected value
+            "& .MuiSelect-select": {
+              // Target the selected value
               color: colour,
             },
           }}

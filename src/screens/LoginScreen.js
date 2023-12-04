@@ -6,38 +6,29 @@ import { Grid } from "@mui/material";
 import { redirect, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../state/store";
-
+import { setPolicyNumber, setPasswordValue } from '../hooks/LoginUtils';
 import background from "../assets/background.png";
 import logo from "../assets/securian_name.png";
 
 function LoginScreen({ handleAuthentication }) {
-  /* 
-  Valid logins:
-  Username, Password
-  123456, 52
-  123, 606
-  619, 305
-  **/
 
   // Base URL for database calls
-  const base_url = "https://ciflo.azurewebsites.net/demo/claim?policyNumber=";
+  const base_policy = "https://ciflo.azurewebsites.net/user/login?policyNumber=";
+  const base_password = "&password=";
   const [data, setData] = useState(null);
 
   // State variable that holds the user's inputted text and text when they click the log-in button
-  const [usernameValue, setUsernameValue] = useState("");
-  const [passwordValue, setPasswordValue] = useState("");
-  const [policyNumber, setPolicyNumber] = useState("");
+  const [policyNumber, setPolicyNumberLocally] = useState("");
+  const [passwordValue, setPasswordValueLocally] = useState("");
 
-  // Event handler to update the usernameValue state when the user types
-  const handleUsernameValueChange = (event) => {
-    setUsernameValue(event.target.value);
-  };
   // Event handler to update accountValue state when the user clicks the log-in button
-  const handlePolicyNumberChange = () => {
-    setPolicyNumber(usernameValue);
+  const handlePolicyNumberChange = (event) => {
+    setPolicyNumber(event.target.value);
+    setPolicyNumberLocally(event.target.value);
   };
   const handlePasswordValueChange = (event) => {
     setPasswordValue(event.target.value);
+    setPasswordValueLocally(event.target.value);
   };
 
   // Used to navigate between pages
@@ -46,29 +37,10 @@ function LoginScreen({ handleAuthentication }) {
   // Update redux store
   const dispatch = useDispatch();
 
-  // Gets the returned info from the database and checks if it exists
-  const dataCheck = () => {
+  // Function to perform login verification
+  const performLogin = async () => {
     try {
-      // Checks to see if the account found is correct
-      if (parseInt(passwordValue) === data["details"]["0"]["id"]) {
-        // alert("The policy number and password is valid");
-        dispatch(login(usernameValue));
-        navigate("/dashboard");
-        // Returns if account info is not correct
-      } else {
-        alert("The password is not correct for the given policy number");
-      }
-    } catch (e) {
-      // Catch statement when no user statement is returned
-      alert("The inputted policy number does not exist");
-    }
-  };
-
-  // Calls GET Database API of user inputted account number
-  // Occurs whenever the policyNumber state variable is changed
-  useEffect(() => {
-    const fetchData = async () => {
-      const fetchResult = await fetch(base_url + usernameValue, {
+      const fetchResult = await fetch(base_policy + policyNumber + base_password + passwordValue, {
         method: "GET",
         headers: {
           accept: "application/json",
@@ -76,29 +48,32 @@ function LoginScreen({ handleAuthentication }) {
       });
       const newData = await fetchResult.json();
       setData(newData);
-      setPolicyNumber("");
-    };
-    if (policyNumber !== "") {
-      fetchData();
-    }
-  }, [policyNumber]);
 
-  // Checks account info whenever the data is returned from the database
-  useEffect(() => {
-    if (usernameValue !== "") {
-      dataCheck();
+      // Check the response from the backend here
+      if (newData.message === "User Login Successful") {
+        // Perform actions upon successful verification
+        dispatch(login(policyNumber));
+        navigate("/dashboard");
+      } else {
+        // Handle invalid login credentials
+        alert("Invalid credentials");
+      }
+    } catch (error) {
+      // Handle fetch errors or backend unavailability
+      alert("Error verifying credentials");
     }
-  }, [data]);
+  };
+
+  // Event handler to trigger login verification
+  const handleLogin = () => {
+    if (policyNumber !== "" && passwordValue !== "") {
+      performLogin();
+    } else {
+      alert("Please enter both policy number and password");
+    }
+  };
 
   // Calls POST Database API of user inputted account number
-  const uploadData = () => {
-    fetch(base_url + policyNumber, {
-      method: "POST",
-      data: {
-        policyNumber: policyNumber,
-      },
-    });
-  };
 
   return (
     <div className="flex flex-row justify-center items-center h-screen w-screen">
@@ -126,7 +101,7 @@ function LoginScreen({ handleAuthentication }) {
                 label="Please enter policy number"
                 variant="filled"
                 color="success"
-                onChange={handleUsernameValueChange}
+                onChange={handlePolicyNumberChange}
                 sx={{ m: 3, width: "42ch" }}
               />
             </h2>
@@ -154,16 +129,9 @@ function LoginScreen({ handleAuthentication }) {
                 <Button
                   variant="contained"
                   color="success"
-                  onClick={() => handlePolicyNumberChange()}
+                  onClick={handleLogin}
                 >
                   Log-In
-                </Button>
-                <Button
-                  variant="contained"
-                  color="success"
-                  onClick={uploadData}
-                >
-                  Sign-Up
                 </Button>
               </Stack>
             </h2>
