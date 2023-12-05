@@ -10,7 +10,7 @@ import {
 import { logout } from "../state/store";
 
 function Navbar() {
-  const { darkMode, toggleDarkMode } = useContext(DarkModeContext); // Use the context
+  const { darkMode, toggleDarkMode, setDefaultMode } = useContext(DarkModeContext); // Use the context
   const liClass = darkMode
     ? "px-2 flex p-2 m-2 rounded-md bg-black text-white"
     : "px-2 flex p-2 m-2 bg-white rounded-md";
@@ -55,7 +55,7 @@ function Navbar() {
         {/*  </Link>*/}
         {/*</li>*/}
         <li className={liClassInverted}>
-          <div onClick={() => logout()}>
+          <div onClick={() => {setDefaultMode(); logout()}}>
             <Link to="/" className="flex">
               <p className="mr-2">Log Out</p>{" "}
               <ArrowRightOnRectangleIcon className="h-6 w-6" />
