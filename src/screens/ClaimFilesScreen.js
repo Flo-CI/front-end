@@ -49,7 +49,7 @@ export default function ClaimFilesScreen() {
       }
     };
 
-    fetchFiles().then(r => console.log("Filess fetched"));
+    fetchFiles().then(r => console.log("Files fetched"));
   }, []);
 
   const presentFilesList = allFiles.filter(file => file.fileName !== null);
