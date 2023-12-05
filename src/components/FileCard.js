@@ -57,7 +57,8 @@ export default function FileCard({
   };
 
   return (
-    <div className="border-2 rounded-xl w-90 h-42 m-4 bg-white cursor-pointer">
+      // set height to max height of content
+    <div className="border-2 rounded-xl h-max m-4 bg-white cursor-pointer">
       <div className={color} onClick={onClick}>
         <h1 className="px-4 py-4 font-bold text-xl">{fileName}</h1>
       </div>

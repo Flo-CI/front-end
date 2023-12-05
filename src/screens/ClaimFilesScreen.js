@@ -22,6 +22,8 @@ export default function ClaimFilesScreen() {
 
   const [fileOpen, setFileOpen] = useState(false);
   const [fileName, setFileName] = useState();
+  // Created fileType so that we can compare fileType instead of fileName when opening/closing documents
+  const [fileType, setFileType] = useState();
   const [spacing, setSpacing] = useState(50);
   const [pageNum, setPageNum] = useState(1);
   const [pageMax, setPageMax] = useState(1);
@@ -70,7 +72,9 @@ export default function ClaimFilesScreen() {
   }, [fileOpen]);
 
   const handleFileClick = async (file) => {
-    if (!fileOpen && fileName !== file.fileName) {
+    // earlier you were comparing fileName against fileURL as you were setting fileName = fileURL
+    // also the && was changed to || as either the file is not opened and you want to open it or you want to close it 
+    if (!fileOpen || fileType !== file.fileType) {
       try {
         const response = await fetch(`${base_download_url}${file.fileType}`, {
           method: "GET",
@@ -83,6 +87,8 @@ export default function ClaimFilesScreen() {
 
           setFileOpen(true);
           setFileName(fileURL); // Set the file URL to be displayed in the PDF viewer
+          // fileType set for future comparison
+          setFileType(file.fileType)
           setPageNum(1); // Reset page number to 1
         } else {
           console.error("Failed to download file");
@@ -162,7 +168,8 @@ export default function ClaimFilesScreen() {
         </Button>
       </div>
       <Grid container direction={"row"}>
-        <Grid item xs={spacing}>
+        {/* made the design responsive. If pdfViewer is closed then files take up whole screen otherwise they take up half of it */}
+        <Grid item xs={fileOpen? 6:12}>
           <div className="flex justify-center items-start pt-4">
             <h1 className=" px-2 text-4xl font-bold ">Claim Files</h1>
           </div>
@@ -198,9 +205,11 @@ export default function ClaimFilesScreen() {
           </div>
         </Grid>
         {fileOpen ? (
-          <Grid item>
+          // refer to above comment about responsive design
+          <Grid item xs={6} className="flex justify-center items-center">
             <div
-              className={`${darkMode ? "dark" : "light"} bg-gray-50 h-screen`}
+            // added a border for light mode. Earlier if you were in light mode, white pdf doesnt contrast against white screen.
+              className={`${darkMode ? "dark" : "light"} bg-gray-50 border-black border-2`}
               onClick={handlePageNum}
             >
               <Document file={fileName} onLoadSuccess={documentLoadSuccess}>
@@ -208,7 +217,8 @@ export default function ClaimFilesScreen() {
                   pageNumber={pageNum}
                   renderTextLayer={false}
                   renderAnnotationLayer={false}
-                  scale={1.1}
+                  scale={1.0}
+                  // new responsive design makes screen bigger.
                 />
               </Document>
             </div>
