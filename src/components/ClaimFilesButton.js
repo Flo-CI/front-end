@@ -7,21 +7,19 @@ export default function ClaimFilesButton(props) {
   const { darkMode } = useContext(DarkModeContext); // Use the context
 
   const buttonClass = darkMode
-    ? "bg-green-500 p-4 text-white items-center rounded-xl font-semibold mx-4 mt-2"
-    : "bg-green-300 p-4 items-center rounded-xl font-semibold mx-4 mt-2";
+    ? "bg-green-500 p-4 text-white items-center rounded-xl h-20 font-semibold mx-4 mt-2"
+    : "bg-green-300 p-4 items-center rounded-xl h-20 font-semibold mx-4 mt-2";
 
   return (
-    <div className="flex justify-center h-screen">
-      <Link to="/claim-files">
-        <button
-          variant="contained"
-          color="success"
-          className={buttonClass}
-          onClick={props.onClick}
-        >
-          Create Claim
-        </button>
-      </Link>
+    <div className="flex justify-center">
+      <button
+        variant="contained"
+        color="success"
+        className={buttonClass}
+        onClick={props.onClick}
+      >
+        Create Claim
+      </button>
     </div>
   );
 }

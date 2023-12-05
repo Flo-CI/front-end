@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DarkModeContext } from "../DarkModeContext.js";
 import Navbar from "../components/Navbar.js";
 import TextField from "@mui/material/TextField";
@@ -9,6 +9,7 @@ import ClaimFilesButton from "../components/ClaimFilesButton";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 import { getPolicyNumber } from "../hooks/LoginUtils";
 import { setClaimNumber } from "../hooks/ClaimUtils.js";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const claimTypes = [
   {
@@ -39,6 +40,7 @@ export default function NewClaimScreen() {
   const [data, setData] = useState({});
 
   const policyNumber = getPolicyNumber();
+  const navigate = useNavigate();
 
   const handleClaimTypeChange = (event) => {
     setSelectedClaimType(event.target.value); // Update the selected claim type
@@ -56,23 +58,37 @@ export default function NewClaimScreen() {
         "Content-Type": "application/json",
       },
     });
+    // {message: 'Loss of Life Claim 3249120 created successfully', status: 200, details: null}
     const data = await result.json();
-    setData(data);
 
-    // let message = String(data.message);
-    // let claimNumber = "";
-    // let numbers = new Set(["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]);
-    // for (let i = 0; i < message.length; ++i) {
+    let message = String(data.message);
+    let claimNumber = "";
+    let numbers = new Set(["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]);
 
-    //   if (numbers.has(message.charAt(i))) {
-    //     claimNumber.concat(message.charAt(i));
-    //   }
-    // }
-    // console.log(claimNumber);
-
-    // setClaimNumber(claimNumber);
-    console.log(data);
+    for (let i = 0; i < message.length; ++i) {
+      if (numbers.has(message.charAt(i))) {
+        // .concat is non mutating
+        claimNumber = claimNumber.concat(message.charAt(i));
+      }
+    }
+    setClaimNumber(claimNumber);
+    navigate("/claim-files");
   };
+
+  // useEffect(() => {
+  //   let message = String(data.message);
+  //   let claimNumber = "";
+  //   let numbers = new Set(["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]);
+  //   for (let i = 0; i < message.length; ++i) {
+  //     if (numbers.has(message.charAt(i))) {
+  //       claimNumber.concat(message.charAt(i));
+  //     }
+  //   }
+  //   console.log(claimNumber);
+  //   setClaimNumber(claimNumber);
+
+  //   navigate("/claim-files");
+  // }, [data]);
 
   return (
     <div className={`${darkMode ? "dark" : "light"} bg-gray-50 h-screen`}>
