@@ -52,8 +52,8 @@ export default function ClaimFilesScreen() {
     fetchFiles().then(r => console.log("Filess fetched"));
   }, []);
 
-  const presentFilesList = allFiles.filter(file => file.fileName === "null");
-  const missingFilesList = allFiles.filter(file => file.fileName !== "null");
+  const presentFilesList = allFiles.filter(file => file.fileName !== null);
+  const missingFilesList = allFiles.filter(file => file.fileName === null);
 
   useEffect(() => {
     if (fileOpen === true) {
