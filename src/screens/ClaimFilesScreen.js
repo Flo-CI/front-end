@@ -38,6 +38,10 @@ export default function ClaimFilesScreen() {
   const base_download_url = `https://ciflo.azurewebsites.net/download?claimNumber=${claimNumber}&type=`;
 
   const [allFiles, setAllFiles] = useState([]);
+  // const [missingFilesList, setMissingFilesList] = useState([]);
+  // const [presentFilesList, setPresentFilesList] = useState([]);
+  let missingFilesList = [];
+  let presentFilesList = [];
 
   const navigate = useNavigate();
 
@@ -46,7 +50,10 @@ export default function ClaimFilesScreen() {
       try {
         const res = await fetch(backend_url_files);
         const data = await res.json();
+        console.log(data);
         setAllFiles(data.details);
+        missingFilesList = data.details.filter(file => file.fileName === null);
+        presentFilesList = data.details.filter(file => file.fileName !== null);
       } catch (error) {
         console.error("Error fetching files", error);
       }
@@ -55,8 +62,12 @@ export default function ClaimFilesScreen() {
     fetchFiles().then(r => console.log("Files fetched"));
   }, []);
 
-  const presentFilesList = allFiles.filter(file => file.fileName !== null);
-  const missingFilesList = allFiles.filter(file => file.fileName === null);
+  useEffect(() => {
+    console.log(allFiles);
+    missingFilesList = allFiles.filter(file => file.fileName === null);
+    presentFilesList = allFiles.filter(file => file.fileName !== null);
+  }, [allFiles]);
+
 
   useEffect(() => {
     if (fileOpen === true) {
@@ -66,6 +77,9 @@ export default function ClaimFilesScreen() {
       setSpacing(50);
     }
   }, [fileOpen]);
+
+  missingFilesList = allFiles.filter(file => file.fileName === null);
+  presentFilesList = allFiles.filter(file => file.fileName !== null);
 
   const handleFileClick = async (file) => {
     if (!fileOpen && fileName !== file.fileName) {
@@ -144,7 +158,6 @@ export default function ClaimFilesScreen() {
 
   const refreshFilesAfterUpload = async () => {
     try {
-      console.log("Refreshing files");
       const res = await fetch(backend_url_files);
       const data = await res.json();
       setAllFiles(data.details);
