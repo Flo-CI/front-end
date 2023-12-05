@@ -17,7 +17,9 @@ import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 import { Grid } from "@mui/material";
 import {getClaimNumber, getClaimName} from "../hooks/ClaimUtils";
 import FileCard from "../components/FileCard";
+import Button from '@mui/material/Button';
 import {getPolicyNumber} from "../hooks/LoginUtils";
+import { Navigate, useNavigate } from "react-router";
 
 export default function ClaimFilesScreen() {
   useAuthenticationCheck();
@@ -37,6 +39,8 @@ export default function ClaimFilesScreen() {
   const backend_url = `https://ciflo.azurewebsites.net/claim/files?claimNumber=${claimNumber}&policyNumber=${policyNumber}`;
 
   const [allFiles, setAllFiles] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchFiles = async () => {
@@ -88,13 +92,32 @@ export default function ClaimFilesScreen() {
     }
   };
 
+  const submitClaim = async () => {
+    const submitUrl = `https://ciflo.azurewebsites.net/claim/submit?claimNumber=${claimNumber}`
+    try {
+      const result = await fetch(submitUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await result.json();
+      alert(data.message)
+      if(data.status == 200){
+        navigate('/dashboard')
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const color = darkMode ? "#333" : "white";
 
   return (
     <div className={`${darkMode ? "dark" : "light"} bg-gray-50 h-screen`}>
       <Navbar />
-      <div className="flex justify-between items-start pt-4">
-        <h1 className=" px-2 text-6xl font-bold ">{claimName}</h1>
+      <div className="flex justify-between items-start pt-4" style={{"margin": "10px"}}>
+        <h1 className=" px-2 text-6xl font-bold ">{claimName}: {claimNumber}</h1> <Button color="success" size="large" component="label" variant="contained" onClick={submitClaim}>Submit</Button>
       </div>
       <Grid container direction={"row"}>
         <Grid item xs={spacing}>
