@@ -11,8 +11,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
-import file1 from "../assets/test-file-1.pdf";
-import file2 from "../assets/test-file-2.pdf";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 import { Grid } from "@mui/material";
 import {getClaimNumber, getClaimName} from "../hooks/ClaimUtils";
@@ -25,7 +23,7 @@ export default function ClaimFilesScreen() {
   pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/legacy/build/pdf.worker.min.js`;
 
   const [fileOpen, setFileOpen] = useState(false);
-  const [fileName, setFileName] = useState(file1);
+  const [fileName, setFileName] = useState();
   const [spacing, setSpacing] = useState(50);
   const [pageNum, setPageNum] = useState(1);
   const [pageMax, setPageMax] = useState(1);
