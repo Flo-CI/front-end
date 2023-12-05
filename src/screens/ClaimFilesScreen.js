@@ -1,22 +1,18 @@
 import React, { useEffect, useState, useContext } from "react";
 import { DarkModeContext } from "../DarkModeContext.js";
 import Navbar from "../components/Navbar.js";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
-import FolderIcon from "@mui/icons-material/Folder";
-import DeleteIcon from "@mui/icons-material/Delete";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 import { Grid } from "@mui/material";
-import {getClaimNumber, getClaimName} from "../hooks/ClaimUtils";
+import {
+  getClaimNumber,
+  getClaimName,
+  setClaimNumber,
+} from "../hooks/ClaimUtils";
 import FileCard from "../components/FileCard";
-import Button from '@mui/material/Button';
-import {getPolicyNumber} from "../hooks/LoginUtils";
+import Button from "@mui/material/Button";
+import { getPolicyNumber } from "../hooks/LoginUtils";
 import { Navigate, useNavigate } from "react-router";
 
 export default function ClaimFilesScreen() {
@@ -38,10 +34,8 @@ export default function ClaimFilesScreen() {
   const base_download_url = `https://ciflo.azurewebsites.net/download?claimNumber=${claimNumber}&type=`;
 
   const [allFiles, setAllFiles] = useState([]);
-  // const [missingFilesList, setMissingFilesList] = useState([]);
-  // const [presentFilesList, setPresentFilesList] = useState([]);
-  let missingFilesList = [];
-  let presentFilesList = [];
+  const [missingFilesList, setMissingFilesList] = useState([]);
+  const [presentFilesList, setPresentFilesList] = useState([]);
 
   const navigate = useNavigate();
 
@@ -52,22 +46,19 @@ export default function ClaimFilesScreen() {
         const data = await res.json();
         console.log(data);
         setAllFiles(data.details);
-        missingFilesList = data.details.filter(file => file.fileName === null);
-        presentFilesList = data.details.filter(file => file.fileName !== null);
       } catch (error) {
         console.error("Error fetching files", error);
       }
     };
 
-    fetchFiles().then(r => console.log("Files fetched"));
+    fetchFiles().then((r) => console.log("Files fetched"));
   }, []);
 
   useEffect(() => {
     console.log(allFiles);
-    missingFilesList = allFiles.filter(file => file.fileName === null);
-    presentFilesList = allFiles.filter(file => file.fileName !== null);
+    setMissingFilesList(allFiles.filter((file) => file.fileName === null));
+    setPresentFilesList(allFiles.filter((file) => file.fileName !== null));
   }, [allFiles]);
-
 
   useEffect(() => {
     if (fileOpen === true) {
@@ -78,14 +69,11 @@ export default function ClaimFilesScreen() {
     }
   }, [fileOpen]);
 
-  missingFilesList = allFiles.filter(file => file.fileName === null);
-  presentFilesList = allFiles.filter(file => file.fileName !== null);
-
   const handleFileClick = async (file) => {
     if (!fileOpen && fileName !== file.fileName) {
       try {
         const response = await fetch(`${base_download_url}${file.fileType}`, {
-          method: 'GET',
+          method: "GET",
           // Add any necessary headers or configurations for your GET request
         });
 
@@ -97,13 +85,13 @@ export default function ClaimFilesScreen() {
           setFileName(fileURL); // Set the file URL to be displayed in the PDF viewer
           setPageNum(1); // Reset page number to 1
         } else {
-          console.error('Failed to download file');
+          console.error("Failed to download file");
         }
       } catch (error) {
-        console.error('Error downloading file', error);
+        console.error("Error downloading file", error);
       }
     } else {
-      console.log('Closing file')
+      console.log("Closing file");
       setFileOpen(false);
       setFileName(null);
     }
@@ -122,7 +110,7 @@ export default function ClaimFilesScreen() {
   };
 
   const submitClaim = async () => {
-    const submitUrl = `https://ciflo.azurewebsites.net/claim/submit?claimNumber=${claimNumber}`
+    const submitUrl = `https://ciflo.azurewebsites.net/claim/submit?claimNumber=${claimNumber}`;
     try {
       const result = await fetch(submitUrl, {
         method: "POST",
@@ -131,39 +119,24 @@ export default function ClaimFilesScreen() {
         },
       });
       const data = await result.json();
-      alert(data.message)
-      if(data.status == 200){
-        navigate('/dashboard')
+      alert(data);
+      if (data.status == 200) {
+        // setClaimNumber("");
+        navigate("/dashboard");
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
-  // const refreshFilesAfterUpload = async (uploadedFile) => {
-  //   try {
-  //     console.log("Refreshing files");
-  //     setAllFiles((prevFiles) => {
-  //       const updatedFiles = prevFiles.map((file) => {
-  //         if (file.fileName === uploadedFile.fileName) {
-  //           return uploadedFile; // Update the specific uploaded file
-  //         }
-  //         return file;
-  //       });
-  //       return updatedFiles;
-  //     });
-  //   } catch (error) {
-  //     console.error("Error fetching files", error);
-  //   }
-  // };
+  };
 
-  const refreshFilesAfterUpload = async () => {
-    try {
-      const res = await fetch(backend_url_files);
-      const data = await res.json();
-      setAllFiles(data.details);
-    } catch (error) {
-      console.error("Error fetching files", error);
-    }
+  const removeFromMissing = (currFile) => {
+    let i = missingFilesList.indexOf(currFile);
+    setPresentFilesList(presentFilesList.concat([currFile]));
+    setMissingFilesList(
+      missingFilesList
+        .slice(0, i)
+        .concat(missingFilesList.slice(i + 1, missingFilesList.length))
+    );
   };
 
   const color = darkMode ? "#333" : "white";
@@ -171,8 +144,22 @@ export default function ClaimFilesScreen() {
   return (
     <div className={`${darkMode ? "dark" : "light"} bg-gray-50 h-screen`}>
       <Navbar />
-      <div className="flex justify-between items-start pt-4" style={{"margin": "10px"}}>
-        <h1 className=" px-2 text-6xl font-bold ">{claimName}: {claimNumber}</h1> <Button color="success" size="large" component="label" variant="contained" onClick={submitClaim}>Submit</Button>
+      <div
+        className="flex justify-between items-start pt-4"
+        style={{ margin: "10px" }}
+      >
+        <h1 className=" px-2 text-6xl font-bold ">
+          {claimName}: {claimNumber}
+        </h1>{" "}
+        <Button
+          color="success"
+          size="large"
+          component="label"
+          variant="contained"
+          onClick={submitClaim}
+        >
+          Submit
+        </Button>
       </div>
       <Grid container direction={"row"}>
         <Grid item xs={spacing}>
@@ -182,14 +169,14 @@ export default function ClaimFilesScreen() {
           <div className="max-w-screen-lg mx-auto">
             <div className="grid grid-cols-2 gap-1">
               {presentFilesList.map((file) => (
-                  <FileCard
-                    fileName={file.fileType}
-                    fileDate={file.lastUpdated}
-                    fileStatus="Implement Verification Endpoint"
-                    onClick={() => handleFileClick(file)}
-                    fileExists={file.fileName}
-                    onSuccessUpload={refreshFilesAfterUpload}>
-                  </FileCard>
+                <FileCard
+                  fileName={file.fileType}
+                  fileDate={file.lastUpdated}
+                  fileStatus="Implement Verification Endpoint"
+                  onClick={() => handleFileClick(file)}
+                  fileExists={file.fileName}
+                  onSuccessUpload={() => removeFromMissing(file)}
+                ></FileCard>
               ))}
             </div>
           </div>
@@ -198,15 +185,15 @@ export default function ClaimFilesScreen() {
           </div>
           <div className="max-w-screen-lg mx-auto">
             <div className="grid grid-cols-2 gap-1">
-            {missingFilesList.map((file) => (
+              {missingFilesList.map((file) => (
                 <FileCard
                   fileName={file.fileType}
                   fileDate="N/A"
                   fileStatus="N/A"
                   fileExists={file.fileName}
-                  onSuccessUpload={refreshFilesAfterUpload}>
-                </FileCard>
-            ))}
+                  onSuccessUpload={() => removeFromMissing(file)}
+                ></FileCard>
+              ))}
             </div>
           </div>
         </Grid>

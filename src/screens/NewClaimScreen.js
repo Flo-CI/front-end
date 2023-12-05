@@ -8,6 +8,7 @@ import { styled } from "@mui/material/styles";
 import ClaimFilesButton from "../components/ClaimFilesButton";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 import { getPolicyNumber } from "../hooks/LoginUtils";
+import { setClaimNumber } from "../hooks/ClaimUtils.js";
 
 const claimTypes = [
   {
@@ -35,6 +36,7 @@ export default function NewClaimScreen() {
   const colour = darkMode ? "white" : "black";
 
   const [selectedClaimType, setSelectedClaimType] = useState(""); // State to manage selected claim type
+  const [data, setData] = useState({});
 
   const policyNumber = getPolicyNumber();
 
@@ -55,6 +57,20 @@ export default function NewClaimScreen() {
       },
     });
     const data = await result.json();
+    setData(data);
+
+    // let message = String(data.message);
+    // let claimNumber = "";
+    // let numbers = new Set(["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]);
+    // for (let i = 0; i < message.length; ++i) {
+
+    //   if (numbers.has(message.charAt(i))) {
+    //     claimNumber.concat(message.charAt(i));
+    //   }
+    // }
+    // console.log(claimNumber);
+
+    // setClaimNumber(claimNumber);
     console.log(data);
   };
 
