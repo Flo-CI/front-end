@@ -11,8 +11,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
-import file1 from "../assets/test-file-1.pdf";
-import file2 from "../assets/test-file-2.pdf";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 import { Grid } from "@mui/material";
 import {getClaimNumber, getClaimName} from "../hooks/ClaimUtils";
@@ -27,7 +25,7 @@ export default function ClaimFilesScreen() {
   pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/legacy/build/pdf.worker.min.js`;
 
   const [fileOpen, setFileOpen] = useState(false);
-  const [fileName, setFileName] = useState(file1);
+  const [fileName, setFileName] = useState();
   const [spacing, setSpacing] = useState(50);
   const [pageNum, setPageNum] = useState(1);
   const [pageMax, setPageMax] = useState(1);
@@ -36,7 +34,8 @@ export default function ClaimFilesScreen() {
   const claimNumber = getClaimNumber();
   const policyNumber = getPolicyNumber();
 
-  const backend_url = `https://ciflo.azurewebsites.net/claim/files?claimNumber=${claimNumber}&policyNumber=${policyNumber}`;
+  const backend_url_files = `https://ciflo.azurewebsites.net/claim/files?claimNumber=${claimNumber}&policyNumber=${policyNumber}`;
+  const base_download_url = `https://ciflo.azurewebsites.net/download?claimNumber=${claimNumber}&type=`;
 
   const [allFiles, setAllFiles] = useState([]);
 
@@ -45,7 +44,7 @@ export default function ClaimFilesScreen() {
   useEffect(() => {
     const fetchFiles = async () => {
       try {
-        const res = await fetch(backend_url);
+        const res = await fetch(backend_url_files);
         const data = await res.json();
         setAllFiles(data.details);
       } catch (error) {
@@ -53,11 +52,11 @@ export default function ClaimFilesScreen() {
       }
     };
 
-    fetchFiles().then(r => console.log("Filess fetched"));
+    fetchFiles().then(r => console.log("Files fetched"));
   }, []);
 
-  const presentFilesList = allFiles.filter(file => file.fileName === "null");
-  const missingFilesList = allFiles.filter(file => file.fileName !== "null");
+  const presentFilesList = allFiles.filter(file => file.fileName !== null);
+  const missingFilesList = allFiles.filter(file => file.fileName === null);
 
   useEffect(() => {
     if (fileOpen === true) {
@@ -68,15 +67,31 @@ export default function ClaimFilesScreen() {
     }
   }, [fileOpen]);
 
-  const handleFileClick = (file) => {
-    if (fileOpen === false) {
-      setFileOpen(true);
-      setFileName(file);
-    } else if (fileName === file) {
-      setFileOpen(false);
+  const handleFileClick = async (file) => {
+    if (!fileOpen && fileName !== file.fileName) {
+      try {
+        const response = await fetch(`${base_download_url}${file.fileType}`, {
+          method: 'GET',
+          // Add any necessary headers or configurations for your GET request
+        });
+
+        if (response.ok) {
+          const blob = await response.blob(); // Get the downloaded file as a Blob
+          const fileURL = URL.createObjectURL(blob); // Create a URL for the Blob
+
+          setFileOpen(true);
+          setFileName(fileURL); // Set the file URL to be displayed in the PDF viewer
+          setPageNum(1); // Reset page number to 1
+        } else {
+          console.error('Failed to download file');
+        }
+      } catch (error) {
+        console.error('Error downloading file', error);
+      }
     } else {
-      setFileName(file);
-      setPageNum(1);
+      console.log('Closing file')
+      setFileOpen(false);
+      setFileName(null);
     }
   };
 
@@ -110,6 +125,33 @@ export default function ClaimFilesScreen() {
       console.log(error)
     }
   }
+  // const refreshFilesAfterUpload = async (uploadedFile) => {
+  //   try {
+  //     console.log("Refreshing files");
+  //     setAllFiles((prevFiles) => {
+  //       const updatedFiles = prevFiles.map((file) => {
+  //         if (file.fileName === uploadedFile.fileName) {
+  //           return uploadedFile; // Update the specific uploaded file
+  //         }
+  //         return file;
+  //       });
+  //       return updatedFiles;
+  //     });
+  //   } catch (error) {
+  //     console.error("Error fetching files", error);
+  //   }
+  // };
+
+  const refreshFilesAfterUpload = async () => {
+    try {
+      console.log("Refreshing files");
+      const res = await fetch(backend_url_files);
+      const data = await res.json();
+      setAllFiles(data.details);
+    } catch (error) {
+      console.error("Error fetching files", error);
+    }
+  };
 
   const color = darkMode ? "#333" : "white";
 
@@ -128,10 +170,12 @@ export default function ClaimFilesScreen() {
             <div className="grid grid-cols-2 gap-1">
               {presentFilesList.map((file) => (
                   <FileCard
-                  fileName={file.fileType}
-                  fileDate={file.lastUpdated}
-                  fileStatus="Implement Verification Endpoint"
-                  onClick={() => handleFileClick(file.fileName)}>
+                    fileName={file.fileType}
+                    fileDate={file.lastUpdated}
+                    fileStatus="Implement Verification Endpoint"
+                    onClick={() => handleFileClick(file)}
+                    fileExists={file.fileName}
+                    onSuccessUpload={refreshFilesAfterUpload}>
                   </FileCard>
               ))}
             </div>
@@ -142,10 +186,12 @@ export default function ClaimFilesScreen() {
           <div className="max-w-screen-lg mx-auto">
             <div className="grid grid-cols-2 gap-1">
             {missingFilesList.map((file) => (
-                <FileCard onClick={() => handleFileClick(file.fileName)}
-                    fileName={file.fileType}
-                    fileDate="N/A"
-                    fileStatus="N/A">
+                <FileCard
+                  fileName={file.fileType}
+                  fileDate="N/A"
+                  fileStatus="N/A"
+                  fileExists={file.fileName}
+                  onSuccessUpload={refreshFilesAfterUpload}>
                 </FileCard>
             ))}
             </div>
@@ -162,7 +208,7 @@ export default function ClaimFilesScreen() {
                   pageNumber={pageNum}
                   renderTextLayer={false}
                   renderAnnotationLayer={false}
-                  scale={0.7}
+                  scale={1.1}
                 />
               </Document>
             </div>
