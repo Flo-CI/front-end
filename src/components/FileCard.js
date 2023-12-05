@@ -22,6 +22,8 @@ export default function FileCard({
     fileDate,
     fileStatus,
     onClick,
+    fileExists,
+    onSuccessUpload,
 }) {
     const { darkMode } = useContext(DarkModeContext);
     const color = darkMode
@@ -32,6 +34,7 @@ export default function FileCard({
 
     const handleFileUpload = async (event) => {
         const file = event.target.files[0];
+        console.log(file);
         const formData = new FormData();
         formData.append("file", file);
 
@@ -43,6 +46,8 @@ export default function FileCard({
 
             if (response.ok) {
                 console.log("File uploaded successfully.");
+                const uploadedFile = await response.json();
+                onSuccessUpload(uploadedFile);
             } else {
                 console.error("File upload failed.");
             }
@@ -52,8 +57,8 @@ export default function FileCard({
     };
 
     return (
-    <div className="border-2 rounded-xl w-90 h-42 m-4 bg-white cursor-pointer" onClick={onClick}>
-    <div className={color}>
+    <div className="border-2 rounded-xl w-90 h-42 m-4 bg-white cursor-pointer">
+    <div className={color} onClick={onClick}>
         <h1 className="px-4 py-4 font-bold text-xl">{fileName}</h1>
     </div>
 
@@ -67,12 +72,19 @@ export default function FileCard({
             Last Updated:{" "}
             <p className="px-1 font-semibold">{fileDate}</p>
         </h2>
-        <h2 className="px-4 py-2 flex justify-center">
+        <h2 className="px-4 py-2 flex justify-between">
             <label htmlFor="file-upload">
                 <Button color="success" size="small" component="label" variant="contained" startIcon={<CloudUploadIcon />}>
                     Upload file
                     <VisuallyHiddenInput id="file-upload" type="file" onChange={handleFileUpload} />
                 </Button>
+            </label>
+            <label>
+                {fileExists !== null &&
+                    <Button color="success" size="small" variant="contained">
+                        Validate File
+                    </Button>
+                }
             </label>
         </h2>
     </div>

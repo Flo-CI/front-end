@@ -103,6 +103,34 @@ export default function ClaimFilesScreen() {
     }
   };
 
+  // const refreshFilesAfterUpload = async (uploadedFile) => {
+  //   try {
+  //     console.log("Refreshing files");
+  //     setAllFiles((prevFiles) => {
+  //       const updatedFiles = prevFiles.map((file) => {
+  //         if (file.fileName === uploadedFile.fileName) {
+  //           return uploadedFile; // Update the specific uploaded file
+  //         }
+  //         return file;
+  //       });
+  //       return updatedFiles;
+  //     });
+  //   } catch (error) {
+  //     console.error("Error fetching files", error);
+  //   }
+  // };
+
+  const refreshFilesAfterUpload = async () => {
+    try {
+      console.log("Refreshing files");
+      const res = await fetch(backend_url_files);
+      const data = await res.json();
+      setAllFiles(data.details);
+    } catch (error) {
+      console.error("Error fetching files", error);
+    }
+  };
+
   const color = darkMode ? "#333" : "white";
 
   return (
@@ -120,10 +148,12 @@ export default function ClaimFilesScreen() {
             <div className="grid grid-cols-2 gap-1">
               {presentFilesList.map((file) => (
                   <FileCard
-                  fileName={file.fileType}
-                  fileDate={file.lastUpdated}
-                  fileStatus="Implement Verification Endpoint"
-                  onClick={() => handleFileClick(file)}>
+                    fileName={file.fileType}
+                    fileDate={file.lastUpdated}
+                    fileStatus="Implement Verification Endpoint"
+                    onClick={() => handleFileClick(file)}
+                    fileExists={file.fileName}
+                    onSuccessUpload={refreshFilesAfterUpload}>
                   </FileCard>
               ))}
             </div>
@@ -135,9 +165,11 @@ export default function ClaimFilesScreen() {
             <div className="grid grid-cols-2 gap-1">
             {missingFilesList.map((file) => (
                 <FileCard
-                    fileName={file.fileType}
-                    fileDate="N/A"
-                    fileStatus="N/A">
+                  fileName={file.fileType}
+                  fileDate="N/A"
+                  fileStatus="N/A"
+                  fileExists={file.fileName}
+                  onSuccessUpload={refreshFilesAfterUpload}>
                 </FileCard>
             ))}
             </div>
