@@ -32,14 +32,15 @@ export default function ClaimFilesScreen() {
   const claimNumber = getClaimNumber();
   const policyNumber = getPolicyNumber();
 
-  const backend_url = `https://ciflo.azurewebsites.net/claim/files?claimNumber=${claimNumber}&policyNumber=${policyNumber}`;
+  const backend_url_files = `https://ciflo.azurewebsites.net/claim/files?claimNumber=${claimNumber}&policyNumber=${policyNumber}`;
+  const base_download_url = `https://ciflo.azurewebsites.net/download?claimNumber=${claimNumber}&type=`;
 
   const [allFiles, setAllFiles] = useState([]);
 
   useEffect(() => {
     const fetchFiles = async () => {
       try {
-        const res = await fetch(backend_url);
+        const res = await fetch(backend_url_files);
         const data = await res.json();
         setAllFiles(data.details);
       } catch (error) {
@@ -62,15 +63,31 @@ export default function ClaimFilesScreen() {
     }
   }, [fileOpen]);
 
-  const handleFileClick = (file) => {
-    if (fileOpen === false) {
-      setFileOpen(true);
-      setFileName(file);
-    } else if (fileName === file) {
-      setFileOpen(false);
+  const handleFileClick = async (file) => {
+    if (!fileOpen && fileName !== file.fileName) {
+      try {
+        const response = await fetch(`${base_download_url}${file.fileType}`, {
+          method: 'GET',
+          // Add any necessary headers or configurations for your GET request
+        });
+
+        if (response.ok) {
+          const blob = await response.blob(); // Get the downloaded file as a Blob
+          const fileURL = URL.createObjectURL(blob); // Create a URL for the Blob
+
+          setFileOpen(true);
+          setFileName(fileURL); // Set the file URL to be displayed in the PDF viewer
+          setPageNum(1); // Reset page number to 1
+        } else {
+          console.error('Failed to download file');
+        }
+      } catch (error) {
+        console.error('Error downloading file', error);
+      }
     } else {
-      setFileName(file);
-      setPageNum(1);
+      console.log('Closing file')
+      setFileOpen(false);
+      setFileName(null);
     }
   };
 
@@ -106,7 +123,7 @@ export default function ClaimFilesScreen() {
                   fileName={file.fileType}
                   fileDate={file.lastUpdated}
                   fileStatus="Implement Verification Endpoint"
-                  onClick={() => handleFileClick(file.fileName)}>
+                  onClick={() => handleFileClick(file)}>
                   </FileCard>
               ))}
             </div>
@@ -117,7 +134,7 @@ export default function ClaimFilesScreen() {
           <div className="max-w-screen-lg mx-auto">
             <div className="grid grid-cols-2 gap-1">
             {missingFilesList.map((file) => (
-                <FileCard onClick={() => handleFileClick(file.fileName)}
+                <FileCard
                     fileName={file.fileType}
                     fileDate="N/A"
                     fileStatus="N/A">
@@ -137,7 +154,7 @@ export default function ClaimFilesScreen() {
                   pageNumber={pageNum}
                   renderTextLayer={false}
                   renderAnnotationLayer={false}
-                  scale={0.7}
+                  scale={1.1}
                 />
               </Document>
             </div>
