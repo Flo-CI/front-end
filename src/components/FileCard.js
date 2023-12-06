@@ -87,8 +87,7 @@ export default function FileCard({
       if (data.details === null) {
         added[fileName] = "Please upload the correct form.";
         setStatus("Incorrect Form");
-      } else if (Array(data.details).length === 0) {
-        added[fileName] = "Form has no errors.";
+      } else if (Array(data.details)[0].length === 0) {
         setStatus("Approved");
       } else {
         let message = "";
