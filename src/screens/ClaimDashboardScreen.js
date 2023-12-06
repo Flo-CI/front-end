@@ -1,9 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Button } from "@mui/base";
 import { DarkModeContext } from "../DarkModeContext.js";
 import ClaimCard from "../components/ClaimCard.js";
 import Navbar from "../components/Navbar.js";
-import NewClaimScreen from "./NewClaimScreen";
 import NewClaimButton from "../components/NewClaimButton";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 import { getPolicyNumber, getPasswordValue } from "../hooks/LoginUtils";
@@ -31,7 +29,7 @@ export default function ClaimDashboard() {
     };
 
     fetchClaims().then((r) => console.log("Claims fetched"));
-  }, []);
+  }, [backend_url]);
   console.log(allClaims);
   const currentClaimsList = allClaims.filter(
     (claim) =>

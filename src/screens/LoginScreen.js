@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Grid } from "@mui/material";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../state/store";
 import { setPolicyNumber, setPasswordValue } from "../hooks/LoginUtils";
@@ -12,7 +12,7 @@ import logo from "../assets/securian_name.png";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { IconButton, InputAdornment } from "@mui/material";
 
-function LoginScreen({ handleAuthentication }) {
+function LoginScreen() {
   // Base URL for database calls
   const base_policy =
     "https://ciflo.azurewebsites.net/user/login?policyNumber=";

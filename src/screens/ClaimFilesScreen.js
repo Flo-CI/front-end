@@ -49,7 +49,7 @@ export default function ClaimFilesScreen() {
     };
 
     fetchFiles().then((r) => console.log("Files fetched"));
-  }, []);
+  }, [backend_url_files]);
 
   useEffect(() => {
     console.log(allFiles);
@@ -117,7 +117,7 @@ export default function ClaimFilesScreen() {
       });
       const data = await result.json();
       alert(data.message);
-      if (data.status == 200) {
+      if (data.status === 200) {
         navigate("/dashboard");
       }
     } catch (error) {

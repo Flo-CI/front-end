@@ -2,18 +2,12 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../DarkModeContext"; // Import the context
 import logo from "../assets/securian_logo.png";
-import {
-  HomeIcon,
-  Cog6ToothIcon,
-  ArrowRightOnRectangleIcon,
-} from "@heroicons/react/24/solid";
+import { HomeIcon, ArrowRightOnRectangleIcon } from "@heroicons/react/24/solid";
 import { logout } from "../state/store";
 
 function Navbar() {
-  const { darkMode, toggleDarkMode, setDefaultMode } = useContext(DarkModeContext); // Use the context
-  const liClass = darkMode
-    ? "px-2 flex p-2 m-2 rounded-md bg-black text-white"
-    : "px-2 flex p-2 m-2 bg-white rounded-md";
+  const { darkMode, toggleDarkMode, setDefaultMode } =
+    useContext(DarkModeContext); // Use the context
   const liClassInverted = darkMode
     ? "px-2 flex p-2 m-2 bg-white rounded-md text-black"
     : "px-2 flex p-2 m-2 rounded-md bg-black text-white";
@@ -47,15 +41,13 @@ function Navbar() {
           </Link>
         </li>
 
-        {/*<li className={liClass}>*/}
-        {/*  /!* Settings *!/*/}
-        {/*  <Link to="/" className="flex">*/}
-        {/*    <p className="mr-2">Settings</p>{" "}*/}
-        {/*    <Cog6ToothIcon className="h-6 w-6" />*/}
-        {/*  </Link>*/}
-        {/*</li>*/}
         <li className={liClassInverted}>
-          <div onClick={() => {setDefaultMode(); logout()}}>
+          <div
+            onClick={() => {
+              setDefaultMode();
+              logout();
+            }}
+          >
             <Link to="/" className="flex">
               <p className="mr-2">Log Out</p>{" "}
               <ArrowRightOnRectangleIcon className="h-6 w-6" />

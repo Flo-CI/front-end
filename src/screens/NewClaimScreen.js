@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { DarkModeContext } from "../DarkModeContext.js";
 import Navbar from "../components/Navbar.js";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import { styled } from "@mui/material/styles";
 import ClaimFilesButton from "../components/ClaimFilesButton";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 import { getPolicyNumber } from "../hooks/LoginUtils";
@@ -16,18 +15,6 @@ const claimTypes = [
     label: "Loss of Life",
   },
 ];
-
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
 
 export default function NewClaimScreen() {
   useAuthenticationCheck();
@@ -72,21 +59,6 @@ export default function NewClaimScreen() {
     setClaimNumber(claimNumber);
     navigate("/claim-files");
   };
-
-  // useEffect(() => {
-  //   let message = String(data.message);
-  //   let claimNumber = "";
-  //   let numbers = new Set(["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]);
-  //   for (let i = 0; i < message.length; ++i) {
-  //     if (numbers.has(message.charAt(i))) {
-  //       claimNumber.concat(message.charAt(i));
-  //     }
-  //   }
-  //   console.log(claimNumber);
-  //   setClaimNumber(claimNumber);
-
-  //   navigate("/claim-files");
-  // }, [data]);
 
   return (
     <div className={`${darkMode ? "dark" : "light"} bg-gray-50 h-screen`}>

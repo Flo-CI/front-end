@@ -20,7 +20,6 @@ const VisuallyHiddenInput = styled("input")({
 export default function FileCard({
   fileName,
   fileDate,
-  fileStatus,
   onClick,
   fileExists,
   onSuccessUpload,
