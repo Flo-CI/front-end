@@ -8,6 +8,7 @@ export default function ClaimCard({
   claimNumber,
   dateFiled,
   applicationStatus,
+  rank,
 }) {
   const { darkMode } = useContext(DarkModeContext);
   const navigate = useNavigate();
@@ -43,7 +44,12 @@ export default function ClaimCard({
           Date Filed: <p className="px-1 font-semibold">{dateFiled}</p>
         </h2>
 
-        <div className="px-4 flex flex-row font-light text-md justify-end">
+        <div
+          className={`${
+            rank ? "justify-between" : "justify-end"
+          } px-4 flex flex-row font-light text-md`}
+        >
+          {rank ? <p className="flex font-bold">Rank: {rank}</p> : null}
           <p>No: {claimNumber}</p>
         </div>
       </div>

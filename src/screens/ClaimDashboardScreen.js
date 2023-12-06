@@ -12,15 +12,19 @@ export default function ClaimDashboard() {
   useAuthenticationCheck();
 
   const [allClaims, setAllClaims] = useState([]);
+  const [rankMap, setRankMap] = useState({});
   const policyNumber = getPolicyNumber();
   const passwordValue = getPasswordValue();
 
-  const backend_url = `https://ciflo.azurewebsites.net/claims?policyNumber=${policyNumber}&password=${passwordValue}`;
+  const backend_url = `https://ciflo.azurewebsites.net/`;
 
   useEffect(() => {
     const fetchClaims = async () => {
       try {
-        const res = await fetch(backend_url);
+        const res = await fetch(
+          backend_url +
+            `claims?policyNumber=${policyNumber}&password=${passwordValue}`
+        );
         const data = await res.json();
         setAllClaims(data.details);
       } catch (error) {
@@ -28,8 +32,18 @@ export default function ClaimDashboard() {
       }
     };
 
+    const fetchRanks = async () => {
+      const res = await fetch(
+        backend_url + `claim/rank?policyNumber=${policyNumber}`
+      );
+      const data = await res.json();
+      setRankMap(data.details);
+    };
+
     fetchClaims().then((r) => console.log("Claims fetched"));
-  }, [backend_url]);
+    fetchRanks();
+  }, [backend_url, passwordValue, policyNumber]);
+
   console.log(allClaims);
   const currentClaimsList = allClaims.filter(
     (claim) =>
@@ -63,6 +77,7 @@ export default function ClaimDashboard() {
               claimName={claim.type}
               applicationStatus={claim.status}
               dateFiled={claim.dateCreated}
+              rank={rankMap[claim.claimNumber]}
             ></ClaimCard>
           ))}
         </div>
@@ -78,6 +93,7 @@ export default function ClaimDashboard() {
               claimName={claim.type}
               applicationStatus={claim.status}
               dateFiled={claim.dateCreated}
+              rank={rankMap[claim.claimNumber]}
             ></ClaimCard>
           ))}
         </div>
