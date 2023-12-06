@@ -10,6 +10,7 @@ import FileCard from "../components/FileCard";
 import Button from "@mui/material/Button";
 import { getPolicyNumber } from "../hooks/LoginUtils";
 import { useNavigate } from "react-router";
+import DocumentViewer from '../screens/DocumentViewer';
 
 export default function ClaimFilesScreen() {
   useAuthenticationCheck();
@@ -56,15 +57,6 @@ export default function ClaimFilesScreen() {
     setMissingFilesList(allFiles.filter((file) => file.fileName === null));
     setPresentFilesList(allFiles.filter((file) => file.fileName !== null));
   }, [allFiles]);
-
-  useEffect(() => {
-    if (fileOpen === true) {
-      setSpacing(7);
-      setPageNum(1);
-    } else {
-      setSpacing(50);
-    }
-  }, [fileOpen]);
 
   const handleFileClick = async (file) => {
     if (!fileOpen && fileName !== file.fileName) {
@@ -166,16 +158,24 @@ export default function ClaimFilesScreen() {
             <div className="flex flex-col justify-center items-center">
               {presentFilesList.map((file) => (
                 <FileCard
-                  fileName={file.fileType}
-                  fileDate={file.lastUpdated}
-                  fileStatus="Implement Verification Endpoint"
-                  onClick={() => handleFileClick(file)}
-                  fileExists={file.fileName}
-                  onSuccessUpload={() => {}}
-                  validationResults={validationResults}
-                  setValidationResults={setValidationResults}
-                ></FileCard>
+                fileName={file.fileType}
+                fileDate={file.lastUpdated}
+                fileStatus="Implement Verification Endpoint"
+                onClick={() => handleFileClick(file)}
+                fileExists={file.fileName}
+                onSuccessUpload={() => {}}
+                validationResults={validationResults}
+                setValidationResults={setValidationResults}
+              ></FileCard>
+                
               ))}
+              {fileOpen && (
+        <DocumentViewer
+          open={fileOpen}
+          handleClose={() => setFileOpen(false)}
+          fileURL={fileName}
+        />
+      )}
             </div>
           </div>
           <div className="flex justify-center items-start pt-4">
@@ -198,29 +198,6 @@ export default function ClaimFilesScreen() {
           </div>
         </Grid>
       </Grid>
-      {fileOpen ? (
-        <div
-          className={`${
-            darkMode ? "dark" : "light"
-          } h-screen fixed inset-0 flex items-center justify-center z-50`}
-          onClick={handlePageNum}
-        >
-          <div
-            className="absolute top-4 right-4 text-red-700 hover:text-red-900 cursor-pointer"
-            onClick={() => handleFileClick()}
-          >
-            <div className="p-3 text-2xl">X</div>
-          </div>
-          <Document file={fileName} onLoadSuccess={documentLoadSuccess}>
-            <Page
-              pageNumber={pageNum}
-              renderTextLayer={false}
-              renderAnnotationLayer={false}
-              scale={0.8}
-            />
-          </Document>
-        </div>
-      ) : null}
     </div>
   );
 }
