@@ -29,6 +29,7 @@ export default function FileCard({
 }) {
   const { darkMode } = useContext(DarkModeContext);
   const [status, setStatus] = useState("---");
+  const [uploaded, setUploaded] = useState(false);
 
   const color = darkMode
     ? "bg-green-500 text-white rounded-t-xl rou"
@@ -54,6 +55,7 @@ export default function FileCard({
       if (response.ok) {
         console.log("File uploaded successfully.");
         onSuccessUpload();
+        setUploaded(true);
       } else {
         console.error("File upload failed.");
       }
@@ -91,9 +93,12 @@ export default function FileCard({
         setStatus("Approved");
       } else {
         let message = "";
-        let dataArray = Array(data.details);
+        let dataArray = Array(data.details)[0];
         for (let i = 0; i < dataArray.length; ++i) {
-          message = message.concat(dataArray.at(i) + "\n");
+          let dataObj = dataArray.at(i);
+          message = message.concat(
+            dataObj.field + ": " + dataObj.message + "\n"
+          );
         }
         added[fileName] = message;
         setStatus("Not Approved");
@@ -106,20 +111,33 @@ export default function FileCard({
   };
 
   return (
-    <div className="border-2 rounded-xl w-90 h-42 m-4 bg-white cursor-pointer">
+    <div className="border-2 rounded-xl w-9/12 h-42 my-1 mx-4 bg-white cursor-pointer">
       {/* Header and button for pdf viewing */}
-      <div className={color} onClick={onClick}>
+      <div className={`${color} flex justify-between`}>
         <h1 className="px-4 py-4 font-bold text-xl">{fileName}</h1>
+        <div
+          className={`${
+            darkMode
+              ? "bg-slate-900 text-white hover:bg-slate-600"
+              : "bg-slate-100 text-black hover:bg-slate-400"
+          } flex justify-center items-center px-4 py-2 font-bold`}
+          onClick={onClick}
+        >
+          View File PDF
+        </div>
       </div>
 
       {/* Claim status, claim number, date filed */}
       <div className={darkMode ? "dark" : "light"}>
-        <h2 className="px-4 py-2 flex">
-          Status: <p className="px-1 font-semibold">{status}</p>
-        </h2>
-        <h2 className="px-4 py-2 flex">
-          Last Updated: <p className="px-1 font-semibold">{fileDate}</p>
-        </h2>
+        <div className="flex justify-between">
+          <h2 className="px-4 py-2 flex">
+            Status: <p className="px-1 font-semibold">{status}</p>
+          </h2>
+          <h2 className="px-4 py-2 flex">
+            Last Updated: <p className="px-1 font-semibold">{fileDate}</p>
+          </h2>
+        </div>
+
         <h2 className="px-4 py-2 flex justify-between">
           <label htmlFor="file-upload">
             <Button
@@ -138,7 +156,7 @@ export default function FileCard({
             </Button>
           </label>
           <label>
-            {fileExists !== null && (
+            {(fileExists !== null || uploaded) && (
               <div onClick={handleFileValidation}>
                 <Button color="success" size="small" variant="contained">
                   Validate File

@@ -125,20 +125,21 @@ export default function ClaimFilesScreen() {
     }
   };
 
-  const removeFromMissing = (currFile) => {
-    let i = missingFilesList.indexOf(currFile);
-    setPresentFilesList(presentFilesList.concat([currFile]));
-    setMissingFilesList(
-      missingFilesList
-        .slice(0, i)
-        .concat(missingFilesList.slice(i + 1, missingFilesList.length))
-    );
+  const refetchFiles = async () => {
+    try {
+      const res = await fetch(backend_url_files);
+      const data = await res.json();
+      console.log(data);
+      setAllFiles(data.details);
+    } catch (error) {
+      console.error("Error fetching files", error);
+    }
   };
 
-  const color = darkMode ? "#333" : "white";
-
   return (
-    <div className={`${darkMode ? "dark" : "light"} bg-gray-50 h-screen`}>
+    <div
+      className={`${darkMode ? "dark" : "light"}  bg-gray-50 h-screen w-screen`}
+    >
       <Navbar />
       <div
         className="flex justify-between items-start pt-4"
@@ -157,13 +158,14 @@ export default function ClaimFilesScreen() {
           Submit
         </Button>
       </div>
+
       <Grid container direction={"row"}>
         <Grid item xs={spacing}>
           <div className="flex justify-center items-start pt-4">
             <h1 className=" px-2 text-4xl font-bold ">Claim Files</h1>
           </div>
-          <div className="max-w-screen-lg mx-auto">
-            <div className="grid grid-cols-2 gap-1">
+          <div className="mx-auto">
+            <div className="flex flex-col justify-center items-center">
               {presentFilesList.map((file) => (
                 <FileCard
                   fileName={file.fileType}
@@ -181,15 +183,15 @@ export default function ClaimFilesScreen() {
           <div className="flex justify-center items-start pt-4">
             <h1 className=" px-2 text-4xl font-bold ">Missing Files</h1>
           </div>
-          <div className="max-w-screen-lg mx-auto">
-            <div className="grid grid-cols-2 gap-1">
+          <div className="mx-auto">
+            <div className="flex justify-center items-center">
               {missingFilesList.map((file) => (
                 <FileCard
                   fileName={file.fileType}
                   fileDate="N/A"
                   fileStatus="N/A"
                   fileExists={file.fileName}
-                  onSuccessUpload={() => removeFromMissing(file)}
+                  onSuccessUpload={() => refetchFiles(file)}
                   validationResults={validationResults}
                   setValidationResults={setValidationResults}
                 ></FileCard>
@@ -197,24 +199,30 @@ export default function ClaimFilesScreen() {
             </div>
           </div>
         </Grid>
-        {fileOpen ? (
-          <Grid item>
-            <div
-              className={`${darkMode ? "dark" : "light"} bg-gray-50 h-screen`}
-              onClick={handlePageNum}
-            >
-              <Document file={fileName} onLoadSuccess={documentLoadSuccess}>
-                <Page
-                  pageNumber={pageNum}
-                  renderTextLayer={false}
-                  renderAnnotationLayer={false}
-                  scale={1.1}
-                />
-              </Document>
-            </div>
-          </Grid>
-        ) : null}
       </Grid>
+      {fileOpen ? (
+        <div
+          className={`${
+            darkMode ? "dark" : "light"
+          } h-screen fixed inset-0 flex items-center justify-center z-50`}
+          onClick={handlePageNum}
+        >
+          <div
+            className="absolute top-4 right-4 text-red-700 hover:text-red-900 cursor-pointer"
+            onClick={() => handleFileClick()}
+          >
+            <div className="p-3 text-2xl">X</div>
+          </div>
+          <Document file={fileName} onLoadSuccess={documentLoadSuccess}>
+            <Page
+              pageNumber={pageNum}
+              renderTextLayer={false}
+              renderAnnotationLayer={false}
+              scale={1.0}
+            />
+          </Document>
+        </div>
+      ) : null}
     </div>
   );
 }
