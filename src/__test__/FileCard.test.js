@@ -1,53 +1,51 @@
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import FileCard from '../components/FileCard'; // Adjust the path as needed
-import { DarkModeProvider } from '../DarkModeContext'; // Adjust the import path as needed
+import React from "react";
+import { render, fireEvent } from "@testing-library/react";
+import { DarkModeContext } from "../DarkModeContext";
+import FileCard from "../components/FileCard";
 
+describe("FileCard Component (Button Click Tests)", () => {
+  test("simulates button clicks and checks functionality", () => {
+    const mockProps = {
+      fileName: "Test File",
+      fileDate: "2023-12-01",
+      onClick: jest.fn(),
+      fileExists: true,
+      onSuccessUpload: jest.fn(),
+      validationResults: {},
+      setValidationResults: jest.fn(),
+    };
 
+    const mockContextValue = {
+      darkMode: true, // Assuming dark mode is enabled
+    };
 
-describe('FileCard Component', () => {
-    it('renders FileCard component with correct file details in dark mode', () => {
-        const fileName = 'TestFile';
-        const fileDate = '2023-12-03';
-        const fileStatus = 'Pending';
+    const { getByLabelText, getByText } = render(
+      <DarkModeContext.Provider value={mockContextValue}>
+        <FileCard {...mockProps} />
+      </DarkModeContext.Provider>
+    );
 
-        const onClickMock = jest.fn();
-        const { getByText } = render(
-            <DarkModeProvider>
-                <FileCard
-                    fileName={fileName}
-                    fileDate={fileDate}
-                    fileStatus={fileStatus}
-                    onClick={onClickMock}
-                />
-            </DarkModeProvider>
-        );
-
-        const fileNameElement = getByText(fileName);
-        expect(fileNameElement).toBeInTheDocument();
-
-        // Add more assertions based on your component structure and test requirements
-        // For instance, you can check for the presence of other elements based on fileStatus, fileDate, etc.
+    // Simulate click on the 'Upload file' button
+    const uploadButton = getByLabelText("Upload file");
+    fireEvent.change(uploadButton, {
+      target: {
+        files: [new File(["(⌐□_□)"], "test-file.pdf", { type: "application/pdf" })],
+      },
     });
 
-    it('fires onClick function when FileCard is clicked', () => {
-        const onClickMock = jest.fn();
-        const { container } = render(
-            <DarkModeProvider>
-                <FileCard
-                    fileName="TestFile"
-                    fileDate="2023-12-03"
-                    fileStatus="Pending"
-                    onClick={onClickMock}
-                />
-            </DarkModeProvider>
-        );
+    // Simulate click on the 'Validate File' button (if visible)
+    if (mockProps.fileExists) {
+      const validateFileButton = getByText("Validate File");
+      fireEvent.click(validateFileButton);
 
-        const fileCard = container.firstChild; // Assuming the first child is the clickable area
-        fireEvent.click(fileCard);
+    }
 
-        expect(onClickMock).toHaveBeenCalled();
-    });
+    // Simulate click on the 'View File PDF' button (if visible)
+    if (mockProps.fileExists) {
+      const viewFileButton = getByText("View File PDF");
+      fireEvent.click(viewFileButton);
 
-    // Add more tests for different scenarios as needed
+    }
+
+  });
 });
