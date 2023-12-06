@@ -1,20 +1,18 @@
 {
   "files": {
-    "main.css": "/front-end/static/css/main.8252fc98.css",
-    "main.js": "/front-end/static/js/main.1c41b13a.js",
+    "main.css": "/front-end/static/css/main.8123bc1d.css",
+    "main.js": "/front-end/static/js/main.343fe179.js",
     "static/js/787.46c27676.chunk.js": "/front-end/static/js/787.46c27676.chunk.js",
     "static/media/securian_name.png": "/front-end/static/media/securian_name.50bb371563c4321e8a8e.png",
     "static/media/securian_logo.png": "/front-end/static/media/securian_logo.3bad7ee848c35f17f298.png",
-    "static/media/test-file-1.pdf": "/front-end/static/media/test-file-1.2aadcf7ed9f2adc9c77d.pdf",
-    "static/media/test-file-2.pdf": "/front-end/static/media/test-file-2.85e5d6225ceaeb8dff84.pdf",
     "static/media/background.png": "/front-end/static/media/background.b418bbfa63a4205d5596.png",
     "index.html": "/front-end/index.html",
-    "main.8252fc98.css.map": "/front-end/static/css/main.8252fc98.css.map",
-    "main.1c41b13a.js.map": "/front-end/static/js/main.1c41b13a.js.map",
+    "main.8123bc1d.css.map": "/front-end/static/css/main.8123bc1d.css.map",
+    "main.343fe179.js.map": "/front-end/static/js/main.343fe179.js.map",
     "787.46c27676.chunk.js.map": "/front-end/static/js/787.46c27676.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.8252fc98.css",
-    "static/js/main.1c41b13a.js"
+    "static/css/main.8123bc1d.css",
+    "static/js/main.343fe179.js"
   ]
 }
