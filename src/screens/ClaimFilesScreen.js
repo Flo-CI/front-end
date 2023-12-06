@@ -10,14 +10,12 @@ import FileCard from "../components/FileCard";
 import Button from "@mui/material/Button";
 import { getPolicyNumber } from "../hooks/LoginUtils";
 import { useNavigate } from "react-router";
-
+import DocumentViewer from '../screens/DocumentViewer';
 export default function ClaimFilesScreen() {
   useAuthenticationCheck();
 
-  pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/legacy/build/pdf.worker.min.js`;
-
   const [fileOpen, setFileOpen] = useState(false);
-  const [fileName, setFileName] = useState();
+  const [fileName, setFileName] = useState('');
   const [spacing, setSpacing] = useState(50);
   const [pageNum, setPageNum] = useState(1);
   const [pageMax, setPageMax] = useState(1);
@@ -58,12 +56,12 @@ export default function ClaimFilesScreen() {
   }, [allFiles]);
 
   useEffect(() => {
-    if (fileOpen === true) {
-      setSpacing(7);
-      setPageNum(1);
-    } else {
-      setSpacing(50);
-    }
+    // if (fileOpen === true) {
+    //   setSpacing(7);
+    //   setPageNum(1);
+    // } else {
+    //   setSpacing(50);
+    // }
   }, [fileOpen]);
 
   const handleFileClick = async (file) => {
@@ -185,20 +183,26 @@ export default function ClaimFilesScreen() {
             <div className="flex flex-col justify-center items-center">
               {missingFilesList.map((file) => (
                 <FileCard
-                  fileName={file.fileType}
-                  fileDate="N/A"
-                  fileStatus="N/A"
-                  fileExists={file.fileName}
-                  onSuccessUpload={() => refetchFiles(file)}
-                  validationResults={validationResults}
-                  setValidationResults={setValidationResults}
-                ></FileCard>
+                key={file.id} // Assuming there's a unique ID for each file
+                fileName={file.fileType}
+                // Other file details...
+                onClick={() => handleFileClick(file)}
+                // Other props...
+              ></FileCard>
               ))}
+              {/* DocumentViewer Dialog */}
+      {fileOpen && (
+        <DocumentViewer
+          open={fileOpen}
+          handleClose={() => setFileOpen(false)}
+          fileURL={fileName}
+        />
+      )}
             </div>
           </div>
         </Grid>
       </Grid>
-      {fileOpen ? (
+      {/* {fileOpen ? (
         <div
           className={`${
             darkMode ? "dark" : "light"
@@ -220,7 +224,7 @@ export default function ClaimFilesScreen() {
             />
           </Document>
         </div>
-      ) : null}
+      ) : null} */}
     </div>
   );
 }
