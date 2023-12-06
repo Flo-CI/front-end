@@ -8,13 +8,7 @@ const useAuthenticationCheck = () => {
     if (!authenticator.isAuthenticated) {
       window.location.href = "/front-end";
     }
-
-    // For when we implement cookies
-    // const token = localStorage.getItem("token");
-    // if (!token) {
-    //   useNavigate("/login");
-    // }
-  }, []);
+  }, [authenticator.isAuthenticated]);
 };
 
 export default useAuthenticationCheck;
