@@ -3,11 +3,11 @@ import { DarkModeContext } from "../DarkModeContext.js";
 import Navbar from "../components/Navbar.js";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import Button from "@mui/material/Button";
-import { styled } from "@mui/material/styles";
 import ClaimFilesButton from "../components/ClaimFilesButton";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 import { getPolicyNumber } from "../hooks/LoginUtils";
+import { setClaimNumber } from "../hooks/ClaimUtils.js";
+import { useNavigate } from "react-router-dom";
 
 const claimTypes = [
   {
@@ -15,18 +15,6 @@ const claimTypes = [
     label: "Loss of Life",
   },
 ];
-
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
 
 export default function NewClaimScreen() {
   useAuthenticationCheck();
@@ -37,6 +25,7 @@ export default function NewClaimScreen() {
   const [selectedClaimType, setSelectedClaimType] = useState(""); // State to manage selected claim type
 
   const policyNumber = getPolicyNumber();
+  const navigate = useNavigate();
 
   const handleClaimTypeChange = (event) => {
     setSelectedClaimType(event.target.value); // Update the selected claim type
@@ -54,8 +43,21 @@ export default function NewClaimScreen() {
         "Content-Type": "application/json",
       },
     });
+    // {message: 'Loss of Life Claim 3249120 created successfully', status: 200, details: null}
     const data = await result.json();
-    console.log(data);
+
+    let message = String(data.message);
+    let claimNumber = "";
+    let numbers = new Set(["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]);
+
+    for (let i = 0; i < message.length; ++i) {
+      if (numbers.has(message.charAt(i))) {
+        // .concat is non mutating
+        claimNumber = claimNumber.concat(message.charAt(i));
+      }
+    }
+    setClaimNumber(claimNumber);
+    navigate("/claim-files");
   };
 
   return (
