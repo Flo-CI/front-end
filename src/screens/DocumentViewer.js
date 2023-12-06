@@ -1,9 +1,15 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import { Worker, Viewer } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+=======
+/* FILE IS NOT BEING USED CURRENTLY */
+
+import { useState } from "react";
+>>>>>>> 5e98a93afe63b0a41de47603dd49f7d80f517f3d
 
 function DocumentViewer({ open, handleClose, fileURL }) {
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
