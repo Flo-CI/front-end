@@ -5,15 +5,11 @@ import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 import { Grid } from "@mui/material";
-import {
-  getClaimNumber,
-  getClaimName,
-  setClaimNumber,
-} from "../hooks/ClaimUtils";
+import { getClaimNumber, getClaimName } from "../hooks/ClaimUtils";
 import FileCard from "../components/FileCard";
 import Button from "@mui/material/Button";
 import { getPolicyNumber } from "../hooks/LoginUtils";
-import { Navigate, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 export default function ClaimFilesScreen() {
   useAuthenticationCheck();
@@ -36,6 +32,7 @@ export default function ClaimFilesScreen() {
   const [allFiles, setAllFiles] = useState([]);
   const [missingFilesList, setMissingFilesList] = useState([]);
   const [presentFilesList, setPresentFilesList] = useState([]);
+  const [validationResults, setValidationResults] = useState({});
 
   const navigate = useNavigate();
 
@@ -119,9 +116,8 @@ export default function ClaimFilesScreen() {
         },
       });
       const data = await result.json();
-      alert(data);
+      alert(data.message);
       if (data.status == 200) {
-        // setClaimNumber("");
         navigate("/dashboard");
       }
     } catch (error) {
@@ -175,7 +171,9 @@ export default function ClaimFilesScreen() {
                   fileStatus="Implement Verification Endpoint"
                   onClick={() => handleFileClick(file)}
                   fileExists={file.fileName}
-                  onSuccessUpload={() => removeFromMissing(file)}
+                  onSuccessUpload={() => {}}
+                  validationResults={validationResults}
+                  setValidationResults={setValidationResults}
                 ></FileCard>
               ))}
             </div>
@@ -192,6 +190,8 @@ export default function ClaimFilesScreen() {
                   fileStatus="N/A"
                   fileExists={file.fileName}
                   onSuccessUpload={() => removeFromMissing(file)}
+                  validationResults={validationResults}
+                  setValidationResults={setValidationResults}
                 ></FileCard>
               ))}
             </div>

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { DarkModeContext } from "../DarkModeContext";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
@@ -24,13 +24,17 @@ export default function FileCard({
   onClick,
   fileExists,
   onSuccessUpload,
+  validationResults,
+  setValidationResults,
 }) {
   const { darkMode } = useContext(DarkModeContext);
+  const [status, setStatus] = useState("---");
+
   const color = darkMode
     ? "bg-green-500 text-white rounded-t-xl rou"
     : "bg-green-300 rounded-t-xl rou";
   const claimNumber = getClaimNumber();
-  const backend_url = `https://ciflo.azurewebsites.net/upload?claimNumber=${claimNumber}&type=${fileName}`;
+  const backend_url = `https://ciflo.azurewebsites.net/`;
 
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
@@ -39,14 +43,16 @@ export default function FileCard({
     formData.append("file", file);
 
     try {
-      const response = await fetch(backend_url, {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        backend_url + `upload?claimNumber=${claimNumber}&type=${fileName}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       if (response.ok) {
         console.log("File uploaded successfully.");
-        const uploadedFile = await response.json();
         onSuccessUpload();
       } else {
         console.error("File upload failed.");
@@ -56,8 +62,52 @@ export default function FileCard({
     }
   };
 
+  const handleFileValidation = async () => {
+    try {
+      console.log(fileName);
+      const response = await fetch(
+        backend_url + `validate?claimNumber=${claimNumber}&type=${fileName}`,
+        {
+          method: "POST",
+        }
+      );
+
+      if (!response.ok) {
+        console.error("Error validating file. Status: ", response.status);
+        return;
+      }
+
+      console.log(response.status);
+      console.log(response.headers.get("Content-Type"));
+      const data = await response.json();
+      console.log(data);
+
+      let added = { ...validationResults };
+      if (data.details === null) {
+        added[fileName] = "Please upload the correct form.";
+        setStatus("Incorrect Form");
+      } else if (Array(data.details).length === 0) {
+        added[fileName] = "Form has no errors.";
+        setStatus("Approved");
+      } else {
+        let message = "";
+        let dataArray = Array(data.details);
+        for (let i = 0; i < dataArray.length; ++i) {
+          message = message.concat(dataArray.at(i) + "\n");
+        }
+        added[fileName] = message;
+        setStatus("Not Approved");
+      }
+
+      setValidationResults(added);
+    } catch (error) {
+      console.error("Error validating file", error);
+    }
+  };
+
   return (
     <div className="border-2 rounded-xl w-90 h-42 m-4 bg-white cursor-pointer">
+      {/* Header and button for pdf viewing */}
       <div className={color} onClick={onClick}>
         <h1 className="px-4 py-4 font-bold text-xl">{fileName}</h1>
       </div>
@@ -65,7 +115,7 @@ export default function FileCard({
       {/* Claim status, claim number, date filed */}
       <div className={darkMode ? "dark" : "light"}>
         <h2 className="px-4 py-2 flex">
-          Status: <p className="px-1 font-semibold">{fileStatus}</p>
+          Status: <p className="px-1 font-semibold">{status}</p>
         </h2>
         <h2 className="px-4 py-2 flex">
           Last Updated: <p className="px-1 font-semibold">{fileDate}</p>
@@ -89,13 +139,18 @@ export default function FileCard({
           </label>
           <label>
             {fileExists !== null && (
-              <Button color="success" size="small" variant="contained">
-                Validate File
-              </Button>
+              <div onClick={handleFileValidation}>
+                <Button color="success" size="small" variant="contained">
+                  Validate File
+                </Button>
+              </div>
             )}
           </label>
         </h2>
       </div>
+
+      {/* Validation message */}
+      <p className=" text-red-600 px-4 pb-1">{validationResults[fileName]}</p>
     </div>
   );
 }

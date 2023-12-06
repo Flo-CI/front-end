@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
 import { DarkModeContext } from "../DarkModeContext"; // Import the context
 
 export default function ClaimFilesButton(props) {

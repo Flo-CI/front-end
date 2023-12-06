@@ -3,13 +3,12 @@ import { DarkModeContext } from "../DarkModeContext.js";
 import Navbar from "../components/Navbar.js";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import ClaimFilesButton from "../components/ClaimFilesButton";
 import useAuthenticationCheck from "../hooks/useAuthenticationCheck.js";
 import { getPolicyNumber } from "../hooks/LoginUtils";
 import { setClaimNumber } from "../hooks/ClaimUtils.js";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const claimTypes = [
   {
@@ -37,7 +36,6 @@ export default function NewClaimScreen() {
   const colour = darkMode ? "white" : "black";
 
   const [selectedClaimType, setSelectedClaimType] = useState(""); // State to manage selected claim type
-  const [data, setData] = useState({});
 
   const policyNumber = getPolicyNumber();
   const navigate = useNavigate();
