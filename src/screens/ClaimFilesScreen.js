@@ -137,9 +137,7 @@ export default function ClaimFilesScreen() {
   };
 
   return (
-    <div
-      className={`${darkMode ? "dark" : "light"}  bg-gray-50 h-screen w-screen`}
-    >
+    <div className={`${darkMode ? "dark" : "light"}  bg-gray-50 h-screen`}>
       <Navbar />
       <div
         className="flex justify-between items-start pt-4"
@@ -184,7 +182,7 @@ export default function ClaimFilesScreen() {
             <h1 className=" px-2 text-4xl font-bold ">Missing Files</h1>
           </div>
           <div className="mx-auto">
-            <div className="flex justify-center items-center">
+            <div className="flex flex-col justify-center items-center">
               {missingFilesList.map((file) => (
                 <FileCard
                   fileName={file.fileType}
@@ -218,7 +216,7 @@ export default function ClaimFilesScreen() {
               pageNumber={pageNum}
               renderTextLayer={false}
               renderAnnotationLayer={false}
-              scale={1.0}
+              scale={0.8}
             />
           </Document>
         </div>

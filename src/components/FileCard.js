@@ -115,20 +115,22 @@ export default function FileCard({
       {/* Header and button for pdf viewing */}
       <div className={`${color} flex justify-between`}>
         <h1 className="px-4 py-4 font-bold text-xl">{fileName}</h1>
-        <div
-          className={`${
-            darkMode
-              ? "bg-slate-900 text-white hover:bg-slate-600"
-              : "bg-slate-100 text-black hover:bg-slate-400"
-          } flex justify-center items-center px-4 py-2 font-bold`}
-          onClick={onClick}
-        >
-          View File PDF
-        </div>
+        {fileExists ? (
+          <div
+            className={`${
+              darkMode
+                ? "bg-slate-900 text-white hover:bg-slate-600"
+                : "bg-slate-100 text-black hover:bg-slate-400"
+            } flex justify-center items-center px-4 py-2 font-bold rounded-tr-xl`}
+            onClick={onClick}
+          >
+            View File PDF
+          </div>
+        ) : null}
       </div>
 
       {/* Claim status, claim number, date filed */}
-      <div className={darkMode ? "dark" : "light"}>
+      <div className={`${darkMode ? "dark" : "light"}`}>
         <div className="flex justify-between">
           <h2 className="px-4 py-2 flex">
             Status: <p className="px-1 font-semibold">{status}</p>
@@ -138,7 +140,7 @@ export default function FileCard({
           </h2>
         </div>
 
-        <h2 className="px-4 py-2 flex justify-between">
+        <h2 className="px-4 py-2 flex justify-between ">
           <label htmlFor="file-upload">
             <Button
               color="success"
@@ -168,7 +170,26 @@ export default function FileCard({
       </div>
 
       {/* Validation message */}
-      <p className=" text-red-600 px-4 pb-1">{validationResults[fileName]}</p>
+      <div
+        className={`${
+          darkMode ? "dark" : "light"
+        } px-4 pb-4 whitespace-pre-wrap rounded-b-xl`}
+      >
+        <p className={` text-red-600 `}>
+          {validationResults[fileName] ? (
+            <div>
+              <h1
+                className={`${
+                  darkMode ? "text-white" : "text-black"
+                } font-bold text-lg`}
+              >
+                Errors:
+              </h1>
+              {validationResults[fileName]}
+            </div>
+          ) : null}
+        </p>
+      </div>
     </div>
   );
 }
