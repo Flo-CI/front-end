@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 
 const useAuthenticationCheck = () => {
