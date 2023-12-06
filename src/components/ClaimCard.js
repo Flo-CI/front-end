@@ -49,8 +49,8 @@ export default function ClaimCard({
             rank ? "justify-between" : "justify-end"
           } px-4 flex flex-row font-light text-md`}
         >
-          {rank ? <p className="flex font-bold">Rank: {rank}</p> : null}
-          <p>No: {claimNumber}</p>
+          {rank ? <p className="flex font-bold">Waitlist No: {rank}</p> : null}
+          <p>Policy No: {claimNumber}</p>
         </div>
       </div>
     </div>
