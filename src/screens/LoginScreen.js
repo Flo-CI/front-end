@@ -6,16 +6,17 @@ import { Grid } from "@mui/material";
 import { redirect, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../state/store";
-import { setPolicyNumber, setPasswordValue } from '../hooks/LoginUtils';
+import { setPolicyNumber, setPasswordValue } from "../hooks/LoginUtils";
 import background from "../assets/background.png";
 import logo from "../assets/securian_name.png";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { IconButton, InputAdornment } from "@mui/material";
 
 function LoginScreen({ handleAuthentication }) {
-
   // Base URL for database calls
-  const base_policy = "https://ciflo.azurewebsites.net/user/login?policyNumber=";
+  const base_policy =
+    "https://ciflo.azurewebsites.net/user/login?policyNumber=";
   const base_password = "&password=";
-  const [data, setData] = useState(null);
 
   // State variable that holds the user's inputted text and text when they click the log-in button
   const [policyNumber, setPolicyNumberLocally] = useState("");
@@ -40,14 +41,16 @@ function LoginScreen({ handleAuthentication }) {
   // Function to perform login verification
   const performLogin = async () => {
     try {
-      const fetchResult = await fetch(base_policy + policyNumber + base_password + passwordValue, {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-        },
-      });
+      const fetchResult = await fetch(
+        base_policy + policyNumber + base_password + passwordValue,
+        {
+          method: "GET",
+          headers: {
+            accept: "application/json",
+          },
+        }
+      );
       const newData = await fetchResult.json();
-      setData(newData);
 
       // Check the response from the backend here
       if (newData.message === "User Login Successful") {
@@ -72,6 +75,10 @@ function LoginScreen({ handleAuthentication }) {
       alert("Please enter both policy number and password");
     }
   };
+
+  // Toggle password visibility
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
 
   // Calls POST Database API of user inputted account number
 
@@ -111,11 +118,23 @@ function LoginScreen({ handleAuthentication }) {
               <TextField
                 id="filled-basic"
                 label="Please enter policy password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 variant="filled"
                 color="success"
                 onChange={handlePasswordValueChange}
                 sx={{ m: 1, width: "42ch" }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                      >
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
             </h2>
           </Grid>
